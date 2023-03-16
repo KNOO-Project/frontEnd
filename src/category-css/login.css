@@ -1,0 +1,54 @@
+.login-form{
+    width: 25%;
+    margin: auto;
+    margin-top: 20px;
+    border: 1px solid skyblue;
+    border-radius: 5%;
+}
+div{box-sizing: border-box;}
+.form-box{
+    margin: 20px;
+}
+.btn{
+    display: flex;
+}
+
+.btn Button{
+    font-size: 10px;
+    text-align: center;
+}
+.btn:hover{
+    opacity: 0.9;
+}
+.auto-login{
+    text-align: left;
+}
+.auto-login label {
+    font-size: 14px;
+}
+.search-id {
+    display: flex;
+}
+.search-id input {
+    width: 65%;
+    border: none;
+    border: 1px solid #ced4da;
+    border-radius: 3px;
+}
+.search-id button, .search-pw button {
+    border: none;
+    border-radius: 3px;
+}
+.search-id button:hover, .search-pw button:hover {
+    opacity: 0.7;
+}
+.search-pw input {
+    width: 70%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border: 1px solid #ced4da;
+    border-radius: 3px;
+}
+.search-pw button {
+    font-size: 15px;
+}

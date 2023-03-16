@@ -1,0 +1,50 @@
+.community{
+    display: flex;
+}
+.menu {
+    height: 500px;
+    width: 250px;
+    padding: 20px;
+    background-color: aqua;
+    text-align: right;
+    transition: all 1s;
+    transform: translateX(-150px);
+}
+.menu:hover {
+    transform: translateX(0);
+    text-align: center;
+}
+.menu:hover p, .menu:hover .writing{
+    animation-name: slide;
+    animation-duration: 1s;
+}
+p{
+    font-weight: bold;
+    font-size: 20px;
+}
+/*writing*/
+.writing-box{
+    border: 1px solid aqua;
+    background-color: aliceblue;
+    border-radius: 3px;
+    padding: 5px;
+}
+.writing-title {
+    cursor: pointer;
+}
+ul{
+    padding: 0;
+}
+li {
+    list-style: none;
+    cursor: pointer;
+}
+li:hover {
+    opacity: 0.5;
+}
+
+@keyframes slide {
+    0% { transform: translateX(-200px) }
+    50% { transform: translateX(50px) }
+    100% { transform: translateX(0) }
+}
