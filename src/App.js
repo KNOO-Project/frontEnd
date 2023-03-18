@@ -12,7 +12,7 @@ import { useState } from 'react';
 
 function App() {
   let navigate = useNavigate();
-  let [onMouse, setOnMouse] = useState(true)
+  let [onMouse, setOnMouse] = useState(false)
 
   return (
     <div className="App">
@@ -22,8 +22,12 @@ function App() {
           <div className='text-center' onClick={()=>navigate('/community')}><h3>커뮤니티</h3></div>
           <div className='text-center' onClick={()=>navigate('/맛집')}><h3>맛집</h3></div>
           <div className='text-center' onClick={()=>navigate('/진로&취업')}><h3>진로.취업</h3></div>
-          <div className='text-center' onClick={()=>navigate('/글쓰기')}>
-            <h3>글쓰기</h3>
+          <div className='text-center' onClick={()=>navigate('/글쓰기')}
+          onMouseOver={() => {setOnMouse((prev) => !prev)}}
+          onMouseOut={() => {setOnMouse((prev) => !prev)}}
+          >
+            <h3 
+            >글쓰기</h3>
           {onMouse ? 
                     <>
                     <div className='writing-box'>
