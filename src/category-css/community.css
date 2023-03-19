@@ -23,7 +23,7 @@ p{
     font-size: 20px;
 }
 /*writing*/
-.writing-box{
+/* .writing-box{
     border: 1px solid aqua;
     background-color: aliceblue;
     border-radius: 3px;
@@ -41,7 +41,7 @@ li {
 }
 li:hover {
     opacity: 0.5;
-}
+} */
 
 @keyframes slide {
     0% { transform: translateX(-200px) }

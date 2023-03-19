@@ -20,10 +20,15 @@ div{
 }
 .nav-box div{
   width: 100%;
+  height: 100%;
   cursor: pointer;
+  position: relative;
+}
+.nav-box div h3, .nav-box div h1 {
+  line-height: 100px;
+  margin-bottom: 0;
 }
 .nav-box div:hover{
-  opacity: 0.3;
 }
 .nav-box .text-center{
   text-align: center;
@@ -83,7 +88,21 @@ div{
   background-color: cadetblue;
 }
 /*animation*/
+.nav-box div:hover .writing-box{
+  opacity: 1;
+}
 .writing-box {
-  margin-top: 300px;
-  position: relative;
+  position: absolute;
+}
+.writing-box ul {
+  background-color:aqua;
+  padding: 0;
+  border-radius: 3px;
+}
+.writing-box li {
+  list-style: none;
+  padding-bottom: 3px;
+}
+.writing-box li:hover {
+  opacity: 0.5;
 }
