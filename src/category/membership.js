@@ -11,7 +11,6 @@ function Membership(){
         name : '',
         email : ''
     })
-    let [pwCheck, setPwCheck] = useState();
 
     return(
         <div className='membership-form'>
@@ -60,9 +59,13 @@ function Membership(){
                         if(data.password !== data.passwordCheck){
                             alert('비밀번호가 서로 다릅니다.');
                         }
-                        //console.log(data)
-                        setData((data))
-                        data.email = data.email + '@smail.kongju.ac.kr';
+                        if(data.email === ''){
+                            alert('이메일을 입력해주세요.')
+                        }
+                        if(!data.email.includes('@smail.kongju.ac.kr')) {
+                            data.email = data.email + '@smail.kongju.ac.kr';
+                        }
+                        
                         axios.post('/api/v1/auth/sign-up', data)
                         .then(res => console.log(res))
                         .catch(console.log('err')) 
@@ -72,5 +75,4 @@ function Membership(){
         </div>
     )
 }
-
 export default Membership;
