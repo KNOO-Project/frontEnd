@@ -6,8 +6,15 @@
     border-radius: 5%;
 }
 div{box-sizing: border-box;}
+
 .form-box{
     margin: 20px;
+}
+.form-box > input {
+    border: 1px solid #ced4da;
+    border-radius: 3px;
+    margin-bottom: 3px;
+    width: 80%;
 }
 .btn{
     display: flex;

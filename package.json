@@ -11,12 +11,13 @@
     "node-sass": "^7.0.3",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",
+    "react-cookie": "^4.1.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
-  "proxy" : "http://210.125.212.192:8888",
+  "proxy": "http://210.125.212.192:8888",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
