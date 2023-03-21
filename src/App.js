@@ -47,8 +47,13 @@ function App() {
                     </> 
                     : null}
           </div>
+          {isLogin ? <>
+          <div className='text-right'><h3>Logout</h3></div>
+          </> : <>
           <div className='text-right' onClick={()=>navigate('/login')}><h3>login</h3></div>
           <div className='text-right' onClick={()=>navigate('/회원가입')}><h3>회원가입</h3></div>
+          </>}
+          
           {isLogin ? <>
           <div className='text-right' onClick={()=>{
             navigate('/myInfo')
@@ -61,14 +66,14 @@ function App() {
               }
             })
             .then((res) => {console.log(res)}) */
-            let headers = {
+            /* let headers = {
               Authorization: `Bearer ${token}`
-            }
+            } */
             axios.get('/api/v1/users', {
-              headers: {Authorization: `Bearer ${token}`}
+              headers: {Authorization: token}
             })
             .then(res => {console.log(res)})
-            .catch(console.log(headers))
+            .catch(console.log('err'))
             }} ><h4>내 정보</h4></div>
           </> : null}
         </div>

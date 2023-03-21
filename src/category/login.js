@@ -45,7 +45,7 @@ function Login({setIsLogin, setToken}){
                         axios.post('/api/v1/auth/sign-in', data)
                         .then((res) => {
                             if(res.data.includes('Bearer ')){
-                                let token = res.data.replace('Bearer ', '');
+                                let token = res.data;
                                 setCookie('token', `${token}`);
                                 setIsLogin((prev) => !prev)
                                 setToken(token);
