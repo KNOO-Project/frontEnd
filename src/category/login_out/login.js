@@ -1,5 +1,5 @@
 import {Button} from 'react-bootstrap';
-import '../category-css/login.css';
+import '../../category-css/login_out/login.css'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -44,7 +44,8 @@ function Login({setIsLogin, setToken}){
                         } */
                         axios.post('/api/v1/auth/sign-in', data)
                         .then((res) => {
-                            if(res.data.includes('Bearer ')){
+                            //console.log(res)
+                            if(res.status === 200){
                                 let token = res.data;
                                 setCookie('token', `${token}`);
                                 setIsLogin(true)
@@ -53,9 +54,11 @@ function Login({setIsLogin, setToken}){
                                 console.log(token)
                             }
                             
-                            console.log(res)
                         })
-                        .catch((res) => {console.log('err')})
+                        .catch((res) => {
+                            alert('아이디 또는 비밀번호가 올바르지 않습니다.')
+                        }
+                        )
                         }}>Login</Button>
                     <Button className='btn-id' variant="light"
                     onClick={() => {setSearchId((prev) => !prev);

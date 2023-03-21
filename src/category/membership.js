@@ -69,11 +69,11 @@ function Membership(){
                         axios.post('/api/v1/auth/sign-up', data)
                         .then(res => {
                             if(res.data === '회원가입 인증 이메일이 전송되었습니다.'){
-                                alert('이메일 접속 후 url 클릭');
+                                alert('OutLook에서 학교이메일로 접속 후 url 클릭');
                             }
                             console.log(res.data)})
                         .catch(console.log('err')) 
-                    }} >가입 완료</button>
+                    }} >가입</button>
                 </div>
             </form>
         </div>

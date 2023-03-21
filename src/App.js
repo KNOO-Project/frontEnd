@@ -3,11 +3,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import Community from './category/community';
 import Future from './category/future';
-import Login from './category/login';
+import Login from './category/login_out/login';
 import Membership from './category/membership';
 import Restaurant from './category/restaurant';
 import Writing from './category/writing';
-import MyInfo from './category/myInfo';
+import MyInfo from './category/login_out/myInfo';
 import { useState } from 'react';
 //import { useState } from 'react';
 import axios from 'axios';
@@ -17,6 +17,11 @@ function App() {
   let [onMouse, setOnMouse] = useState(false)
   let [isLogin, setIsLogin] = useState(false);
   let [token, setToken] = useState(null)
+  let [userInfo, setUserInfo] = useState({
+    name: '', 
+    email: ''
+  })
+  //console.log(userInfo)
 
   return (
     <div className="App">
@@ -50,6 +55,7 @@ function App() {
           {isLogin ? <>
           <div className='text-right' onClick={() => {
             setIsLogin(false)
+            navigate('/')
           }} ><h3>Logout</h3></div>
           </> : <>
           <div className='text-right' onClick={()=>navigate('/login')}><h3>login</h3></div>
@@ -74,7 +80,13 @@ function App() {
             axios.get('/api/v1/users', {
               headers: {Authorization: token}
             })
-            .then(res => {console.log(res)})
+            .then(res => {
+              setUserInfo((userInfo) => ({
+                ...userInfo,
+                name: res.data.name,
+                email: res.data.email
+              }))
+            })
             .catch(console.log('err'))
             }} ><h4>내 정보</h4></div>
           </> : null}
@@ -117,7 +129,7 @@ function App() {
         <Route path='/글쓰기' element={<Writing />} />
         <Route path='/login' element={<Login setIsLogin={setIsLogin} setToken={setToken} />} />
         <Route path='/회원가입' element={<Membership />} />
-        <Route path='/myInfo' element={<MyInfo/> } />
+        <Route path='/myInfo' element={<MyInfo userInfo={userInfo} /> } />
       </Routes>
     </div>
   );
