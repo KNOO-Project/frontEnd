@@ -48,7 +48,9 @@ function App() {
                     : null}
           </div>
           {isLogin ? <>
-          <div className='text-right'><h3>Logout</h3></div>
+          <div className='text-right' onClick={() => {
+            setIsLogin(false)
+          }} ><h3>Logout</h3></div>
           </> : <>
           <div className='text-right' onClick={()=>navigate('/login')}><h3>login</h3></div>
           <div className='text-right' onClick={()=>navigate('/회원가입')}><h3>회원가입</h3></div>

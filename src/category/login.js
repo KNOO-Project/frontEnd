@@ -47,7 +47,7 @@ function Login({setIsLogin, setToken}){
                             if(res.data.includes('Bearer ')){
                                 let token = res.data;
                                 setCookie('token', `${token}`);
-                                setIsLogin((prev) => !prev)
+                                setIsLogin(true)
                                 setToken(token);
                                 navigate('/');
                                 console.log(token)
