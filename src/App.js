@@ -7,12 +7,16 @@ import Login from './category/login';
 import Membership from './category/membership';
 import Restaurant from './category/restaurant';
 import Writing from './category/writing';
+import MyInfo from './category/myInfo';
 import { useState } from 'react';
 //import { useState } from 'react';
+import axios from 'axios';
 
 function App() {
   let navigate = useNavigate();
   let [onMouse, setOnMouse] = useState(false)
+  let [isLogin, setIsLogin] = useState(false);
+  let [token, setToken] = useState(null)
 
   return (
     <div className="App">
@@ -45,6 +49,28 @@ function App() {
           </div>
           <div className='text-right' onClick={()=>navigate('/login')}><h3>login</h3></div>
           <div className='text-right' onClick={()=>navigate('/회원가입')}><h3>회원가입</h3></div>
+          {isLogin ? <>
+          <div className='text-right' onClick={()=>{
+            navigate('/myInfo')
+            console.log(token)
+            /* axios({
+              method: 'get',
+              url: '/api/v1/users',
+              headers: {
+                Authorization: `Bearer ${token} `
+              }
+            })
+            .then((res) => {console.log(res)}) */
+            let headers = {
+              Authorization: `Bearer ${token}`
+            }
+            axios.get('/api/v1/users', {
+              headers: {Authorization: `Bearer ${token}`}
+            })
+            .then(res => {console.log(res)})
+            .catch(console.log(headers))
+            }} ><h4>내 정보</h4></div>
+          </> : null}
         </div>
       </div>
         
@@ -82,8 +108,9 @@ function App() {
         <Route path='/맛집' element={<Restaurant />} />
         <Route path='/진로&취업' element={<Future />} />
         <Route path='/글쓰기' element={<Writing />} />
-        <Route path='/login' element={<Login />} />
+        <Route path='/login' element={<Login setIsLogin={setIsLogin} setToken={setToken} />} />
         <Route path='/회원가입' element={<Membership />} />
+        <Route path='/myInfo' element={<MyInfo/> } />
       </Routes>
     </div>
   );

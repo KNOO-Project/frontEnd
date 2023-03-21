@@ -24,7 +24,7 @@ div{
   cursor: pointer;
   position: relative;
 }
-.nav-box div h3, .nav-box div h1 {
+.nav-box div h3, .nav-box div h1, .nav-box div h4 {
   line-height: 100px;
   margin-bottom: 0;
 }

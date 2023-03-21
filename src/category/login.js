@@ -1,10 +1,12 @@
 import {Button} from 'react-bootstrap';
 import '../category-css/login.css';
-import { useState  } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 
-function Login(){
+function Login({setIsLogin, setToken}){
+    let navigate = useNavigate();
     let [data, setData] = useState({
         username : '',
         password : ''
@@ -37,9 +39,23 @@ function Login(){
                 <div className='btn'>
                     <Button className='btn-login' variant="info" onClick={(e)=>{
                         e.preventDefault();
+                        /* async function(data) {
+
+                        } */
                         axios.post('/api/v1/auth/sign-in', data)
-                        .then((res) => {console.log(res.data)})
-                        .catch((res) => {console.log(res)})
+                        .then((res) => {
+                            if(res.data.includes('Bearer ')){
+                                let token = res.data.replace('Bearer ', '');
+                                setCookie('token', `${token}`);
+                                setIsLogin((prev) => !prev)
+                                setToken(token);
+                                navigate('/');
+                                console.log(token)
+                            }
+                            
+                            console.log(res)
+                        })
+                        .catch((res) => {console.log('err')})
                         }}>Login</Button>
                     <Button className='btn-id' variant="light"
                     onClick={() => {setSearchId((prev) => !prev);
