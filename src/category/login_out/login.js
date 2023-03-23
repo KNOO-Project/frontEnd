@@ -44,7 +44,7 @@ function Login({setIsLogin, setToken}){
                         } */
                         axios.post('/api/v1/auth/sign-in', data)
                         .then((res) => {
-                            //console.log(res)
+                            //console.log(res.data)
                             if(res.status === 200){
                                 let token = res.data;
                                 setCookie('token', `${token}`);

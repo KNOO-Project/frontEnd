@@ -7,7 +7,7 @@ function Membership(){
     let [data, setData] = useState({
         username: '',
         password : '',
-        passwordCheck: '',
+        password_check: '',
         name : '',
         email : ''
     })
@@ -27,9 +27,9 @@ function Membership(){
                             password : e.target.value
                         }))}} />
                         <input className='input-text' type='password' placeholder='비밀번호 확인'
-                        value={data.passwordCheck} onChange={e => {setData((data) => ({
+                        value={data.password_check} onChange={e => {setData((data) => ({
                             ...data,
-                            passwordCheck : e.target.value
+                            password_check : e.target.value
                         }))}} />
 
                     <input className='input-text' type='text' placeholder='닉네임(2~10)' 
@@ -53,26 +53,24 @@ function Membership(){
                             alert('아이디를 글자수에 맞게 다시 입력해주세요.')
                         }else if(data.password.length < 6 || data.password.length > 20){
                             alert('비밀번호를 글자수에 맞게 다시 입력해주세요.')
-                        }else if(data.name.length < 2 || data.name.length > 10){
-                            alert('닉네임을 글자수에 맞게 다시 입력해주세요.')
-                        }
-                        if(data.password !== data.passwordCheck){
+                        }else if(data.password !== data.password_check){
                             alert('비밀번호가 서로 다릅니다.');
                         }
-                        if(data.email === ''){
-                            alert('이메일을 입력해주세요.')
+                        else if(data.name.length < 2 || data.name.length > 10){
+                            alert('닉네임을 글자수에 맞게 다시 입력해주세요.')
                         }
-                        if(!data.email.includes('@smail.kongju.ac.kr')) {
+                        else if(data.email !== '') {
                             data.email = data.email + '@smail.kongju.ac.kr';
                         }
-                        
                         axios.post('/api/v1/auth/sign-up', data)
                         .then(res => {
                             if(res.data === '회원가입 인증 이메일이 전송되었습니다.'){
-                                alert('OutLook에서 학교이메일로 접속 후 url 클릭');
+                                alert('OutLook에서 학교이메일로 로그인 후 url 클릭');
                             }
                             console.log(res.data)})
-                        .catch(console.log('err')) 
+                        .catch((res)=>{
+                            alert(res.response.data.message)
+                        }) 
                     }} >가입</button>
                 </div>
             </form>

@@ -28,7 +28,11 @@ div{
   line-height: 100px;
   margin-bottom: 0;
 }
-.nav-box div:hover{
+.nav-box div > h3:hover{
+  opacity: 0.5;
+}
+.nav-box div > h4:hover {
+  opacity: 0.5;
 }
 .nav-box .text-center{
   text-align: center;
