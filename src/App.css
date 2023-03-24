@@ -92,21 +92,21 @@ div{
   background-color: cadetblue;
 }
 /*animation*/
-.nav-box div:hover .writing-box{
+.nav-box div:hover .board-box{
   opacity: 1;
 }
-.writing-box {
+.board-box {
   position: absolute;
 }
-.writing-box ul {
+.board-box ul {
   background-color:aqua;
   padding: 0;
   border-radius: 3px;
 }
-.writing-box li {
+.board-box li {
   list-style: none;
   padding-bottom: 3px;
 }
-.writing-box li:hover {
+.board-box li:hover {
   opacity: 0.5;
 }

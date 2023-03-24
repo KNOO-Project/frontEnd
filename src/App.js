@@ -6,10 +6,16 @@ import Future from './category/future';
 import Login from './category/login_out/login';
 import Membership from './category/membership';
 import Restaurant from './category/restaurant';
-import Writing from './category/writing';
+import Board from './category/board/board';
 import MyInfo from './category/login_out/myInfo';
+import BoardForm from './category/board/boardForm';
+/* import 동아리 from './category/board/board-sub/동아리';
+import 새내기 from './category/board/board-sub/새내기';
+import 자유 from './category/board/board-sub/자유';
+import 정보 from './category/board/board-sub/정보';
+import 졸업생 from './category/board/board-sub/졸업생';
+import 취업 from './category/board/board-sub/취업'; */
 import { useState } from 'react';
-//import { useState } from 'react';
 import axios from 'axios';
 
 function App() {
@@ -21,32 +27,45 @@ function App() {
     name: '', 
     email: ''
   })
-  //console.log(userInfo)
+  let [boardClick, setBoardClick] = useState(null);
 
   return (
     <div className="App">
       <div className='nav-bar'>
         <div className='nav-box'>
           <div onClick={()=>{navigate('/')}}><h1>KNoo</h1></div>
-          <div className='text-center' onClick={()=>navigate('/community')}><h3>커뮤니티</h3></div>
-          <div className='text-center' onClick={()=>navigate('/맛집')}><h3>맛집</h3></div>
-          <div className='text-center' onClick={()=>navigate('/진로&취업')}><h3>진로.취업</h3></div>
-          <div className='text-center' onClick={()=>navigate('/글쓰기')}
+          <div className='text-center' onClick={(e)=>navigate('/community')}><h3>커뮤니티</h3></div>
+          <div className='text-center' onClick={(e)=>navigate('/맛집')}><h3>맛집</h3></div>
+          <div className='text-center' onClick={(e)=>navigate('/진로&취업')}><h3>진로.취업</h3></div>
+          <div className='text-center' 
           onMouseOver={() => {setOnMouse((prev) => !prev)}}
           onMouseOut={() => {setOnMouse((prev) => !prev)}}
           >
-            <h3 
-            >글쓰기</h3>
+            <h3 onClick={(e)=>{
+              setBoardClick(false)
+              navigate('/board')}} >게시판</h3>
           {onMouse ? 
                     <>
-                    <div className='writing-box'>
+                    <div className='board-box'>
                     <ul>
-                        <li>자유게시판</li>
-                        <li>졸업생게시판</li>
-                        <li>새내기게시판</li>
-                        <li>정보게시판</li>
-                        <li>취업.진로</li>
-                        <li>동아리.학회</li>
+                        <li onClick={(e)=>{
+                          setBoardClick(true);
+                          navigate('/board/자유')}} >자유게시판</li>
+                        <li onClick={(e)=>{
+                          setBoardClick(true);
+                          navigate('/board/졸업')}} >졸업생게시판</li>
+                        <li onClick={(e)=>{
+                          setBoardClick(true);
+                          navigate('/board/새내기')}} >새내기게시판</li>
+                        <li onClick={(e)=>{
+                          setBoardClick(true);
+                          navigate('/board/정보')}} >정보게시판</li>
+                        <li onClick={(e)=>{
+                          setBoardClick(true);
+                          navigate('/board/취업&진로')}} >취업.진로</li>
+                        <li onClick={(e)=>{
+                          setBoardClick(true);
+                          navigate('/board/동아리&학회')}} >동아리.학회</li>
                     </ul>
                     </div>
                     </> 
@@ -126,7 +145,14 @@ function App() {
         <Route path='/community' element={<Community />} />
         <Route path='/맛집' element={<Restaurant />} />
         <Route path='/진로&취업' element={<Future />} />
-        <Route path='/글쓰기' element={<Writing />} />
+        <Route path='/board' element={<Board boardClick={boardClick} />} >
+          <Route path='자유' element={<BoardForm title={'자유'} />} />
+          <Route path='졸업' element={<BoardForm title={'졸업'} />} />
+          <Route path='새내기' element={<BoardForm title={'새내기'} />} />
+          <Route path='정보' element={<BoardForm title={'정보'} />} />
+          <Route path='취업&진로' element={<BoardForm title={'취업&진로'} />} />
+          <Route path='동아리&학회' element={<BoardForm title={'동아리&학회'} />} />
+        </Route>
         <Route path='/login' element={<Login setIsLogin={setIsLogin} setToken={setToken} />} />
         <Route path='/회원가입' element={<Membership />} />
         <Route path='/myInfo' element={<MyInfo userInfo={userInfo} /> } />
