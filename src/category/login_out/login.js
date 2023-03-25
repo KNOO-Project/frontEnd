@@ -46,12 +46,12 @@ function Login({setIsLogin, setCookie}){
                             //console.log(res.data)
                             if(res.status === 200){
                                 let token = res.data;
-                                setCookie('token', token);
-                                console.log('login', token)
-                                localStorage.setItem('isLogin', true)
+                                setCookie('token', token);                       // 쿠키 파라미터로 쿠키에 토큰 담기
+                                //console.log('login', token)
+                                localStorage.setItem('isLogin', true)            // 새로고침해도 로그아웃되지 않게 localStoarge에 변수 담아놓기
                                 //setIsLogin(true)
                                 navigate('/');
-                                console.log(token)
+                                //console.log(token)
                             }
                             
                         })
@@ -83,7 +83,7 @@ function Login({setIsLogin, setCookie}){
                     }))}} />
                     <button onClick={e => {
                         e.preventDefault();
-                        axios.post('/post', idData)
+                        axios.post('/post', idData)                 // 유저가 입력한 email post로 전송
                         .then((res) => {console.log(res)})
                         .catch(console.log('err'))
                     }} >아이디 찾기</button>
@@ -104,7 +104,7 @@ function Login({setIsLogin, setCookie}){
                     <br/>
                     <button onClick={e => {
                         e.preventDefault();
-                        axios.post('/post', pwData)
+                        axios.post('/post', pwData)             //유저가 입력한 아이디, 비밀번호 보내기
                         .then((res) => {console.log(res)})
                         .catch(console.log('err'))
                     }} >찾기</button>

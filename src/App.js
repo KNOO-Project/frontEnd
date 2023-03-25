@@ -40,6 +40,7 @@ function App() {
             <h3 onClick={(e)=>{
               setBoardClick(false)
               navigate('/board')}} >게시판</h3>
+              {/* 게시판 카테고리 */}
           {onMouse ? 
                     <>
                     <div className='board-box'>
@@ -67,6 +68,7 @@ function App() {
                     </> 
                     : null}
           </div>
+          {/* 로그인 성공시 창 변경 logout 버튼 생성 */}
           {localStorage.getItem('isLogin') ? <>
           <div className='text-right' onClick={() => {
             //setIsLogin(false)
@@ -78,24 +80,13 @@ function App() {
           <div className='text-right' onClick={()=>navigate('/login')}><h3>login</h3></div>
           <div className='text-right' onClick={()=>navigate('/회원가입')}><h3>회원가입</h3></div>
           </>}
-          
+          {/*로그인 성공시 회원정보 조회 버튼 생성 */}
           {localStorage.getItem('isLogin') ? <>
           <div className='text-right' onClick={()=>{
             navigate('/myInfo')
-            console.log(cookies.token)
-            /* axios({
-              method: 'get',
-              url: '/api/v1/users',
-              headers: {
-                Authorization: `Bearer ${token} `
-              }
-            })
-            .then((res) => {console.log(res)}) */
-            /* let headers = {
-              Authorization: `Bearer ${token}`
-            } */
+            //console.log(cookies.token)
             axios.get('/api/v1/users', {
-              headers: {Authorization: cookies.token}
+              headers: {Authorization: cookies.token} /* 헤더에 토큰 담아서 보내기 */
             })
             .then(res => {
               setUserInfo((userInfo) => ({

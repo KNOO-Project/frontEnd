@@ -3,7 +3,6 @@ import { Button } from 'react-bootstrap';
 import { useState  } from 'react';
 
 function Community(){
-    let [onMouse, setOnMouse] = useState(false);
     return(
         <div className='community'>
             <div className='menu'>
