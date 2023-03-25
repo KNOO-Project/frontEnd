@@ -7,22 +7,22 @@ function BoardForm(props){
     let token = props.cookies.token;
     let [data, setData] = useState({
         post_title: "",
-        post_content: ""
+        post_content: "",
+        post_category: props.title
     })
+    
     return(
         <div>
         <h2>{props.title} 게시판</h2>
         <form className='boardForm' onSubmit={(e) => {
             e.preventDefault();
             console.log('post', token)
-            axios.post('/api/v1/posts',{
-                headers: {
-                    Authorization: token
-                },
-                "post_title": data.post_title,
-                "post_content": data.post_content,
-                "post_category": props.title
-            }).then((res)=>{
+            axios.post('/api/v1/posts', data,
+            {
+                headers: { Authorization : token}
+            }
+            )
+            .then((res)=>{
                 console.log(res)
             }).catch(console.log('err'));
         }
