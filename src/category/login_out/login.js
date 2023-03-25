@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 
-function Login({setIsLogin, setToken, setCookie}){
+function Login({setIsLogin, setCookie}){
     let navigate = useNavigate();
     let [data, setData] = useState({
         username : '',
@@ -46,10 +46,10 @@ function Login({setIsLogin, setToken, setCookie}){
                             //console.log(res.data)
                             if(res.status === 200){
                                 let token = res.data;
-                                setCookie('token', `${token}`);
+                                setCookie('token', token);
+                                console.log('login', token)
                                 localStorage.setItem('isLogin', true)
                                 //setIsLogin(true)
-                                setToken(token);
                                 navigate('/');
                                 console.log(token)
                             }

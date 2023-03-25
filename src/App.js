@@ -17,7 +17,6 @@ function App() {
   let navigate = useNavigate();
   let [onMouse, setOnMouse] = useState(false)
   //let [isLogin, setIsLogin] = useState(false);
-  let [token, setToken] = useState(null)
   let [userInfo, setUserInfo] = useState({
     name: '', 
     email: ''
@@ -53,16 +52,16 @@ function App() {
                           navigate('/board/graduate')}} >졸업생게시판</li>
                         <li onClick={(e)=>{
                           setBoardClick(true);
-                          navigate('/board/fresher')}} >새내기게시판</li>
+                          navigate('/board/newcomer')}} >새내기게시판</li>
                         <li onClick={(e)=>{
                           setBoardClick(true);
                           navigate('/board/info')}} >정보게시판</li>
                         <li onClick={(e)=>{
                           setBoardClick(true);
-                          navigate('/board/jod&career')}} >취업.진로</li>
+                          navigate('/board/employment')}} >취업.진로</li>
                         <li onClick={(e)=>{
                           setBoardClick(true);
-                          navigate('/board/club&academy')}} >동아리.학회</li>
+                          navigate('/board/student-club')}} >동아리.학회</li>
                     </ul>
                     </div>
                     </> 
@@ -72,6 +71,7 @@ function App() {
           <div className='text-right' onClick={() => {
             //setIsLogin(false)
             localStorage.clear();
+            removeCookie('token')
             navigate('/')
           }} ><h3>Logout</h3></div>
           </> : <>
@@ -82,7 +82,7 @@ function App() {
           {localStorage.getItem('isLogin') ? <>
           <div className='text-right' onClick={()=>{
             navigate('/myInfo')
-            console.log(token)
+            console.log(cookies.token)
             /* axios({
               method: 'get',
               url: '/api/v1/users',
@@ -95,7 +95,7 @@ function App() {
               Authorization: `Bearer ${token}`
             } */
             axios.get('/api/v1/users', {
-              headers: {Authorization: token}
+              headers: {Authorization: cookies.token}
             })
             .then(res => {
               setUserInfo((userInfo) => ({
@@ -146,12 +146,12 @@ function App() {
         <Route path='/board' element={<Board boardClick={boardClick} />} >
           <Route path='free' element={<BoardForm cookies={cookies} title={'free'} />} />
           <Route path='graduate' element={<BoardForm cookies={cookies} title={'graduate'} />} />
-          <Route path='fresher' element={<BoardForm cookies={cookies} title={'fresher'} />} />
+          <Route path='fresher' element={<BoardForm cookies={cookies} title={'newcomer'} />} />
           <Route path='info' element={<BoardForm cookies={cookies} title={'info'} />} />
-          <Route path='jod&career' element={<BoardForm cookies={cookies} title={'jod&career'} />} />
-          <Route path='club&academy' element={<BoardForm cookies={cookies} title={'club&academy'} />} />
+          <Route path='jod&career' element={<BoardForm cookies={cookies} title={'employment'} />} />
+          <Route path='club&academy' element={<BoardForm cookies={cookies} title={'student-club'} />} />
         </Route>
-        <Route path='/login' element={<Login setToken={setToken} setCookie={setCookie} />} />
+        <Route path='/login' element={<Login  setCookie={setCookie} />} />
         <Route path='/회원가입' element={<Membership />} />
         <Route path='/myInfo' element={<MyInfo userInfo={userInfo} /> } />
       </Routes>

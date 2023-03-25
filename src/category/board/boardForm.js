@@ -13,14 +13,18 @@ function BoardForm(props){
         <div>
         <h2>{props.title} 게시판</h2>
         <form className='boardForm' onSubmit={(e) => {
+            e.preventDefault();
+            console.log('post', token)
             axios.post('/api/v1/posts',{
-                Headers: {
+                headers: {
                     Authorization: token
                 },
                 "post_title": data.post_title,
                 "post_content": data.post_content,
                 "post_category": props.title
-            })
+            }).then((res)=>{
+                console.log(res)
+            }).catch(console.log('err'));
         }
         } >
             <input type='text' placeholder="제목을 입력해주세요." value={data.post_title} onChange={(e) => {setData({
