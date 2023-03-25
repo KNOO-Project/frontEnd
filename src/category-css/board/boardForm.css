@@ -1,0 +1,40 @@
+div {
+    box-sizing: border-box;
+}
+input, textarea, button {
+    border-radius: 3px;
+}
+.boardForm {
+    padding: 20px;
+}
+.boardForm h2 {
+    font-weight: bold;
+}
+.boardForm > input {
+    border: none;
+    border: 1px solid #ced4da;
+}
+input[type='text'] {
+    margin-bottom: 20px;
+    width: 50%;
+}
+.boardForm > textarea {
+    border: 1px solid #ced4da;
+}
+.boardForm > textarea {
+    width: 50%;
+    height: 300px;
+}
+.boardForm > textarea:focus {
+        outline: none;
+        box-shadow: 0 0 10px#0d7ef0;
+}
+.boardForm > button {
+    width: 10%;
+    border: none;
+    font-weight: bold;
+    margin-top: 5px;
+}
+.boardForm > button:hover {
+    opacity: 0.7;
+}

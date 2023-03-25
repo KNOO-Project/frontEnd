@@ -3,9 +3,9 @@ import '../../category-css/login_out/login.css'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useCookies } from 'react-cookie';
 
-function Login({setIsLogin, setToken}){
+
+function Login({setIsLogin, setToken, setCookie}){
     let navigate = useNavigate();
     let [data, setData] = useState({
         username : '',
@@ -21,7 +21,6 @@ function Login({setIsLogin, setToken}){
         id : '',
         email : ''
     })
-    const [cookies, setCookie, removeCookie] = useCookies(['userinfo']);
     //console.log(check)
     return(
         <div className='login-form'>
@@ -48,7 +47,8 @@ function Login({setIsLogin, setToken}){
                             if(res.status === 200){
                                 let token = res.data;
                                 setCookie('token', `${token}`);
-                                setIsLogin(true)
+                                localStorage.setItem('isLogin', true)
+                                //setIsLogin(true)
                                 setToken(token);
                                 navigate('/');
                                 console.log(token)

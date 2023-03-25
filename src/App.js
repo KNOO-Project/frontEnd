@@ -9,25 +9,22 @@ import Restaurant from './category/restaurant';
 import Board from './category/board/board';
 import MyInfo from './category/login_out/myInfo';
 import BoardForm from './category/board/boardForm';
-/* import 동아리 from './category/board/board-sub/동아리';
-import 새내기 from './category/board/board-sub/새내기';
-import 자유 from './category/board/board-sub/자유';
-import 정보 from './category/board/board-sub/정보';
-import 졸업생 from './category/board/board-sub/졸업생';
-import 취업 from './category/board/board-sub/취업'; */
 import { useState } from 'react';
 import axios from 'axios';
+import { useCookies } from 'react-cookie';
 
 function App() {
   let navigate = useNavigate();
   let [onMouse, setOnMouse] = useState(false)
-  let [isLogin, setIsLogin] = useState(false);
+  //let [isLogin, setIsLogin] = useState(false);
   let [token, setToken] = useState(null)
   let [userInfo, setUserInfo] = useState({
     name: '', 
     email: ''
   })
   let [boardClick, setBoardClick] = useState(null);
+
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
   return (
     <div className="App">
@@ -50,30 +47,31 @@ function App() {
                     <ul>
                         <li onClick={(e)=>{
                           setBoardClick(true);
-                          navigate('/board/자유')}} >자유게시판</li>
+                          navigate('/board/free')}} >자유게시판</li>
                         <li onClick={(e)=>{
                           setBoardClick(true);
-                          navigate('/board/졸업')}} >졸업생게시판</li>
+                          navigate('/board/graduate')}} >졸업생게시판</li>
                         <li onClick={(e)=>{
                           setBoardClick(true);
-                          navigate('/board/새내기')}} >새내기게시판</li>
+                          navigate('/board/fresher')}} >새내기게시판</li>
                         <li onClick={(e)=>{
                           setBoardClick(true);
-                          navigate('/board/정보')}} >정보게시판</li>
+                          navigate('/board/info')}} >정보게시판</li>
                         <li onClick={(e)=>{
                           setBoardClick(true);
-                          navigate('/board/취업&진로')}} >취업.진로</li>
+                          navigate('/board/jod&career')}} >취업.진로</li>
                         <li onClick={(e)=>{
                           setBoardClick(true);
-                          navigate('/board/동아리&학회')}} >동아리.학회</li>
+                          navigate('/board/club&academy')}} >동아리.학회</li>
                     </ul>
                     </div>
                     </> 
                     : null}
           </div>
-          {isLogin ? <>
+          {localStorage.getItem('isLogin') ? <>
           <div className='text-right' onClick={() => {
-            setIsLogin(false)
+            //setIsLogin(false)
+            localStorage.clear();
             navigate('/')
           }} ><h3>Logout</h3></div>
           </> : <>
@@ -81,7 +79,7 @@ function App() {
           <div className='text-right' onClick={()=>navigate('/회원가입')}><h3>회원가입</h3></div>
           </>}
           
-          {isLogin ? <>
+          {localStorage.getItem('isLogin') ? <>
           <div className='text-right' onClick={()=>{
             navigate('/myInfo')
             console.log(token)
@@ -146,14 +144,14 @@ function App() {
         <Route path='/맛집' element={<Restaurant />} />
         <Route path='/진로&취업' element={<Future />} />
         <Route path='/board' element={<Board boardClick={boardClick} />} >
-          <Route path='자유' element={<BoardForm title={'자유'} />} />
-          <Route path='졸업' element={<BoardForm title={'졸업'} />} />
-          <Route path='새내기' element={<BoardForm title={'새내기'} />} />
-          <Route path='정보' element={<BoardForm title={'정보'} />} />
-          <Route path='취업&진로' element={<BoardForm title={'취업&진로'} />} />
-          <Route path='동아리&학회' element={<BoardForm title={'동아리&학회'} />} />
+          <Route path='free' element={<BoardForm cookies={cookies} title={'free'} />} />
+          <Route path='graduate' element={<BoardForm cookies={cookies} title={'graduate'} />} />
+          <Route path='fresher' element={<BoardForm cookies={cookies} title={'fresher'} />} />
+          <Route path='info' element={<BoardForm cookies={cookies} title={'info'} />} />
+          <Route path='jod&career' element={<BoardForm cookies={cookies} title={'jod&career'} />} />
+          <Route path='club&academy' element={<BoardForm cookies={cookies} title={'club&academy'} />} />
         </Route>
-        <Route path='/login' element={<Login setIsLogin={setIsLogin} setToken={setToken} />} />
+        <Route path='/login' element={<Login setToken={setToken} setCookie={setCookie} />} />
         <Route path='/회원가입' element={<Membership />} />
         <Route path='/myInfo' element={<MyInfo userInfo={userInfo} /> } />
       </Routes>
