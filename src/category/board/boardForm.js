@@ -13,7 +13,7 @@ function BoardForm(props){
     
     return(
         <div>
-        <h2>{props.title} 게시판</h2>
+        <h2>{props.category_title} 게시판</h2>
         <form className='boardForm' onSubmit={(e) => {
             e.preventDefault();
             console.log('post', token)

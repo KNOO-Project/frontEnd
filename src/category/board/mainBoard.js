@@ -1,6 +1,6 @@
 import { useState  } from "react";
 import { Outlet } from "react-router-dom";
-function Board(props){
+function MainBoard(props){
 
     return(
         <div className='board'>
@@ -14,4 +14,4 @@ function Board(props){
     )
 }
 
-export default Board;
+export default MainBoard;

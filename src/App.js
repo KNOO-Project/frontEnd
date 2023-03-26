@@ -6,9 +6,9 @@ import Future from './category/future';
 import Login from './category/login_out/login';
 import Membership from './category/membership';
 import Restaurant from './category/restaurant';
-import Board from './category/board/board';
+import MainBoard from './category/board/mainBoard';
 import MyInfo from './category/login_out/myInfo';
-import BoardForm from './category/board/boardForm';
+import CategoryBoard from './category/board/categoryBoard';
 import { useState } from 'react';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
@@ -30,16 +30,41 @@ function App() {
       <div className='nav-bar'>
         <div className='nav-box'>
           <div onClick={()=>{navigate('/')}}><h1>KNoo</h1></div>
-          <div className='text-center' onClick={(e)=>navigate('/community')}><h3>커뮤니티</h3></div>
-          <div className='text-center' onClick={(e)=>navigate('/맛집')}><h3>맛집</h3></div>
-          <div className='text-center' onClick={(e)=>navigate('/진로&취업')}><h3>진로.취업</h3></div>
+          <div className='text-center' onClick={(e)=>{
+            if(localStorage.isLogin === 'true'){
+              navigate('/community')
+            } else {
+              alert('로그인을 해 주세요!')
+            }
+            }}><h3>커뮤니티</h3></div>
+          <div className='text-center' onClick={(e)=>{
+            if(localStorage.isLogin === 'true'){
+              navigate('/맛집');
+            } else {
+              alert('로그인을 해 주세요!')
+            }
+          }
+            }><h3>맛집</h3></div>
+          <div className='text-center' onClick={(e)=>{
+            if(localStorage.isLogin === 'true'){
+              navigate('/진로&취업')
+            } else {
+              alert('로그인을 해 주세요!')
+            }
+          }
+          }><h3>진로.취업</h3></div>
           <div className='text-center' 
           onMouseOver={() => {setOnMouse((prev) => !prev)}}
           onMouseOut={() => {setOnMouse((prev) => !prev)}}
           >
             <h3 onClick={(e)=>{
               setBoardClick(false)
-              navigate('/board')}} >게시판</h3>
+              if(localStorage.isLogin === 'true'){
+                navigate('/main_board')
+              } else {
+                alert('로그인을 해 주세요!')
+              }
+              }} >게시판</h3>
               {/* 게시판 카테고리 */}
           {onMouse ? 
                     <>
@@ -47,22 +72,22 @@ function App() {
                     <ul>
                         <li onClick={(e)=>{
                           setBoardClick(true);
-                          navigate('/board/free')}} >자유게시판</li>
+                          navigate('/main_board/free_board')}} >자유게시판</li>
                         <li onClick={(e)=>{
                           setBoardClick(true);
-                          navigate('/board/graduate')}} >졸업생게시판</li>
+                          navigate('/main_board/graduate_board')}} >졸업생게시판</li>
                         <li onClick={(e)=>{
                           setBoardClick(true);
-                          navigate('/board/newcomer')}} >새내기게시판</li>
+                          navigate('/main_board/newcomer_board')}} >새내기게시판</li>
                         <li onClick={(e)=>{
                           setBoardClick(true);
-                          navigate('/board/info')}} >정보게시판</li>
+                          navigate('/main_board/info_board')}} >정보게시판</li>
                         <li onClick={(e)=>{
                           setBoardClick(true);
-                          navigate('/board/employment')}} >취업.진로</li>
+                          navigate('/main_board/employment_board')}} >취업.진로</li>
                         <li onClick={(e)=>{
                           setBoardClick(true);
-                          navigate('/board/student-club')}} >동아리.학회</li>
+                          navigate('/main_board/student_club_board')}} >동아리.학회</li>
                     </ul>
                     </div>
                     </> 
@@ -134,13 +159,13 @@ function App() {
         <Route path='/community' element={<Community />} />
         <Route path='/맛집' element={<Restaurant />} />
         <Route path='/진로&취업' element={<Future />} />
-        <Route path='/board' element={<Board boardClick={boardClick} />} >
-          <Route path='free' element={<BoardForm cookies={cookies} title={'free'} />} />
-          <Route path='graduate' element={<BoardForm cookies={cookies} title={'graduate'} />} />
-          <Route path='fresher' element={<BoardForm cookies={cookies} title={'newcomer'} />} />
-          <Route path='info' element={<BoardForm cookies={cookies} title={'info'} />} />
-          <Route path='jod&career' element={<BoardForm cookies={cookies} title={'employment'} />} />
-          <Route path='club&academy' element={<BoardForm cookies={cookies} title={'student-club'} />} />
+        <Route path='/main_board/*' element={<MainBoard boardClick={boardClick} />} >
+          <Route path='free_board/*' element={<CategoryBoard cookies={cookies} category_title={'free'} title={'자유'} />} />
+          <Route path='graduate_board/*' element={<CategoryBoard cookies={cookies} category_title={'graduate'} title={'졸업생'} />} />
+          <Route path='newcomer_board/*' element={<CategoryBoard cookies={cookies} category_title={'newcomer'} title={'새내기'} />} />
+          <Route path='info_board/*' element={<CategoryBoard cookies={cookies} category_title={'info'} title={'정보'} />} />
+          <Route path='employment_board/*' element={<CategoryBoard cookies={cookies} category_title={'employment'} title={'취업&진로'} />} />
+          <Route path='student_club_board/*' element={<CategoryBoard cookies={cookies} category_title={'student-club'} title={'동아리&학회'} />} />
         </Route>
         <Route path='/login' element={<Login  setCookie={setCookie} />} />
         <Route path='/회원가입' element={<Membership />} />
