@@ -1,6 +1,6 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, Link } from 'react-router-dom';
 import Community from './category/community';
 import Future from './category/future';
 import Login from './category/login_out/login';
@@ -71,23 +71,53 @@ function App() {
                     <div className='board-box'>
                     <ul>
                         <li onClick={(e)=>{
-                          setBoardClick(true);
-                          navigate('/main_board/free_board')}} >자유게시판</li>
+                          if(localStorage.isLogin === 'true'){
+                            setBoardClick(true);
+                            navigate('/main_board/free_board')
+                          } else {
+                            alert('로그인을 해 주세요!')
+                          }
+                          }} >자유게시판</li>
                         <li onClick={(e)=>{
-                          setBoardClick(true);
-                          navigate('/main_board/graduate_board')}} >졸업생게시판</li>
+                          if(localStorage.isLogin === 'true'){
+                            setBoardClick(true);
+                            navigate('/main_board/graduate_board')
+                          } else {
+                            alert('로그인을 해 주세요!')
+                          }
+                          }} >졸업생게시판</li>
                         <li onClick={(e)=>{
-                          setBoardClick(true);
-                          navigate('/main_board/newcomer_board')}} >새내기게시판</li>
+                          if(localStorage.isLogin === 'true'){
+                            setBoardClick(true);
+                            navigate('/main_board/newcomer_board')
+                          } else {
+                            alert('로그인을 해 주세요!')
+                          }
+                          }} >새내기게시판</li>
                         <li onClick={(e)=>{
-                          setBoardClick(true);
-                          navigate('/main_board/info_board')}} >정보게시판</li>
+                          if(localStorage.isLogin === 'true'){
+                            setBoardClick(true);
+                            navigate('/main_board/info_board')
+                          } else {
+                            alert('로그인을 해 주세요!')
+                          }
+                          }} >정보게시판</li>
                         <li onClick={(e)=>{
-                          setBoardClick(true);
-                          navigate('/main_board/employment_board')}} >취업.진로</li>
+                          if(localStorage.isLogin === 'true'){
+                            setBoardClick(true);
+                            navigate('/main_board/employment_board')
+                          } else {
+                            alert('로그인을 해 주세요!')
+                          }
+                          }} >취업.진로</li>
                         <li onClick={(e)=>{
-                          setBoardClick(true);
-                          navigate('/main_board/student_club_board')}} >동아리.학회</li>
+                          if(localStorage.isLogin === 'true'){
+                            setBoardClick(true);
+                            navigate('/main_board/student_club_board')
+                          } else {
+                            alert('로그인을 해 주세요!')
+                          }
+                          }} >동아리.학회</li>
                     </ul>
                     </div>
                     </> 

@@ -1,18 +1,18 @@
 import BoardForm from "./boardForm";
-import { Outlet, Route, Routes, useNavigate } from "react-router-dom";
+import { Link, Outlet, Route, Routes, useNavigate } from "react-router-dom";
 
 function CategoryBoard(props) {
-    let navigate = useNavigate();
+    //let navigate = useNavigate();
     return(
         <div>
         <div>
             <h2>{props.title} 게시판</h2>
-            <button onClick={(e) => navigate(`/main_board/${props.category_title}_board/writing`)} >글쓰기</button>
+            <button ><Link to={`/main_board/${props.category_title}_board/writing`} >글쓰기</Link></button>
         </div>
+        <Outlet></Outlet>
         <Routes>
-            <Route path={`${props.category_title}_board`} element={<CategoryBoard cookies={props.cookies} category_title={'free'} title={'자유'} />}>
-                <Route path="writing" element={<BoardForm />} />
-            </Route>
+        <Route path='/main_board/free_board/writing' element={<BoardForm />} />
+
         </Routes>
         </div>
     )
