@@ -9,6 +9,7 @@ import Restaurant from './category/restaurant';
 import MainBoard from './category/board/mainBoard';
 import MyInfo from './category/login_out/myInfo';
 import CategoryBoard from './category/board/categoryBoard';
+import BoardForm from './category/board/boardForm';
 import { useState } from 'react';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
@@ -21,7 +22,6 @@ function App() {
     name: '', 
     email: ''
   })
-  let [boardClick, setBoardClick] = useState(null);
 
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
@@ -58,8 +58,8 @@ function App() {
           onMouseOut={() => {setOnMouse((prev) => !prev)}}
           >
             <h3 onClick={(e)=>{
-              setBoardClick(false)
               if(localStorage.isLogin === 'true'){
+                localStorage.removeItem('boardClick');                  // mainBoard의 false값 보여주기 (새로고침시 변화 없음)
                 navigate('/main_board')
               } else {
                 alert('로그인을 해 주세요!')
@@ -72,7 +72,8 @@ function App() {
                     <ul>
                         <li onClick={(e)=>{
                           if(localStorage.isLogin === 'true'){
-                            setBoardClick(true);
+                            localStorage.setItem('boardClick', true)           // mainBoard의 true값 보여주기  (새로고침시 변화 없음)
+                            localStorage.removeItem('categoryBoard_click')     // categoryBoard 의 false 값 보여주기 (새로고침시 변화 없음, 다른 categoryBoard로 페이지 이동해도 오류나지 않음)
                             navigate('/main_board/free_board')
                           } else {
                             alert('로그인을 해 주세요!')
@@ -80,7 +81,8 @@ function App() {
                           }} >자유게시판</li>
                         <li onClick={(e)=>{
                           if(localStorage.isLogin === 'true'){
-                            setBoardClick(true);
+                            localStorage.setItem('boardClick', true)          // mainBoard의 true값 보여주기  (새로고침시 변화 없음)
+                            localStorage.removeItem('categoryBoard_click')     // categoryBoard 의 false 값 보여주기 (새로고침시 변화 없음, 다른 categoryBoard로 페이지 이동해도 오류나지 않음)
                             navigate('/main_board/graduate_board')
                           } else {
                             alert('로그인을 해 주세요!')
@@ -88,7 +90,8 @@ function App() {
                           }} >졸업생게시판</li>
                         <li onClick={(e)=>{
                           if(localStorage.isLogin === 'true'){
-                            setBoardClick(true);
+                            localStorage.setItem('boardClick', true)          // mainBoard의 true값 보여주기  (새로고침시 변화 없음)
+                            localStorage.removeItem('categoryBoard_click')     // categoryBoard 의 false 값 보여주기 (새로고침시 변화 없음, 다른 categoryBoard로 페이지 이동해도 오류나지 않음)
                             navigate('/main_board/newcomer_board')
                           } else {
                             alert('로그인을 해 주세요!')
@@ -96,7 +99,8 @@ function App() {
                           }} >새내기게시판</li>
                         <li onClick={(e)=>{
                           if(localStorage.isLogin === 'true'){
-                            setBoardClick(true);
+                            localStorage.setItem('boardClick', true)          // mainBoard의 true값 보여주기  (새로고침시 변화 없음)
+                            localStorage.removeItem('categoryBoard_click')     // categoryBoard 의 false 값 보여주기 (새로고침시 변화 없음, 다른 categoryBoard로 페이지 이동해도 오류나지 않음)
                             navigate('/main_board/info_board')
                           } else {
                             alert('로그인을 해 주세요!')
@@ -104,7 +108,8 @@ function App() {
                           }} >정보게시판</li>
                         <li onClick={(e)=>{
                           if(localStorage.isLogin === 'true'){
-                            setBoardClick(true);
+                            localStorage.setItem('boardClick', true)          // mainBoard의 true값 보여주기  (새로고침시 변화 없음)
+                            localStorage.removeItem('categoryBoard_click')     // categoryBoard 의 false 값 보여주기 (새로고침시 변화 없음, 다른 categoryBoard로 페이지 이동해도 오류나지 않음)
                             navigate('/main_board/employment_board')
                           } else {
                             alert('로그인을 해 주세요!')
@@ -112,7 +117,8 @@ function App() {
                           }} >취업.진로</li>
                         <li onClick={(e)=>{
                           if(localStorage.isLogin === 'true'){
-                            setBoardClick(true);
+                            localStorage.setItem('boardClick', true)          // mainBoard의 true값 보여주기  (새로고침시 변화 없음)
+                            localStorage.removeItem('categoryBoard_click')     // categoryBoard 의 false 값 보여주기 (새로고침시 변화 없음, 다른 categoryBoard로 페이지 이동해도 오류나지 않음)
                             navigate('/main_board/student_club_board')
                           } else {
                             alert('로그인을 해 주세요!')
@@ -189,7 +195,7 @@ function App() {
         <Route path='/community' element={<Community />} />
         <Route path='/맛집' element={<Restaurant />} />
         <Route path='/진로&취업' element={<Future />} />
-        <Route path='/main_board/*' element={<MainBoard boardClick={boardClick} />} >
+        <Route path='/main_board/*' element={<MainBoard  />} >
           <Route path='free_board/*' element={<CategoryBoard cookies={cookies} category_title={'free'} title={'자유'} />} />
           <Route path='graduate_board/*' element={<CategoryBoard cookies={cookies} category_title={'graduate'} title={'졸업생'} />} />
           <Route path='newcomer_board/*' element={<CategoryBoard cookies={cookies} category_title={'newcomer'} title={'새내기'} />} />

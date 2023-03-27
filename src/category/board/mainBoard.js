@@ -4,7 +4,7 @@ function MainBoard(props){
 
     return(
         <div className='board'>
-           {props.boardClick ? <>
+           {localStorage.getItem('boardClick') ? <>
             <Outlet title = {props.title}></Outlet>
            </> : <>
            <h4>게시판</h4>

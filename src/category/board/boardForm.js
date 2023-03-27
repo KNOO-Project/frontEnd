@@ -4,6 +4,7 @@ import '../../category-css/board/boardForm.css'
 
 function BoardForm(props){
     //console.log(props.cookies.token)
+    console.log('boardForm')
     let token = props.cookies.token;
     let [data, setData] = useState({
         post_title: "",
@@ -13,7 +14,7 @@ function BoardForm(props){
     
     return(
         <div>
-        <h2>{props.category_title} 게시판</h2>
+        <h2>{props.title} 게시판</h2>
         <form className='boardForm' onSubmit={(e) => {
             e.preventDefault();
             console.log('post', token)
