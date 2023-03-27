@@ -1,6 +1,7 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Routes, Route, useNavigate, Link } from 'react-router-dom';
+import Home from './category/home';
 import Community from './category/community';
 import Future from './category/future';
 import Login from './category/login_out/login';
@@ -9,7 +10,6 @@ import Restaurant from './category/restaurant';
 import MainBoard from './category/board/mainBoard';
 import MyInfo from './category/login_out/myInfo';
 import CategoryBoard from './category/board/categoryBoard';
-import BoardForm from './category/board/boardForm';
 import { useState } from 'react';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
@@ -24,42 +24,60 @@ function App() {
   })
 
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
-  function moveBoard(){
-    axios.get('/api/v1/posts/free', {
-      headers: {Authorization : cookies.token}
-    })
-    .then((res)=>{console.log(res)})
-    .catch((console.log('err')))
-    localStorage.setItem('boardClick', true)           // mainBoard의 true값 보여주기  (새로고침시 변화 없음)
-    localStorage.removeItem('categoryBoard_click')     // categoryBoard 의 false 값 보여주기 (새로고침시 변화 없음, 다른 categoryBoard로 페이지 이동해도 오류나지 않음)
-    navigate('/main_board/free_board')
+  
+  function moveBoard(category){                       // categoryBoard 로 넘어가는 함수
+    if(localStorage.isLogin === 'true'){
+      axios.get(`/api/v1/posts/${category}`, {
+        headers: {Authorization : cookies.token}
+      })
+      .then((res)=>{console.log(res)})
+      .catch((console.log('err')))
+      localStorage.setItem('boardClick', true)           // mainBoard의 true값 보여주기  (새로고침시 변화 없음)
+      localStorage.removeItem('categoryBoard_click')     // categoryBoard 의 false 값 보여주기 (새로고침시 변화 없음, 다른 categoryBoard로 페이지 이동해도 오류나지 않음)
+      navigate(`/main_board/${category}_board`)
+    } else {
+      alert('로그인을 해 주세요!')
+    }
   }
+
+  function moveCategory(path){                        // 해당 카테고리로 페이지 이동
+    if(localStorage.isLogin === 'true'){
+      navigate(`/${path}`)
+    } else {
+      alert('로그인을 해 주세요!')
+    }
+  }
+
+  function moveMyInfo(){                              //회원정보조회로 페이지 이동
+    navigate('/myInfo')
+            //console.log(cookies.token)
+            axios.get('/api/v1/users', {
+              headers: {Authorization: cookies.token} /* 헤더에 토큰 담아서 보내기 */
+            })
+            .then(res => {
+              setUserInfo((userInfo) => ({
+                ...userInfo,
+                name: res.data.name,
+                email: res.data.email
+              }))
+            })
+            .catch(console.log('err'))
+  }
+  
   return (
     <div className="App">
       <div className='nav-bar'>
         <div className='nav-box'>
           <div onClick={()=>{navigate('/')}}><h1>KNoo</h1></div>
           <div className='text-center' onClick={(e)=>{
-            if(localStorage.isLogin === 'true'){
-              navigate('/community')
-            } else {
-              alert('로그인을 해 주세요!')
-            }
+            moveCategory('community')
             }}><h3>커뮤니티</h3></div>
           <div className='text-center' onClick={(e)=>{
-            if(localStorage.isLogin === 'true'){
-              navigate('/맛집');
-            } else {
-              alert('로그인을 해 주세요!')
-            }
+            moveCategory('맛집')
           }
             }><h3>맛집</h3></div>
           <div className='text-center' onClick={(e)=>{
-            if(localStorage.isLogin === 'true'){
-              navigate('/진로&취업')
-            } else {
-              alert('로그인을 해 주세요!')
-            }
+            moveCategory('진로&취업')
           }
           }><h3>진로.취업</h3></div>
           <div className='text-center' 
@@ -68,10 +86,10 @@ function App() {
           >
             <h3 onClick={(e)=>{
               if(localStorage.isLogin === 'true'){
-                localStorage.removeItem('boardClick');                  // mainBoard의 false값 보여주기 (새로고침시 변화 없음)
-                navigate('/main_board')
+                localStorage.removeItem('boardClick');
+                navigate(`/main_board`);
               } else {
-                alert('로그인을 해 주세요!')
+                alert('로그인을 해 주세요!');
               }
               }} >게시판</h3>
               {/* 게시판 카테고리 */}
@@ -80,63 +98,22 @@ function App() {
                     <div className='board-box'>
                     <ul>
                         <li onClick={(e)=>{
-                          if(localStorage.isLogin === 'true'){
-                            axios.get('/api/v1/posts/free', {
-                              headers: {Authorization : cookies.token}
-                            })
-                            .then((res)=>{console.log(res)})
-                            .catch((console.log('err')))
-                            localStorage.setItem('boardClick', true)           // mainBoard의 true값 보여주기  (새로고침시 변화 없음)
-                            localStorage.removeItem('categoryBoard_click')     // categoryBoard 의 false 값 보여주기 (새로고침시 변화 없음, 다른 categoryBoard로 페이지 이동해도 오류나지 않음)
-                            navigate('/main_board/free_board')
-                          } else {
-                            alert('로그인을 해 주세요!')
-                          }
+                          moveBoard('free')
                           }} >자유게시판</li>
                         <li onClick={(e)=>{
-                          if(localStorage.isLogin === 'true'){
-                            localStorage.setItem('boardClick', true)          // mainBoard의 true값 보여주기  (새로고침시 변화 없음)
-                            localStorage.removeItem('categoryBoard_click')     // categoryBoard 의 false 값 보여주기 (새로고침시 변화 없음, 다른 categoryBoard로 페이지 이동해도 오류나지 않음)
-                            navigate('/main_board/graduate_board')
-                          } else {
-                            alert('로그인을 해 주세요!')
-                          }
+                          moveBoard('graduate');
                           }} >졸업생게시판</li>
                         <li onClick={(e)=>{
-                          if(localStorage.isLogin === 'true'){
-                            localStorage.setItem('boardClick', true)          // mainBoard의 true값 보여주기  (새로고침시 변화 없음)
-                            localStorage.removeItem('categoryBoard_click')     // categoryBoard 의 false 값 보여주기 (새로고침시 변화 없음, 다른 categoryBoard로 페이지 이동해도 오류나지 않음)
-                            navigate('/main_board/newcomer_board')
-                          } else {
-                            alert('로그인을 해 주세요!')
-                          }
+                          moveBoard('newcomer');
                           }} >새내기게시판</li>
                         <li onClick={(e)=>{
-                          if(localStorage.isLogin === 'true'){
-                            localStorage.setItem('boardClick', true)          // mainBoard의 true값 보여주기  (새로고침시 변화 없음)
-                            localStorage.removeItem('categoryBoard_click')     // categoryBoard 의 false 값 보여주기 (새로고침시 변화 없음, 다른 categoryBoard로 페이지 이동해도 오류나지 않음)
-                            navigate('/main_board/info_board')
-                          } else {
-                            alert('로그인을 해 주세요!')
-                          }
+                          moveBoard('info');
                           }} >정보게시판</li>
                         <li onClick={(e)=>{
-                          if(localStorage.isLogin === 'true'){
-                            localStorage.setItem('boardClick', true)          // mainBoard의 true값 보여주기  (새로고침시 변화 없음)
-                            localStorage.removeItem('categoryBoard_click')     // categoryBoard 의 false 값 보여주기 (새로고침시 변화 없음, 다른 categoryBoard로 페이지 이동해도 오류나지 않음)
-                            navigate('/main_board/employment_board')
-                          } else {
-                            alert('로그인을 해 주세요!')
-                          }
+                          moveBoard('employment');
                           }} >취업.진로</li>
                         <li onClick={(e)=>{
-                          if(localStorage.isLogin === 'true'){
-                            localStorage.setItem('boardClick', true)          // mainBoard의 true값 보여주기  (새로고침시 변화 없음)
-                            localStorage.removeItem('categoryBoard_click')     // categoryBoard 의 false 값 보여주기 (새로고침시 변화 없음, 다른 categoryBoard로 페이지 이동해도 오류나지 않음)
-                            navigate('/main_board/student_club_board')
-                          } else {
-                            alert('로그인을 해 주세요!')
-                          }
+                          moveBoard('student_club');
                           }} >동아리.학회</li>
                     </ul>
                     </div>
@@ -158,19 +135,7 @@ function App() {
           {/*로그인 성공시 회원정보 조회 버튼 생성 */}
           {localStorage.getItem('isLogin') ? <>
           <div className='text-right' onClick={()=>{
-            navigate('/myInfo')
-            //console.log(cookies.token)
-            axios.get('/api/v1/users', {
-              headers: {Authorization: cookies.token} /* 헤더에 토큰 담아서 보내기 */
-            })
-            .then(res => {
-              setUserInfo((userInfo) => ({
-                ...userInfo,
-                name: res.data.name,
-                email: res.data.email
-              }))
-            })
-            .catch(console.log('err'))
+            moveMyInfo();
             }} ><h4>내 정보</h4></div>
           </> : null}
         </div>
@@ -180,31 +145,7 @@ function App() {
 
       <Routes>
         <Route path='/' element={
-          <>
-          <div className='body'>
-        <div className='body-left'>
-          <div className='free'>
-            <h2>자유게시판</h2>
-          </div>
-        </div>
-        <div className='body-right'>
-          <div className='popular'>
-            <h2>인기글</h2>
-          </div>
-          <div className='info-box'>
-          <div className='info'>
-            <h2>상담(고민, 연애...)</h2>
-          </div>
-          <div className='empty'></div>
-          <div className='info'>
-            <h2>심심풀이</h2>
-          </div>
-          </div>
-        </div>
-      </div>
-      <div className='footer'>
-        <div className='footer-info'>이것저것 소개, 이용문의 등등...</div>
-      </div></>
+          <Home />
         } />
         <Route path='/community' element={<Community />} />
         <Route path='/맛집' element={<Restaurant />} />
