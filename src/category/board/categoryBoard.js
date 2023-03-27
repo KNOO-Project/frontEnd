@@ -16,6 +16,9 @@ function CategoryBoard(props) {
                     <button onClick={() => {
                         localStorage.setItem('categoryBoard_click', true)
                     }} ><Link to='writing' >글쓰기</Link></button>
+                    <div className="board-list">
+
+                    </div>
                 </div>
             </>}
         

@@ -24,7 +24,16 @@ function App() {
   })
 
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
-
+  function moveBoard(){
+    axios.get('/api/v1/posts/free', {
+      headers: {Authorization : cookies.token}
+    })
+    .then((res)=>{console.log(res)})
+    .catch((console.log('err')))
+    localStorage.setItem('boardClick', true)           // mainBoard의 true값 보여주기  (새로고침시 변화 없음)
+    localStorage.removeItem('categoryBoard_click')     // categoryBoard 의 false 값 보여주기 (새로고침시 변화 없음, 다른 categoryBoard로 페이지 이동해도 오류나지 않음)
+    navigate('/main_board/free_board')
+  }
   return (
     <div className="App">
       <div className='nav-bar'>
@@ -72,6 +81,11 @@ function App() {
                     <ul>
                         <li onClick={(e)=>{
                           if(localStorage.isLogin === 'true'){
+                            axios.get('/api/v1/posts/free', {
+                              headers: {Authorization : cookies.token}
+                            })
+                            .then((res)=>{console.log(res)})
+                            .catch((console.log('err')))
                             localStorage.setItem('boardClick', true)           // mainBoard의 true값 보여주기  (새로고침시 변화 없음)
                             localStorage.removeItem('categoryBoard_click')     // categoryBoard 의 false 값 보여주기 (새로고침시 변화 없음, 다른 categoryBoard로 페이지 이동해도 오류나지 않음)
                             navigate('/main_board/free_board')
