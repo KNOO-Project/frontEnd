@@ -29,12 +29,17 @@ input[type='text'] {
         outline: none;
         box-shadow: 0 0 10px#0d7ef0;
 }
-.boardForm > button {
+.boardForm-btn > button[type='submit'] {
     width: 10%;
     border: none;
     font-weight: bold;
     margin-top: 5px;
 }
-.boardForm > button:hover {
+.boardForm-btn > button:hover {
     opacity: 0.7;
 }
+.boardForm-btn{
+    width: 50%;
+    margin: auto;
+}
+

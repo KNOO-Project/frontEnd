@@ -8,7 +8,7 @@ function CategoryBoard(props) {
         <div className="category_board">
             {localStorage.getItem('categoryBoard_click') ? <>
                 <Routes>
-                    <Route path="writing" element={<BoardForm cookies={props.cookies} title={props.title} />} />
+                    <Route path="writing" element={<BoardForm cookies={props.cookies} title={props.title} category_title={props.category_title} />} />
                 </Routes>
             </> : <>
                 <div >
@@ -17,7 +17,7 @@ function CategoryBoard(props) {
                         localStorage.setItem('categoryBoard_click', true)
                     }} ><Link to='writing' >글쓰기</Link></button>
                     <div className="board-list">
-
+                        
                     </div>
                 </div>
             </>}
