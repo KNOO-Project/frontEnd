@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../../category-css/board/boardForm.css'
 
 function BoardForm(props){
+    let navigate = useNavigate();
     //console.log(props.cookies.token)
     let token = props.cookies.token;
     let [data, setData] = useState({
@@ -24,7 +26,8 @@ function BoardForm(props){
             }
             )
             .then((res)=>{
-                console.log(res)
+                localStorage.removeItem('categoryBoard_click');
+                navigate(`/main_board/${data.post_category}_board`);
             }).catch(console.log('err'));
         }
         } >

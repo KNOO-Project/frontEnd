@@ -15,6 +15,20 @@ import axios from 'axios';
 import { useCookies } from 'react-cookie';
 
 function App() {
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  let category = ['free', 'newcomer', 'graduate', 'employment', 'student-club', 'info'];
+  if(localStorage.getItem('isLogin')){
+    category.map((a)=>{
+      axios.get(`/api/v1/posts/${a}`, {
+        headers: {Authorization : cookies.token}
+      })
+      .then((res)=>{
+        localStorage.setItem(`${a}_data`, JSON.stringify(res.data))
+      })
+      .catch((console.log('err')))
+    })
+    
+  }
   let navigate = useNavigate();
   let [onMouse, setOnMouse] = useState(false)
   //let [isLogin, setIsLogin] = useState(false);
@@ -22,16 +36,13 @@ function App() {
     name: '', 
     email: ''
   })
+  let [boardPage, setBoardPage] = useState();
 
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  
   
   function moveBoard(category){                       // categoryBoard 로 넘어가는 함수
     if(localStorage.isLogin === 'true'){
-      axios.get(`/api/v1/posts/${category}`, {
-        headers: {Authorization : cookies.token}
-      })
-      .then((res)=>{console.log(res)})
-      .catch((console.log('err')))
+      
       localStorage.setItem('boardClick', true)           // mainBoard의 true값 보여주기  (새로고침시 변화 없음)
       localStorage.removeItem('categoryBoard_click')     // categoryBoard 의 false 값 보여주기 (새로고침시 변화 없음, 다른 categoryBoard로 페이지 이동해도 오류나지 않음)
       navigate(`/main_board/${category}_board`)
@@ -151,12 +162,12 @@ function App() {
         <Route path='/맛집' element={<Restaurant />} />
         <Route path='/진로&취업' element={<Future />} />
         <Route path='/main_board/*' element={<MainBoard  />} >
-          <Route path='free_board/*' element={<CategoryBoard cookies={cookies} category_title={'free'} title={'자유'} />} />
-          <Route path='graduate_board/*' element={<CategoryBoard cookies={cookies} category_title={'graduate'} title={'졸업생'} />} />
-          <Route path='newcomer_board/*' element={<CategoryBoard cookies={cookies} category_title={'newcomer'} title={'새내기'} />} />
-          <Route path='info_board/*' element={<CategoryBoard cookies={cookies} category_title={'info'} title={'정보'} />} />
-          <Route path='employment_board/*' element={<CategoryBoard cookies={cookies} category_title={'employment'} title={'취업&진로'} />} />
-          <Route path='student_club_board/*' element={<CategoryBoard cookies={cookies} category_title={'student-club'} title={'동아리&학회'} />} />
+          <Route path='free_board/*' element={<CategoryBoard cookies={cookies} category_title={'free'} title={'자유'} boardPage={boardPage} />} />
+          <Route path='graduate_board/*' element={<CategoryBoard cookies={cookies} category_title={'graduate'} title={'졸업생'} boardPage={boardPage} />} />
+          <Route path='newcomer_board/*' element={<CategoryBoard cookies={cookies} category_title={'newcomer'} title={'새내기'} boardPage={boardPage} />} />
+          <Route path='info_board/*' element={<CategoryBoard cookies={cookies} category_title={'info'} title={'정보'} boardPage={boardPage} />} />
+          <Route path='employment_board/*' element={<CategoryBoard cookies={cookies} category_title={'employment'} title={'취업&진로'} boardPage={boardPage} />} />
+          <Route path='student_club_board/*' element={<CategoryBoard cookies={cookies} category_title={'student-club'} title={'동아리&학회'} boardPage={boardPage} />} />
         </Route>
         <Route path='/login' element={<Login  setCookie={setCookie} />} />
         <Route path='/회원가입' element={<Membership />} />

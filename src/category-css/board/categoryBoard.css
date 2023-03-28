@@ -1,0 +1,25 @@
+div{
+    box-sizing: border-box;
+}
+
+.category_board .head {
+    width: 30%;
+    margin: auto;
+    display: flex;
+}
+.board-list > li {
+    display: flex;
+    width: 80%;
+    margin: auto;
+    margin-bottom: 10px;
+}
+.board-list > li > div {
+    width: 30%;
+}
+.board-list > li > .title {
+    font-weight: bold;
+    cursor: pointer;
+}
+.board-list > li > .title:hover {
+    opacity: 0.7;
+}
