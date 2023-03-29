@@ -19,14 +19,16 @@ function App() {
   let category = ['free', 'newcomer', 'graduate', 'employment', 'student-club', 'info'];
   useEffect(() => {
     if(localStorage.getItem('isLogin')){
-      category.map((a)=>{
-        axios.get(`/api/v1/posts/${a}`, {
+      category.map((category_path)=>{
+        axios.get(`/api/v1/posts/${category_path}`, {
           headers: {Authorization : cookies.token}
         })
         .then((res)=>{
-          localStorage.setItem(`${a}_data`, JSON.stringify(res.data))
+          localStorage.setItem(`${category_path}_data`, JSON.stringify(res.data))
         })
-        .catch((console.log('err')))
+        .catch((res) => {
+          console.log(res)
+        })
       })
       
     }
@@ -73,7 +75,7 @@ function App() {
                 email: res.data.email
               }))
             })
-            .catch(console.log('err'))
+            .catch(/* console.log('err') */)
   }
   
   return (

@@ -1,13 +1,26 @@
 import BoardForm from "./boardForm";
 import { Link, Outlet, Route, Routes, useNavigate, useParams } from "react-router-dom";
 import '../../category-css/board/categoryBoard.css'
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import BoardDetail from "./boardDetail";
+import axios from "axios";
 
 function CategoryBoard(props) {
     //console.log(localStorage.getItem('pathBoardTitle'))
     let categoryTitle = localStorage.getItem('pathBoardTitle');
-    let data = JSON.parse(localStorage.getItem(`${categoryTitle}_data`))
+    let data = JSON.parse(localStorage.getItem(`${categoryTitle}_data`));
+    let category_path = localStorage.getItem('pathBoardTitle')
+    useEffect((categoey_path) => {
+        axios.get(`/api/v1/posts/${category_path}`, {
+            headers: {Authorization : props.cookies.token}
+          })
+          .then((res)=>{
+            localStorage.setItem(`${category_path}_data`, JSON.stringify(res.data))
+          })
+          .catch((res) => {
+            console.log(res)
+          })
+    })
 
     return(
         <>
@@ -34,7 +47,7 @@ function CategoryBoard(props) {
         </> : null}
                 <Routes>
                     <Route path="writing" element={<BoardForm cookies={props.cookies}  />} />
-                    <Route path='detail/:id' element={<BoardDetail />} />
+                    <Route path='/detail/:post_id' element={<BoardDetail />} />
                 </Routes>
         {/* {localStorage.getItem('boardForm_click') || localStorage.getItem('boardDetail') ? <>
                 <Routes>
