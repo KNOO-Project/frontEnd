@@ -10,12 +10,12 @@ function BoardForm(props){
     let [data, setData] = useState({
         post_title: "",
         post_content: "",
-        post_category: props.category_title,
+        post_category: localStorage.getItem('pathBoardTitle'),
         anonymous: false
     })
     return(
         <div>
-        <h2>{props.title} 게시판</h2>
+        <h2>{localStorage.getItem('boardTitle')} 게시판</h2>
         <form className='boardForm' onSubmit={(e) => {
             console.log(data)
             e.preventDefault();
@@ -26,7 +26,7 @@ function BoardForm(props){
             }
             )
             .then((res)=>{
-                localStorage.removeItem('categoryBoard_click');
+                localStorage.setItem('categoryBoardClick', true)            //게시글 올리고 다시 ('categoryBoardClick', true) 값 추가해서 cetegeryBoard true 값 보여주기
                 navigate(`/main_board/${data.post_category}_board`);
             }).catch(console.log('err'));
         }

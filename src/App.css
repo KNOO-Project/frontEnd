@@ -1,6 +1,10 @@
 *{
   margin: 0;
 }
+li > a {
+  text-decoration: none;
+  color: white;
+}
 div{
   box-sizing: border-box;
   text-align: center;

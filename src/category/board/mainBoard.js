@@ -4,11 +4,12 @@ function MainBoard(props){
 
     return(
         <div className='board'>
-           {localStorage.getItem('boardClick') ? <>
-            <Outlet title = {props.title}></Outlet>
+            <h2>메인 게시판</h2>
+          {/*  {localStorage.getItem('mainBoardClick') ? <>
+           {props.title}
            </> : <>
-           <h4>게시판</h4>
-           </>} 
+           
+           </>}  */}
         </div>
                     
     )
