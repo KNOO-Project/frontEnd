@@ -14,7 +14,7 @@ input, textarea, button {
     border: none;
     border: 1px solid #ced4da;
 }
-input[type='text'] {
+input {
     margin-bottom: 20px;
     width: 50%;
 }
@@ -28,6 +28,9 @@ input[type='text'] {
 .boardForm > textarea:focus {
         outline: none;
         box-shadow: 0 0 10px#0d7ef0;
+}
+.boardForm-btn > input[type='checkbox'] {
+    width: 13px;
 }
 .boardForm-btn > button[type='submit'] {
     width: 10%;

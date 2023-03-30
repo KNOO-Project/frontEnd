@@ -17,7 +17,7 @@ import { useCookies } from 'react-cookie';
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   let category = ['free', 'newcomer', 'graduate', 'employment', 'student-club', 'info'];
-  useEffect(() => {
+  /* useEffect(() => {
     if(localStorage.getItem('isLogin')){
       category.map((category_path)=>{
         axios.get(`/api/v1/posts/${category_path}`, {
@@ -32,7 +32,7 @@ function App() {
       })
       
     }
-  })
+  }) */
   
   let navigate = useNavigate();
   let [onMouse, setOnMouse] = useState(false)
@@ -95,8 +95,12 @@ function App() {
           }
           }><h3>진로.취업</h3></div>
           <div className='text-center' 
-          onMouseOver={() => {setOnMouse((prev) => !prev)}}
-          onMouseOut={() => {setOnMouse((prev) => !prev)}}
+          onMouseOver={(e) => {
+            e.stopPropagation();
+            setOnMouse((prev) => !prev)}}
+          onMouseOut={(e) => {
+            e.stopPropagation();
+            setOnMouse((prev) => !prev)}}
           >
             <h3 onClick={(e)=>{
               if(localStorage.isLogin === 'true'){
@@ -113,6 +117,7 @@ function App() {
                     <div className='board-box'>
                     <ul>
                         <li onClick={(e)=>{
+                          e.stopPropagation();
                           moveBoard('free', '자유')
                           }} ><Link to={`/main_board/${category[0]}_board`}>자유게시판</Link></li>
                         <li onClick={(e)=>{
