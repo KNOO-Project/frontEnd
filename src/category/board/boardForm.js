@@ -28,7 +28,10 @@ function BoardForm(props){
             .then((res)=>{
                 localStorage.setItem('categoryBoardClick', true)            //게시글 올리고 다시 ('categoryBoardClick', true) 값 추가해서 cetegeryBoard true 값 보여주기
                 navigate(`/main_board/${data.post_category}_board`);
-            }).catch(console.log('err'));
+                window.location.reload();
+            }).catch(res => {
+                alert(res.response.data.message)
+            });
         }
         } >
             <input type='text' placeholder="제목을 입력해주세요." value={data.post_title} onChange={(e) => {setData({

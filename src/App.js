@@ -41,7 +41,6 @@ function App() {
     name: '', 
     email: ''
   })
-  let [boardPage, setBoardPage] = useState();
   
   
   function moveBoard(pathBoardTitle, boardTitle){                       // categoryBoard 로 넘어가는 함수
@@ -49,6 +48,7 @@ function App() {
       localStorage.setItem('categoryBoardClick', true);         //각 카테고리 게시판으로 링크타고 이동하면 true 값 보여주기(각 카테고리별 게시판 글쓰기는 따로)
       localStorage.setItem('pathBoardTitle', pathBoardTitle);    // 페이지 이동시 마다 path가 바뀌어야하기 때문에 각 카테고리로 이동시마다 값 바꿔주기
       localStorage.setItem('boardTitle', boardTitle);             // 카테고리별 게시판 들어가면 title값을 맞게 추가해서 "{title}게시판" 보여주기
+      //window.location.reload();         
     } else {
       alert('로그인을 해 주세요!')
     }
@@ -133,8 +133,8 @@ function App() {
                           moveBoard('employment', '취업&진로');
                           }} ><Link to={`/main_board/${category[3]}_board`}>취업.진로</Link></li>
                         <li onClick={(e)=>{
-                          moveBoard('student_club', '동아리&학회');
-                          }} ><Link to={`/main_board/student_club_board`}>동아리.학회</Link></li>
+                          moveBoard('student-club', '동아리&학회');
+                          }} ><Link to={`/main_board/student-club_board`}>동아리.학회</Link></li>
                     </ul>
                     </div>
                     </> 

@@ -27,19 +27,25 @@ div{
     margin: auto;
     margin-bottom: 10px;
 }
-.board_list > li > div {
-    width: 30%;
-}
 .board_list > li > .title {
-    font-weight: 800;
+    width: 30%;
+    opacity: 0.8;
+    font-weight: bold;
     cursor: pointer;
 }
 .board_list > li > .title:hover {
-    opacity: 0.7;
+    opacity: 1;
+}
+.board_list > li > .content {
+    width: 40%;
 }
 .board_list > li > .name {
+    opacity: 0.8;
+    width: 15%;
     font-weight: 500;
 }
 .board_list > li > .date {
+    opacity: 0.8;
+    width: 15%;
     font-size: small;
 }

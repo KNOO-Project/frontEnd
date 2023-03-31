@@ -10,8 +10,9 @@ function CategoryBoard(props) {
     let categoryTitle = localStorage.getItem('pathBoardTitle');
     //let data = JSON.parse(localStorage.getItem(`${categoryTitle}_data`));
     let category_path = localStorage.getItem('pathBoardTitle')
-    let [data, setData ] = useState(false);
-    useEffect((categoey_path) => {
+    let [data, setData] = useState([]);
+
+    useEffect(() => {
         axios.get(`/api/v1/posts/${category_path}`, {
             headers: {Authorization : props.cookies.token}
           })
@@ -21,7 +22,10 @@ function CategoryBoard(props) {
           .catch((res) => {
             console.log(res)
           })
-    },[]);
+          return(() => {
+            setData([])
+        })
+    }, [category_path]);
     /* let [data, setData] = useState()
 
     const getData = async() => {
@@ -44,27 +48,18 @@ function CategoryBoard(props) {
                 }} ><Link to='writing' >글쓰기</Link></button>
             </div>
             <div className="board_list">
-                {data ?
-                <>
+                
                     {data.map((a, i) => {
                         return(
                             <li key={i}><div className="title" onClick={() => {
                                 localStorage.removeItem('categoryBoardClick');
+                                localStorage.setItem('content', a.post_content);
                             }}><Link to={`detail/${a.post_id}`}>{a.post_title}</Link></div>
-                            <div>{a.post_content.substring(0, 20)}</div><div className="name">{a.writer_name}</div><div className="date">{a.post_date}</div>
+                            <div className="content">{a.post_content.substring(0, 20)}</div><div className="name">{a.writer_name}</div><div className="date">{a.post_date}</div>
                             </li>
                         )
                     })}
-                </>
-                 : null}
-                {/* {data.map((a, i) => {
-                    return(
-                        <li key={i}><div className="title" onClick={() => {
-                            localStorage.removeItem('categoryBoardClick');
-                        }}><Link to={`detail/${a.post_id}`}>{a.post_title}</Link></div><div className="name">{a.writer_name}</div><div className="date">{a.post_date}</div></li>
-                        
-                    )
-                })} */}
+                
             </div>
             </div>
                 {/* 글쓰기 버튼 누르면 null에 해당하는 값을 보여주면서 위의 값이 감춰지고 글쓰기 페이지에 해당하는 UI 보여주기 */}

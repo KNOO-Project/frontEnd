@@ -1,9 +1,12 @@
 import { useParams } from "react-router-dom";
 
 function BoardDetail(props) {
-    let {post_id} = useParams();
+    //let {post_id} = useParams();
+    let content = localStorage.getItem('content');
     return(
-        <div>{post_id}</div>
+        <div>
+            {content}
+        </div>
     )
 }
 
