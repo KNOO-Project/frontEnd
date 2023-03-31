@@ -9,9 +9,9 @@ function Login({setIsLogin, setCookie}){
     let navigate = useNavigate();
     let [data, setData] = useState({
         username : '',
-        password : ''
+        password : '',
+        auto_sign_in : false
     })
-    let [check, setCheck] = useState(false);
     let [searchId, setSearchId] = useState(false);
     let [searchPw, setSearchPw] = useState(false);
     let [idData, setIdData] = useState({
@@ -38,9 +38,6 @@ function Login({setIsLogin, setCookie}){
                 <div className='btn'>
                     <Button className='btn-login' variant="info" onClick={(e)=>{
                         e.preventDefault();
-                        /* async function(data) {
-
-                        } */
                         axios.post('/api/v1/auth/sign-in', data)
                         .then((res) => {
                             //console.log(res.data)
@@ -111,8 +108,10 @@ function Login({setIsLogin, setCookie}){
                 </div>
                     </> : null}
                 <div className='auto-login'>
-                <input type='checkbox' id='자동로그인' onClick={() => {
-                    setCheck(prev => !prev)
+                <input type='checkbox' id='자동로그인' onClick={() => {setData((data) => ({
+                    ...data,
+                    auto_sign_in: !data.auto_sign_in
+                }))
                 }}/>
                 <label for='자동로그인' >자동로그인</label>
                 </div>
