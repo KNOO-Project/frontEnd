@@ -10,22 +10,22 @@ function CategoryBoard(props) {
     let categoryTitle = localStorage.getItem('pathBoardTitle');
     //let data = JSON.parse(localStorage.getItem(`${categoryTitle}_data`));
     let category_path = localStorage.getItem('pathBoardTitle')
-    let [data, setData] = useState([]);
+    let [boardData, setBoardData] = useState([]);
 
     useEffect(() => {
         axios.get(`/api/v1/posts/${category_path}`, {
             headers: {Authorization : props.cookies.token}
           })
           .then((res)=>{
-            setTimeout(()=>{setData(res.data)}, 100);
+            setBoardData(res.data)
+            //setTimeout(()=>{setData(res.data)}, 100);
           })
           .catch((res) => {
             console.log(res)
           })
-          return(() => {
-            setData([])
-        })
-    }, [category_path]);
+          
+    }, [category_path]                                          // category_path으 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
+    );
     /* let [data, setData] = useState()
 
     const getData = async() => {
@@ -49,13 +49,16 @@ function CategoryBoard(props) {
             </div>
             <div className="board_list">
                 
-                    {data.map((a, i) => {
+                    {boardData.map((a, i) => {
                         return(
                             <li key={i}><div className="title" onClick={() => {
                                 localStorage.removeItem('categoryBoardClick');
                                 localStorage.setItem('content', a.post_content);
+                                
                             }}><Link to={`detail/${a.post_id}`}>{a.post_title}</Link></div>
-                            <div className="content">{a.post_content.substring(0, 20)}</div><div className="name">{a.writer_name}</div><div className="date">{a.post_date}</div>
+                            <div className="content">{a.post_content.substring(0, 20)
+                            //본문내용 20자만 보여주기
+                            }</div><div className="name">{a.writer_name}</div><div className="date">{a.post_date}</div>
                             </li>
                         )
                     })}
@@ -66,7 +69,7 @@ function CategoryBoard(props) {
         </> : null}
                 <Routes>
                     <Route path="writing" element={<BoardForm cookies={props.cookies}  />} />
-                    <Route path='/detail/:post_id' element={<BoardDetail />} />
+                    <Route path='/detail/:post_id' element={<BoardDetail category_path={category_path} cookies={props.cookies} />} />
                 </Routes>
         {/* {localStorage.getItem('boardForm_click') || localStorage.getItem('boardDetail') ? <>
                 <Routes>

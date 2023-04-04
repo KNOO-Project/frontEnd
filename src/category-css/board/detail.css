@@ -1,0 +1,39 @@
+/* detail-post */
+.detail-post {
+    width: 80%;
+    margin: 10px auto 0 auto;
+    border: 3px solid #ced2da;
+    border-radius: 3px;
+    text-align: left;
+    padding: 20px;
+}
+.detail-post > .name, .detail-post > .content {
+    font-size: 15px;
+}
+.detail-post > .date {
+    font-size: 13px;
+}
+/* detail-content */
+.detail-comment {
+    width: 70%;
+    margin: auto;
+    border: 2px solid #0dcaf0;
+    border-radius: 3px;
+}
+
+/* write-comment */
+.write-comment{
+    width: 70%;
+    margin: auto;
+}
+.write-comment > input {
+    width: 80%;
+    height: 40px;
+    border: 1px solid #adb5bd;
+}
+.write-comment > button {
+    width: 20%;
+    height: 40px;
+    border: 1px solid #adb5bd;
+    background-color: aqua;
+}
