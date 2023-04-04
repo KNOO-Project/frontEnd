@@ -25,8 +25,32 @@
 .detail-comment > .name, .detail-comment > .date {
     font-size: 13px;
 }
+.detail-comment > .name {
+    float: left;
+}
+.detail-comment > .btn {
+    float: right;
+    font-size: 13px;
+    border: 1px solid #ced4da;
+    background: #ced4da;
+}
 .detail-comment > .comment {
     font-size: 15px;
+}
+/* recomment */
+.write-recomment {
+    width: 90%;
+    height: 24px;
+    margin: auto;
+    margin-bottom: 10px;
+}
+.write-recomment > input {
+    width: 80%;
+    border: 1px solid #adb5bd;
+}
+.write-recomment > button {
+    width: 20%;
+    border: 1px solid #adb5bd;
 }
 /* write-comment */
 .write-comment{
@@ -44,4 +68,26 @@
     border: 1px solid #adb5bd;
     background-color: aqua;
 }
-
+/* recomment-list */
+.recomment-list {
+    width: 90%;
+    margin: auto;
+}
+.recomment-list > .content {
+    padding: 10px;
+    border: 2px solid #dee2e6;
+    border-radius: 3px;
+    text-align: left;
+}
+.recomment-list > .content > .date {
+    font-size: 10px;
+    margin-bottom: 2px;
+}
+.recomment-list > .content > .content {
+    font-size: 13px;
+    margin-bottom: 2px;
+}
+.recomment-list > .content > .name {
+    font-size: 10px;
+    margin-bottom: 2px;
+}
