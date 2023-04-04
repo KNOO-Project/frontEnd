@@ -13,14 +13,21 @@
 .detail-post > .date {
     font-size: 13px;
 }
-/* detail-content */
+/* detail-comment */
 .detail-comment {
     width: 70%;
     margin: auto;
     border: 2px solid #0dcaf0;
     border-radius: 3px;
+    text-align: left;
+    padding: 10px;
 }
-
+.detail-comment > .name, .detail-comment > .date {
+    font-size: 13px;
+}
+.detail-comment > .comment {
+    font-size: 15px;
+}
 /* write-comment */
 .write-comment{
     width: 70%;
@@ -37,3 +44,4 @@
     border: 1px solid #adb5bd;
     background-color: aqua;
 }
+

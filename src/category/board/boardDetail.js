@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import '../../category-css/board/detail.css'
 
 function BoardDetail(props) {
+    let navigate = useNavigate();
     let {post_id} = useParams();
     let category_path = props.category_path
     //let content = localStorage.getItem('content');
@@ -26,7 +27,9 @@ function BoardDetail(props) {
             params: {'post_id' : post_id}
         }
             )
-        .then((res) => {console.log(res)})
+        .then((res) => {
+            window.location.reload();
+        })
         .catch(console.log('err'))
     }
     useEffect(() => {
@@ -58,14 +61,16 @@ function BoardDetail(props) {
             <p className="date">{postData.post_date}</p>
             <p className="content">{postData.post_content}</p>
         </div>
-        <div className="detail-comment">
-            댓글 놓을 자리
-            {/* {commentData.map((a, i) => {
+            {/* 댓글 놓을 자리 */}
+            {commentData.map((a, i) => {
                 return(
-                    <li></li>
+                    <div className="detail-comment">
+                        <p className="name">{a.writer_name}</p>
+                        <p className="comment">{a.comment_content}</p>
+                        <p className="date">{a.comment_date}</p>
+                    </div>
                 )
-            })} */}
-        </div>
+            })}
         <div className="write-comment">
             <input placeholder="댓글을 입력하세요" value={comment} onChange={(e) => {setComment(e.target.value)}} /><button onClick={((e) => {
                 postComment();          //댓글 post 함수
