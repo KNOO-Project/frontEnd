@@ -104,7 +104,6 @@ function App() {
                     <div className='board-box'>
                     <ul>
                         <li onClick={(e)=>{
-                          e.stopPropagation();
                           moveBoard('free', '자유')
                           }} ><Link to={`/main_board/${category[0]}_board`}>자유게시판</Link></li>
                         <li onClick={(e)=>{

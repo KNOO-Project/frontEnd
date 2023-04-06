@@ -80,13 +80,11 @@ function BoardDetail(props) {
                 }
             }
             
+            
         })
-        .then(
-            setCommentData(comment),            //댓글만 담은 data
-            setRecommentData(recomment)         //대댓글만 담은 data
-        )
+        
         .catch((res) => {console.log(res)})
-    },[post_id])
+    },[])
     //console.log(postData)
     //console.log(commentData)
     //console.log(recommentData);

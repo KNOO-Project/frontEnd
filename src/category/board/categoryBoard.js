@@ -27,16 +27,7 @@ function CategoryBoard(props) {
     }, [category_path]                                          // category_path 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
     );
     //console.log(boardData)
-    /* let [data, setData] = useState()
-
-    const getData = async() => {
-        const res = await axios.get(`/api/v1/posts/${category_path}`, {
-            headers: {Authorization : props.cookies.token}
-          })
-          setData(res.data);
-    }
-
-    getData(); */
+    
 
     return(
         <>
