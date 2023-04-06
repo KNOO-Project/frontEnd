@@ -23,7 +23,7 @@
     padding: 10px;
 }
 .detail-comment > .name, .detail-comment > .date {
-    font-size: 13px;
+    font-size: 10px;
 }
 .detail-comment > .name {
     float: left;

@@ -9,6 +9,7 @@ function BoardDetail(props) {
     let category_path = props.category_path
     //let content = localStorage.getItem('content');
     let [postData, setPostData] = useState({
+        post_title:'',
         post_content: "",
         post_date: "",
         writer_name: "",
@@ -63,6 +64,7 @@ function BoardDetail(props) {
             //console.log(res.data.post)
             setPostData((postData) => ({
                 ...postData,
+                post_title: res.data.post.post_title,
                 post_content: res.data.post.post_content,
                 post_date: res.data.post.post_date,
                 writer_name: res.data.post.writer_name,
@@ -85,14 +87,15 @@ function BoardDetail(props) {
         )
         .catch((res) => {console.log(res)})
     },[post_id])
-
-    console.log(commentData)
-    console.log(recommentData);
+    //console.log(postData)
+    //console.log(commentData)
+    //console.log(recommentData);
 
     return(
         <>
         <div className="detail-post">
             <p className="name">{postData.writer_name}</p>
+            <p className="title">{postData.post_title}</p>
             <p className="date">{postData.post_date}</p>
             <p className="content">{postData.post_content}</p>
         </div>

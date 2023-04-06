@@ -37,10 +37,7 @@ function App() {
   let navigate = useNavigate();
   let [onMouse, setOnMouse] = useState(false)
   //let [isLogin, setIsLogin] = useState(false);
-  let [userInfo, setUserInfo] = useState({
-    name: '', 
-    email: ''
-  })
+  
   
   
   function moveBoard(pathBoardTitle, boardTitle){                       // categoryBoard 로 넘어가는 함수
@@ -65,17 +62,7 @@ function App() {
   function moveMyInfo(){                              //회원정보조회로 페이지 이동
     navigate('/myInfo')
             //console.log(cookies.token)
-            axios.get('/api/v1/users', {
-              headers: {Authorization: cookies.token} /* 헤더에 토큰 담아서 보내기 */
-            })
-            .then(res => {
-              setUserInfo((userInfo) => ({
-                ...userInfo,
-                name: res.data.name,
-                email: res.data.email
-              }))
-            })
-            .catch(/* console.log('err') */)
+            
   }
   
   return (
@@ -181,7 +168,7 @@ function App() {
         <Route path={`/main_board/${localStorage.getItem('pathBoardTitle')}_board/*`} element={<CategoryBoard cookies={cookies} />} />
         <Route path='/login' element={<Login  setCookie={setCookie} />} />
         <Route path='/회원가입' element={<Membership />} />
-        <Route path='/myInfo' element={<MyInfo userInfo={userInfo} /> } />
+        <Route path='/myInfo' element={<MyInfo  cookies={cookies} /> } />
       </Routes>
     </div>
   );
