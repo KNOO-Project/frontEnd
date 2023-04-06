@@ -24,7 +24,7 @@ function CategoryBoard(props) {
             console.log(res)
           })
           
-    }, [category_path]                                          // category_path으 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
+    }, [category_path]                                          // category_path 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
     );
     //console.log(boardData)
     /* let [data, setData] = useState()
@@ -52,16 +52,18 @@ function CategoryBoard(props) {
                 
                     {boardData.map((a, i) => {
                         return(
-                            <li key={i}><div className="title" onClick={() => {
+                            <Link to={`detail/${a.post_id}`}>
+                            <li key={i} onClick={() => {
                                 localStorage.removeItem('categoryBoardClick');
                                 localStorage.setItem('content', a.post_content);
-                                
-                            }}><Link to={`detail/${a.post_id}`}>{a.post_title}</Link></div>
+                            }} ><div className="title">{a.post_title}</div>
                             <div className="content">{a.post_content.substring(0, 20)
                             //본문내용 20자만 보여주기
                             }</div><div className="name">{a.writer_name}</div><div className="date">{a.post_date}</div>
                             </li>
+                            </Link>
                         )
+                        
                     })}
                 
             </div>

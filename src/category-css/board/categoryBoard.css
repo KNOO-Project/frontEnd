@@ -21,30 +21,33 @@ div{
     color: black;
     font-weight: 500;
 }
-.board_list > li {
+/* board_list */
+.board_list  li {
+    text-decoration: none;
     display: flex;
     width: 80%;
     margin: auto;
     margin-bottom: 10px;
+    border-radius: 3px;
 }
-.board_list > li > .title {
+.board_list li:hover {
+    background-color:cyan;
+}
+.board_list  li > .title {
     width: 30%;
-    opacity: 0.7;
+    opacity: 1;
     font-weight: bold;
     cursor: pointer;
 }
-.board_list > li > .title:hover {
-    opacity: 1;
-}
-.board_list > li > .content {
+.board_list  li > .content {
     width: 40%;
 }
-.board_list > li > .name {
+.board_list  li > .name {
     opacity: 0.8;
     width: 15%;
     font-weight: 500;
 }
-.board_list > li > .date {
+.board_list  li > .date {
     opacity: 0.8;
     width: 15%;
     font-size: small;
