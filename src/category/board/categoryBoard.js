@@ -23,7 +23,7 @@ function CategoryBoard(props) {
           .catch((res) => {
             console.log(res)
           })
-          
+          return(() => {setBoardData([])})
     }, [category_path]                                          // category_path 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
     );
     //console.log(boardData)
@@ -43,8 +43,8 @@ function CategoryBoard(props) {
                 
                     {boardData.map((a, i) => {
                         return(
-                            <Link to={`detail/${a.post_id}`}>
-                            <li key={i} onClick={() => {
+                            <Link to={`detail/${a.post_id}`} key={i}>
+                            <li  onClick={() => {
                                 localStorage.removeItem('categoryBoardClick');
                                 localStorage.setItem('content', a.post_content);
                             }} ><div className="title">{a.post_title}</div>

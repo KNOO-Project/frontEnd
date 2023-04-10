@@ -142,6 +142,7 @@ function App() {
           {localStorage.getItem('isLogin') ? <>
           <div className='text-right' onClick={()=>{
             moveMyInfo();
+            localStorage.removeItem('writtenClick', false)                    //마이페이지 클릭하면 myInfo의 false 값만 보여주기
             }} ><h4>내 정보</h4></div>
           </> : null}
         </div>
@@ -167,7 +168,7 @@ function App() {
         <Route path={`/main_board/${localStorage.getItem('pathBoardTitle')}_board/*`} element={<CategoryBoard cookies={cookies} />} />
         <Route path='/login' element={<Login  setCookie={setCookie} />} />
         <Route path='/회원가입' element={<Membership />} />
-        <Route path='/myInfo' element={<MyInfo  cookies={cookies} /> } />
+        <Route path='/myInfo/*' element={<MyInfo  cookies={cookies} /> } />
       </Routes>
     </div>
   );
