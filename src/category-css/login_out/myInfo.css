@@ -1,9 +1,23 @@
+.userInfo ul {
+    width: 80%;
+    margin: auto;
+    text-align: left;
+    padding-left: 0;
+    padding-top: 10px;
+}
 .userInfo li {
     list-style: none;
-}
-.userInfo li {
-    text-align: left;
+    padding-bottom: 10px;
 }
 .written {
-    text-align: lefts;
+    width: 80%;
+    text-align: left;
+    margin: auto;
+}
+.written a {
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+    background-color: aqua;
+    border-radius: 3px;
 }

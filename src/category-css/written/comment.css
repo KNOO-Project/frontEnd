@@ -1,0 +1,13 @@
+.written_comment {
+    width: 80%;
+    margin: 10px auto 0 auto;
+    border: 3px solid #ced2da;
+    border-radius: 3px;
+    text-align: left;
+    padding: 20px;
+ }
+ .written_comment_list > button{
+    margin-top: 10px;
+    border: 1px solid #ced4da;
+    background: #ced4da
+ }

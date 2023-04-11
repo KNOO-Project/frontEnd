@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
+import '../../category-css/written/comment.css'
 
 function Comment(props){
 
@@ -15,15 +16,16 @@ function Comment(props){
           .catch(/* console.log('err') */)
     }, [])
     return(
-        <>
+        <div className="written_comment_list">
         {commentList.map((a,i) => {
             return(
-                <div>
+                <div className="written_comment">
                     <p>{a.post_title}</p>
                 </div>
             )
         })}
-        </>
+        <button>더보기</button>
+        </div>
     )
 }
 

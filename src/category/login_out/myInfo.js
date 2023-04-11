@@ -21,7 +21,7 @@ function MyInfo(props) {
                 setUserData((data) => ({
                     ...data,
                     userName: res.data.name,
-                    userEmail: res.data.name
+                    userEmail: res.data.email
                 }))            
           })
           .catch(/* console.log('err') */)
@@ -33,8 +33,8 @@ function MyInfo(props) {
         {localStorage.getItem('writtenClick') ?                      //Link 클릭시 'written' 값 true로 저장후 페이지 보여주기
         <>
         <Routes>
-            <Route path='written_content_by_me' element={<Content cookies={props.cookies} />} />
-            <Route path='written_comment_by_me' element={<Comment cookies={props.cookies} />} />
+            <Route path='written_content_by_me/*' element={<Content cookies={props.cookies} />} />
+            <Route path='written_comment_by_me/*' element={<Comment cookies={props.cookies} />} />
         </Routes>
         </> : 
         <div className="userInfo">

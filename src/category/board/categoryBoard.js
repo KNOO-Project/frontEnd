@@ -65,29 +65,6 @@ function CategoryBoard(props) {
                     <Route path="writing" element={<BoardForm cookies={props.cookies}  />} />
                     <Route path='/detail/:post_id' element={<BoardDetail category_path={category_path} cookies={props.cookies} />} />
                 </Routes>
-        {/* {localStorage.getItem('boardForm_click') || localStorage.getItem('boardDetail') ? <>
-                <Routes>
-                    <Route path="writing" element={<BoardForm cookies={props.cookies} title={props.title} category_title={props.category_title} />} />
-                    <Route path='detail:id' element={<BoardDetail />} />
-                </Routes>
-            </> : <>
-                    <div className="head">
-                    <h2>{props.title} 게시판</h2>
-                        <button onClick={() => {
-                            localStorage.setItem('boardForm_click', true)
-                        }} ><Link to='writing' >글쓰기</Link></button>
-                    </div>
-                    <div className="board-list">
-                        {data.map((a, i) => {
-                            return (
-                                <li key={i}><div className="title" onClick={(e) => {
-                                    localStorage.setItem('boardDetail', true)
-                                }}
-                                ><Link to={`detail/${a.post_id}`}>{a.post_title}</Link></div><div>{a.writer_name}</div><div>{a.post_date}</div></li>
-                            )
-                        })}
-                    </div>
-            </>} */}
         </>
         
         

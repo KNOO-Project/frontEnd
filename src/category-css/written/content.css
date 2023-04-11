@@ -6,3 +6,8 @@
     text-align: left;
     padding: 20px;
  }
+ .written_content_list > button{
+    margin-top: 10px;
+    border: 1px solid #ced4da;
+    background: #ced4da
+ }

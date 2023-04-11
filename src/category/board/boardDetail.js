@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import '../../category-css/board/detail.css'
+import '../../category-css/board/boardDetail.css'
 
 function BoardDetail(props) {
     let {post_id} = useParams();
