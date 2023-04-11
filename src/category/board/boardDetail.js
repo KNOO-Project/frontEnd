@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Routes, useNavigate, useParams, Route, Link } from "react-router-dom";
 import axios from "axios";
 import '../../category-css/board/boardDetail.css'
+import ModifyBoardForm from "./modifyBoardForm";
 
 function BoardDetail(props) {
     let {post_id} = useParams();
+    let params = useParams();
     let category_path = props.category_path
     //let content = localStorage.getItem('content');
     let [postData, setPostData] = useState({
@@ -36,6 +38,7 @@ function BoardDetail(props) {
         hour: Number(currentDate.getHours()),
         min: Number(currentDate.getMinutes())
     }
+    
     const postComment = () => {
         axios.post('/api/v1/comments', {                    //post 첫번째 인자 url, 두번째 인자 data(request Body), 세번째 인자 params(key, type, headers ...)
             comment_content: comment
@@ -74,7 +77,7 @@ function BoardDetail(props) {
               }
         ))
         .then((res) => {
-            
+            console.log(res.data.post)
             let [dateValue, timeValue] = res.data.post.post_date.split(' ');
             let [year, month, day] = dateValue.split('/');
             let [hour, min] = timeValue.split(':');
@@ -135,8 +138,17 @@ function BoardDetail(props) {
     
     return(
         <>
+        {params['*'] === '' ?                                   // params['*'] 여부에 따라 삼항연산자로 
+        <>
         <div className="detail-post">
             <p className="name">{postData.writer_name}</p>
+            {postData.is_written_by_user ? 
+            <>
+            <p className="modify" ><Link to='modify'>수정</Link></p>
+            <p className="delete">삭제</p>
+            </>
+            : null}
+            <div style={{clear: 'both'}}></div>
             <p className="title">{postData.post_title}</p>
             <p className="date">{calcullateDate(dateUnit, diffTimeMin)}</p>
             <p className="content">{postData.post_content}</p>
@@ -188,6 +200,11 @@ function BoardDetail(props) {
                 postComment();          //댓글 post 함수
             })}>댓글 달기</button>
         </div>
+        </> : null}
+        
+        <Routes>
+            <Route path="modify" element={<ModifyBoardForm cookies={props.cookies} post_id={post_id} title={postData.post_title} content={postData.post_content} />} />
+        </Routes>
         </>
     )
 }

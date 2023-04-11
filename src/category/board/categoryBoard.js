@@ -63,7 +63,7 @@ function CategoryBoard(props) {
         </> : null}
                 <Routes>
                     <Route path="writing" element={<BoardForm cookies={props.cookies}  />} />
-                    <Route path='detail/:post_id' element={<BoardDetail category_path={category_path} cookies={props.cookies} />} />
+                    <Route path='detail/:post_id/*' element={<BoardDetail category_path={category_path} cookies={props.cookies} />} />
                 </Routes>
         </>
         

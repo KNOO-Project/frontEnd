@@ -7,6 +7,14 @@
     text-align: left;
     padding: 20px;
 }
+.detail-post > .modify, .detail-post > .delete {
+    float: right;
+    font-size: 15px;
+    margin-left: 7px;
+}
+.detail-post > .name {
+    float: left;
+}
 .detail-post > .name, .detail-post > .content {
     font-size: 15px;
 }
