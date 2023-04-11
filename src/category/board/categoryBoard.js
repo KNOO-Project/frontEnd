@@ -6,9 +6,9 @@ import BoardDetail from "./boardDetail";
 import axios from "axios";
 
 function CategoryBoard(props) {
-    //console.log(localStorage.getItem('pathBoardTitle'))
+    let params = useParams();
+    
     let categoryTitle = localStorage.getItem('pathBoardTitle');
-    //let data = JSON.parse(localStorage.getItem(`${categoryTitle}_data`));
     let category_path = localStorage.getItem('pathBoardTitle')
     let [boardData, setBoardData] = useState([]);
 
@@ -31,7 +31,7 @@ function CategoryBoard(props) {
 
     return(
         <>
-        {localStorage.getItem('categoryBoardClick') ? <>
+        {params['*'] === '' ? <>
             <div className="category_board">
             <div className="head">
                 <h2>{localStorage.getItem('boardTitle')} 게시판</h2>
@@ -63,7 +63,7 @@ function CategoryBoard(props) {
         </> : null}
                 <Routes>
                     <Route path="writing" element={<BoardForm cookies={props.cookies}  />} />
-                    <Route path='/detail/:post_id' element={<BoardDetail category_path={category_path} cookies={props.cookies} />} />
+                    <Route path='detail/:post_id' element={<BoardDetail category_path={category_path} cookies={props.cookies} />} />
                 </Routes>
         </>
         

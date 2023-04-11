@@ -26,8 +26,7 @@ function BoardForm(props){
             }
             )
             .then((res)=>{
-                localStorage.setItem('categoryBoardClick', true)            //게시글 올리고 다시 ('categoryBoardClick', true) 값 추가해서 cetegeryBoard true 값 보여주기
-                navigate(`/main_board/${data.post_category}_board`);
+                navigate(`/${data.post_category}_board`);
                 window.location.reload();                                   // 나중에 바꾸기 강제 리로드 말고 다른걸로
             }).catch(res => {
                 alert(res.response.data.message)                            //실패시 받아온 data에서 message 보여쥬기

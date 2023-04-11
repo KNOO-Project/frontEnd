@@ -74,17 +74,7 @@ function BoardDetail(props) {
               }
         ))
         .then((res) => {
-            //console.log(res.data.post)
-            /* setPostData((postData) => ({
-                ...postData,
-                post_title: res.data.post.post_title,
-                post_content: res.data.post.post_content,
-                post_date: res.data.post.post_date,
-                writer_name: res.data.post.writer_name,
-                comments_count: res.data.post.comments_count,
-                likes_count: res.data.post.likes_count,
-                is_written_by_user: res.data.post.is_written_by_user
-            })) */
+            
             let [dateValue, timeValue] = res.data.post.post_date.split(' ');
             let [year, month, day] = dateValue.split('/');
             let [hour, min] = timeValue.split(':');
@@ -97,10 +87,7 @@ function BoardDetail(props) {
                 'min': Number(min)
             }))
             setPostData(res.data.post)
-            /* setDateData((dateData) => ({
-                ...dateData,
-                year: 
-            })) */
+            
             for(var i in res.data.comments){
                 console.log(res.data.comments[i])
                 if(res.data.comments[i].parent_comment_id === null){

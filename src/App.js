@@ -17,26 +17,9 @@ import { useCookies } from 'react-cookie';
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   let category = ['free', 'newcomer', 'graduate', 'employment', 'student-club', 'info'];
-  /* useEffect(() => {
-    if(localStorage.getItem('isLogin')){
-      category.map((category_path)=>{
-        axios.get(`/api/v1/posts/${category_path}`, {
-          headers: {Authorization : cookies.token}
-        })
-        .then((res)=>{
-          localStorage.setItem(`${category_path}_data`, JSON.stringify(res.data))
-        })
-        .catch((res) => {
-          console.log(res)
-        })
-      })
-      
-    }
-  }) */
   
   let navigate = useNavigate();
   let [onMouse, setOnMouse] = useState(false)
-  //let [isLogin, setIsLogin] = useState(false);
   
   
   
@@ -105,22 +88,22 @@ function App() {
                     <ul>
                         <li onClick={(e)=>{
                           moveBoard('free', '자유')
-                          }} ><Link to={`/main_board/${category[0]}_board`}>자유게시판</Link></li>
+                          }} ><Link to={`${category[0]}_board`}>자유게시판</Link></li>
                         <li onClick={(e)=>{
                           moveBoard('graduate', '졸업생')
-                          }} ><Link to={`/main_board/${category[2]}_board`}>졸업생게시판</Link></li>
+                          }} ><Link to={`${category[2]}_board`}>졸업생게시판</Link></li>
                         <li onClick={(e)=>{
                           moveBoard('newcomer', '새내기');
-                          }} ><Link to={`/main_board/${category[1]}_board`}>새내기게시판</Link></li>
+                          }} ><Link to={`${category[1]}_board`}>새내기게시판</Link></li>
                         <li onClick={(e)=>{
                           moveBoard('info', '정보');
-                          }} ><Link to={`/main_board/${category[5]}_board`}>정보게시판</Link></li>
+                          }} ><Link to={`${category[5]}_board`}>정보게시판</Link></li>
                         <li onClick={(e)=>{
                           moveBoard('employment', '취업&진로');
-                          }} ><Link to={`/main_board/${category[3]}_board`}>취업.진로</Link></li>
+                          }} ><Link to={`${category[3]}_board`}>취업.진로</Link></li>
                         <li onClick={(e)=>{
                           moveBoard('student-club', '동아리&학회');
-                          }} ><Link to={`/main_board/student-club_board`}>동아리.학회</Link></li>
+                          }} ><Link to={`student-club_board`}>동아리.학회</Link></li>
                     </ul>
                     </div>
                     </> 
@@ -157,15 +140,8 @@ function App() {
         <Route path='/community' element={<Community />} />
         <Route path='/맛집' element={<Restaurant />} />
         <Route path='/진로&취업' element={<Future />} />
-        <Route path='/main_board/*' element={<MainBoard  />} >
-          {/* <Route path='free_board/*' element={<CategoryBoard cookies={cookies} category_title={'free'} title={'자유'} boardPage={boardPage} />} />
-          <Route path='graduate_board/*' element={<CategoryBoard cookies={cookies} category_title={'graduate'} title={'졸업생'} boardPage={boardPage} />} />
-          <Route path='newcomer_board/*' element={<CategoryBoard cookies={cookies} category_title={'newcomer'} title={'새내기'} boardPage={boardPage} />} />
-          <Route path='info_board/*' element={<CategoryBoard cookies={cookies} category_title={'info'} title={'정보'} boardPage={boardPage} />} />
-          <Route path='employment_board/*' element={<CategoryBoard cookies={cookies} category_title={'employment'} title={'취업&진로'} boardPage={boardPage} />} />
-          <Route path='student_club_board/*' element={<CategoryBoard cookies={cookies} category_title={'student-club'} title={'동아리&학회'} boardPage={boardPage} />} /> */}
-        </Route>
-        <Route path={`/main_board/${localStorage.getItem('pathBoardTitle')}_board/*`} element={<CategoryBoard cookies={cookies} />} />
+        <Route path='/main_board/*' element={<MainBoard  />} />
+        <Route path={`${localStorage.getItem('pathBoardTitle')}_board/*`} element={<CategoryBoard cookies={cookies} />} />
         <Route path='/login' element={<Login  setCookie={setCookie} />} />
         <Route path='/회원가입' element={<Membership />} />
         <Route path='/myInfo/*' element={<MyInfo  cookies={cookies} /> } />
