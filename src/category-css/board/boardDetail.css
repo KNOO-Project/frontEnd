@@ -12,6 +12,9 @@
     font-size: 15px;
     margin-left: 7px;
 }
+.detail-post > .delete {
+    cursor: pointer;
+}
 .detail-post > .name {
     float: left;
 }

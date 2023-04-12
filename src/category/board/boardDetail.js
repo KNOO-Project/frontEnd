@@ -7,6 +7,7 @@ import ModifyBoardForm from "./modifyBoardForm";
 function BoardDetail(props) {
     let {post_id} = useParams();
     let params = useParams();
+    let navigate = useNavigate();
     let category_path = props.category_path
     //let content = localStorage.getItem('content');
     let [postData, setPostData] = useState({
@@ -145,7 +146,19 @@ function BoardDetail(props) {
             {postData.is_written_by_user ? 
             <>
             <p className="modify" ><Link to='modify'>수정</Link></p>
-            <p className="delete">삭제</p>
+            <p className="delete" onClick={() => {
+                axios.delete('/api/v1/posts',{
+                    headers: { Authorization : props.cookies.token},      /* 인증 위해 헤더에 토큰 담아서 보내기 */
+                    params : {
+                        'post_id': post_id
+                    }
+                })
+                .then((res) => {
+                    navigate(`/${category_path}_board`)
+                    window.location.reload();                   //나중에 바꾸기
+                })
+                .catch(console.log('err'))
+            }} >삭제</p>
             </>
             : null}
             <div style={{clear: 'both'}}></div>
@@ -203,7 +216,9 @@ function BoardDetail(props) {
         </> : null}
         
         <Routes>
-            <Route path="modify" element={<ModifyBoardForm cookies={props.cookies} post_id={post_id} title={postData.post_title} content={postData.post_content} />} />
+            <Route path="modify" element={<ModifyBoardForm cookies={props.cookies} post_id={post_id} title={postData.post_title} content={postData.post_content} 
+            category_path={props.category_path}
+            />} />
         </Routes>
         </>
     )

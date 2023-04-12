@@ -18,7 +18,6 @@ function CategoryBoard(props) {
           })
           .then((res)=>{
             setBoardData(res.data)
-            //console.log(res)
           })
           .catch((res) => {
             console.log(res)
