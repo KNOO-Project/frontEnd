@@ -48,15 +48,17 @@ function ModifyBoardForm(props) {
             <button onClick={() => {
                 console.log(data)
                 console.log('post', token)
-                axios.post('/api/v1/posts', data,            // 게시글 데이터 형식에 맞게 보내기
+                axios.patch('/api/v1/posts', data,            // 게시글 데이터 형식에 맞게 보내기
                 {
                     headers: { Authorization : token},      /* 인증 위해 헤더에 토큰 담아서 보내기 */
-                    post_id: props.post_id         
+                    params: {
+                        post_id: props.post_id
+                    }
                 }
                 )
                 .then((res)=>{
-                    navigate(`/${data.post_category}_board`);
-                    //window.location.reload();                                   // 나중에 바꾸기 강제 리로드 말고 다른걸로
+                    navigate(`/${props.category_path}_board`);
+                    window.location.reload();                                   // 나중에 바꾸기 강제 리로드 말고 다른걸로
                 }).catch(res => {
                     alert(res.response.data.message)                            //실패시 받아온 data에서 message 보여쥬기
                 });
