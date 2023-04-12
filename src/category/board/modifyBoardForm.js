@@ -21,11 +21,7 @@ function ModifyBoardForm(props) {
                 post_title: e.target.value
             })}} />
             <br/>
-            <textarea placeholder="내용을 입력해주세요." value={data.post_content} onKeyDown={(e) => {
-                if(e.key === 'Enter'){
-                    setData(...data + <br></br>)
-                }                
-            }} onChange={e => {setData({
+            <textarea placeholder="내용을 입력해주세요." value={data.post_content} onChange={e => {setData({
                 ...data,
                 post_content: e.target.value
             })}} />

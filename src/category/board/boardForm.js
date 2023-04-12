@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../category-css/board/boardForm.css'
+import Parser from 'html-react-parser';
 
 function BoardForm(props){
     let navigate = useNavigate();
@@ -13,6 +14,7 @@ function BoardForm(props){
         post_category: localStorage.getItem('pathBoardTitle'),
         anonymous: false
     })
+    console.log(data)
     return(
         <div>
         <h2>{localStorage.getItem('boardTitle')} 게시판</h2>
@@ -27,7 +29,7 @@ function BoardForm(props){
             )
             .then((res)=>{
                 navigate(`/${data.post_category}_board`);
-                window.location.reload();                                   // 나중에 바꾸기 강제 리로드 말고 다른걸로
+                //window.location.reload();                                   // 나중에 바꾸기 강제 리로드 말고 다른걸로
             }).catch(res => {
                 alert(res.response.data.message)                            //실패시 받아온 data에서 message 보여쥬기
             });
@@ -39,11 +41,8 @@ function BoardForm(props){
                 post_title: e.target.value
             })}} />
             <br/>
-            <textarea placeholder="내용을 입력해주세요." value={data.post_content} onKeyDown={(e) => {
-                if(e.key === 'Enter'){
-                    setData(...data + <br></br>)
-                }                
-            }} onChange={e => {setData({
+            <textarea placeholder="내용을 입력해주세요." value={data.post_content}  onChange={e => {
+                setData({
                 ...data,
                 post_content: e.target.value
             })}} />

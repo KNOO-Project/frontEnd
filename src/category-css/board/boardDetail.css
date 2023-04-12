@@ -24,6 +24,9 @@
 .detail-post > .date {
     font-size: 13px;
 }
+pre {
+    font-family: var(--bs-font-sans-serif);
+}
 /* detail-comment */
 .detail-comment {
     width: 70%;

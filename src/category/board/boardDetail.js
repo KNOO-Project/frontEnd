@@ -92,6 +92,7 @@ function BoardDetail(props) {
             }))
             setPostData(res.data.post)
             
+            
             for(var i in res.data.comments){
                 console.log(res.data.comments[i])
                 if(res.data.comments[i].parent_comment_id === null){
@@ -164,7 +165,9 @@ function BoardDetail(props) {
             <div style={{clear: 'both'}}></div>
             <p className="title">{postData.post_title}</p>
             <p className="date">{calcullateDate(dateUnit, diffTimeMin)}</p>
+            <pre>
             <p className="content">{postData.post_content}</p>
+            </pre>
         </div>
             {/* 댓글 놓을 자리 */}
             {commentData.map((a, i) => {
