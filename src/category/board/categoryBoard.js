@@ -15,6 +15,19 @@ function CategoryBoard(props) {
     let [boardData, setBoardData] = useState([]);
     
     useEffect(() => {
+        if(category.includes('free')){
+            setBoardTitle('자유')
+        } else if(category.includes('graduate')){
+            setBoardTitle('졸업생')
+        } else if(category.includes('newcomer')){
+            setBoardTitle('새내기')
+        } else if(category.includes('info')){
+            setBoardTitle('정보')
+        } else if(category.includes('employment')){
+            setBoardTitle('취업/진로')
+        } else if(category.includes('student')){
+            setBoardTitle('동아리/학회')
+        }
         axios.get(`/api/v1/posts/${category_path}`, {
             headers: {Authorization : props.cookies.token}
           })
@@ -27,22 +40,10 @@ function CategoryBoard(props) {
           return(
             () => {
                 setBoardData([])
-                if(category.includes('free')){
-                    setBoardTitle('자유')
-                } else if(category.includes('graduate')){
-                    setBoardTitle('졸업생')
-                } else if(category.includes('newcomer')){
-                    setBoardTitle('새내기')
-                } else if(category.includes('info')){
-                    setBoardTitle('정보')
-                } else if(category.includes('employment')){
-                    setBoardTitle('취업/진로')
-                } else if(category.includes('student')){
-                    setBoardTitle('동아리/학회')
-                }
+                
             }
             )
-    }, [currentUrl]                                          // category_path 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
+    }, [currentUrl]                                          // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
     );
     //console.log(boardData)
     console.log(category)
