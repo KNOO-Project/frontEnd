@@ -6,7 +6,6 @@ import ModifyBoardForm from "./modifyBoardForm";
 
 function BoardDetail(props) {
     let {post_id} = useParams();
-    let currentUrl = window.location.href;
     let params = useParams();
     let navigate = useNavigate();
     let category_path = props.category_path

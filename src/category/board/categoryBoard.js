@@ -38,12 +38,9 @@ function CategoryBoard(props) {
             console.log(res)
           })
           return(
-            () => {
-                setBoardData([])
-                
-            }
+            () => {setBoardData([])}
             )
-    }, [currentUrl]                                          // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
+    }, []                                          // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
     );
 
     return(
