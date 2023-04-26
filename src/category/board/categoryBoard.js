@@ -7,11 +7,13 @@ import axios from "axios";
 
 function CategoryBoard(props) {
     let params = useParams();
-    
+    const currentUrl = window.location.href;
+    let category = currentUrl.split('/')[3];
     let categoryTitle = localStorage.getItem('pathBoardTitle');
-    let category_path = localStorage.getItem('pathBoardTitle')
+    let category_path = localStorage.getItem('pathBoardTitle');
+    let [boardTitle, setBoardTitle] = useState();
     let [boardData, setBoardData] = useState([]);
-
+    
     useEffect(() => {
         axios.get(`/api/v1/posts/${category_path}`, {
             headers: {Authorization : props.cookies.token}
@@ -22,18 +24,35 @@ function CategoryBoard(props) {
           .catch((res) => {
             console.log(res)
           })
-          return(() => {setBoardData([])})
-    }, [category_path]                                          // category_path 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
+          return(
+            () => {
+                setBoardData([])
+                if(category.includes('free')){
+                    setBoardTitle('자유')
+                } else if(category.includes('graduate')){
+                    setBoardTitle('졸업생')
+                } else if(category.includes('newcomer')){
+                    setBoardTitle('새내기')
+                } else if(category.includes('info')){
+                    setBoardTitle('정보')
+                } else if(category.includes('employment')){
+                    setBoardTitle('취업/진로')
+                } else if(category.includes('student')){
+                    setBoardTitle('동아리/학회')
+                }
+            }
+            )
+    }, [currentUrl]                                          // category_path 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
     );
     //console.log(boardData)
-    
+    console.log(category)
 
     return(
         <>
         {params['*'] === '' ? <>
             <div className="category_board">
             <div className="head">
-                <h2>{localStorage.getItem('boardTitle')} 게시판</h2>
+                <h2>{boardTitle} 게시판</h2>
                 <button onClick={() => {
                     localStorage.removeItem('categoryBoardClick');
                 }} ><Link to='writing' >글쓰기</Link></button>

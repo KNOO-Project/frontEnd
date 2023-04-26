@@ -1,4 +1,8 @@
- .written_content {
+a {
+   text-decoration: none;
+}
+
+.written_content {
     width: 80%;
     margin: 10px auto 0 auto;
     border: 3px solid #ced2da;
@@ -10,4 +14,14 @@
     margin-top: 10px;
     border: 1px solid #ced4da;
     background: #ced4da
+ }
+
+ .written_content_list a {
+   color: black;
+   font-weight: bold;
+ }
+
+ .written_content_list a:hover {
+   cursor: pointer;
+   color: #ced4da;
  }

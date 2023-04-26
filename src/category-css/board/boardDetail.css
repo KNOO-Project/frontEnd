@@ -12,8 +12,16 @@
     font-size: 15px;
     margin-left: 7px;
 }
-.detail-post > .delete {
+.detail-post .delete:hover {
     cursor: pointer;
+    color:#adb5bd
+}
+.detail-post > .modify a {
+    color: black;
+}
+.detail-post > .modify a:hover {
+    cursor: pointer;
+    color:#adb5bd
 }
 .detail-post > .name {
     float: left;

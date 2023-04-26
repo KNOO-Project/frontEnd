@@ -3,6 +3,7 @@ import axios from "axios"
 import { Route, Routes, Link, useParams } from "react-router-dom";
 import '../../category-css/written/content.css';
 import BoardDetail from "../board/boardDetail";
+
 function Content(props){
     let params = useParams();
     let [contentList, setContentList] = useState([])
@@ -24,11 +25,11 @@ function Content(props){
         {contentList.map((a,i) => {
             return(
                 <div onClick={() => {localStorage.setItem('pathBoardTitle', a.post_category)}}>
-                <Link to={`../../${a.post_category}_board/detail/${a.post_id}`} key={i}>
-                <div className="written_content">
-                    <p>{a.post_title}</p>
-                </div>
-                </Link>
+                    <Link to={`../../${a.post_category}_board/detail/${a.post_id}`} key={i}>
+                        <div className="written_content">
+                            <p>{a.post_title}</p>
+                        </div>
+                    </Link>
                 </div>
             )
         })}
