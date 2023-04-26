@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 import axios from "axios"
 import '../../category-css/written/comment.css'
 
@@ -19,8 +20,12 @@ function Comment(props){
         <div className="written_comment_list">
         {commentList.map((a,i) => {
             return(
-                <div className="written_comment">
-                    <p>{a.post_title}</p>
+                <div onClick={() => {localStorage.setItem('pathBoardTitle', a.post_category)}}>
+                    <Link to={`../../${a.post_category}_board/detail/${a.post_id}`} key={i}>
+                        <div className="written_content">
+                            <p>{a.post_title}</p>
+                        </div>
+                    </Link>
                 </div>
             )
         })}

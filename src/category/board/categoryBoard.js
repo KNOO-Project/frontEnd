@@ -45,8 +45,6 @@ function CategoryBoard(props) {
             )
     }, [currentUrl]                                          // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
     );
-    //console.log(boardData)
-    console.log(category)
 
     return(
         <>

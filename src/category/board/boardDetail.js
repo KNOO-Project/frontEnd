@@ -6,6 +6,7 @@ import ModifyBoardForm from "./modifyBoardForm";
 
 function BoardDetail(props) {
     let {post_id} = useParams();
+    let currentUrl = window.location.href;
     let params = useParams();
     let navigate = useNavigate();
     let category_path = props.category_path
@@ -78,7 +79,7 @@ function BoardDetail(props) {
               }
         ))
         .then((res) => {
-            console.log(res.data.post)
+            //console.log(res.data)
             let [dateValue, timeValue] = res.data.post.post_date.split(' ');
             let [year, month, day] = dateValue.split('/');
             let [hour, min] = timeValue.split(':');
@@ -92,9 +93,8 @@ function BoardDetail(props) {
             }))
             setPostData(res.data.post)
             
-            
             for(var i in res.data.comments){
-                console.log(res.data.comments[i])
+                //console.log(res.data.comments[i])
                 if(res.data.comments[i].parent_comment_id === null){
                     comment.push(res.data.comments[i])
                 } else {
@@ -108,7 +108,7 @@ function BoardDetail(props) {
         .catch((res) => {console.log(res)})
     },[post_id])
 
-    console.log(commentData)
+    //console.log(commentData)
     let diffTime = {
         year: currentDateData.year - dateData.year,
         month: currentDateData.month - dateData.month,
@@ -146,8 +146,8 @@ function BoardDetail(props) {
             <p className="name">{postData.writer_name}</p>
             {postData.is_written_by_user ? 
             <>
-            <p className="modify" ><Link to='modify'>수정</Link></p>
-            <p className="delete" onClick={() => {
+            <p className="content_modify" ><Link to='content_modify'>수정</Link></p>
+            <p className="content_delete" onClick={() => {
                 axios.delete('/api/v1/posts',{
                     headers: { Authorization : props.cookies.token},      /* 인증 위해 헤더에 토큰 담아서 보내기 */
                     params : {
@@ -156,7 +156,7 @@ function BoardDetail(props) {
                 })
                 .then((res) => {
                     navigate(`/${category_path}_board`)
-                    window.location.reload();                   //나중에 바꾸기
+                    //window.location.reload();                   //나중에 바꾸기
                 })
                 .catch(console.log('err'))
             }} >삭제</p>
@@ -175,6 +175,23 @@ function BoardDetail(props) {
                     <>
                     <div className="detail-comment" key={i} >
                         <p className="name">{a.writer_name}</p>
+                        {a.is_written_by_user ? 
+                            <>
+                            <p className="comment_delete" onClick={() => {
+                                axios.delete('/api/v1/comments',{
+                                    headers: { Authorization : props.cookies.token},      /* 인증 위해 헤더에 토큰 담아서 보내기 */
+                                    params : {
+                                        'comment_id': a.comment_id
+                                    }
+                                })
+                                .then((res) => {
+                                    window.location.reload();                  
+                                })
+                                .catch(console.log('err'))
+                            }} >삭제</p>
+                            </>
+                            : null}
+                            <div style={{clear: 'both'}}></div>
                         <button className="btn" onClick={() => {
                             if(clickId === null) {
                                 setClickId(a.comment_id)                //clickId 값 받아서 대댓글 작성화면 보여주기
@@ -183,8 +200,8 @@ function BoardDetail(props) {
                             }
                         }} >대댓글작성</button>
                         <br style={{clear: 'both'}}></br>                   {/* float 속성 없애주기 */}
-                        <p className="comment">{a.comment_content}</p>
                         <p className="date">{a.comment_date}</p>
+                        <p className="comment">{a.comment_content}</p>
                         {/* 대댓글 화면 표시 */}
                         {a.comment_id === clickId ?                     //클릭한 댓글의 아이디와 일치하는 댓글에만 대댓글 작성화면 보여주기
                         <div className="write-recomment">
@@ -197,7 +214,7 @@ function BoardDetail(props) {
                             {recommentData.map((b, i) => {
                                 if(a.comment_id === b.parent_comment_id){
                                     return(
-                                        <div className="content">
+                                        <div className="content" key={i} >
                                             <p className="date">{b.comment_date}</p>
                                             <p className="content">{b.comment_content}</p>
                                             <p className="name">{b.writer_name}</p>
@@ -219,7 +236,7 @@ function BoardDetail(props) {
         </> : null}
         
         <Routes>
-            <Route path="modify" element={<ModifyBoardForm cookies={props.cookies} post_id={post_id} title={postData.post_title} content={postData.post_content} 
+            <Route path="content_modify" element={<ModifyBoardForm cookies={props.cookies} post_id={post_id} title={postData.post_title} content={postData.post_content} 
             category_path={props.category_path}
             />} />
         </Routes>
