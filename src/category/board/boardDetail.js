@@ -3,7 +3,7 @@ import { Routes, useNavigate, useParams, Route, Link } from "react-router-dom";
 import axios from "axios";
 import '../../category-css/board/boardDetail.css'
 import ModifyBoardForm from "./modifyBoardForm";
-
+//브랜치 새로 만듦
 function BoardDetail(props) {
     let {post_id} = useParams();
     let params = useParams();
@@ -184,6 +184,7 @@ function BoardDetail(props) {
                                     }
                                 })
                                 .then((res) => {
+                                    alert('댓글이 삭제되었습니다!');
                                     window.location.reload();                  
                                 })
                                 .catch(console.log('err'))

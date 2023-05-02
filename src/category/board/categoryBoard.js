@@ -40,7 +40,7 @@ function CategoryBoard(props) {
           return(
             () => {setBoardData([])}
             )
-    }, []                                          // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
+    }, [currentUrl]                                          // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
     );
 
     return(
