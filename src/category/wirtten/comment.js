@@ -20,10 +20,10 @@ function Comment(props){
         <div className="written_comment_list">
         {commentList.map((a,i) => {
             return(
-                <div onClick={() => {
+                <div  key={i} onClick={() => {
                     localStorage.setItem('pathBoardTitle', a.post_category)}}>
                     <Link to={`../../${a.post_category}_board/detail/${a.post_id}`} key={i}>
-                        <div className="written_content">
+                        <div className="written_content" >
                             <p>{a.post_title}</p>
                         </div>
                     </Link>

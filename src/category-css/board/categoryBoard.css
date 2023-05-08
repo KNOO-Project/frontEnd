@@ -25,7 +25,7 @@ div{
 .board_list li {
     text-decoration: none;
     display: flex;
-    width: 80%;
+    width: 70%;
     margin: auto;
     margin-bottom: 10px;
     border-radius: 3px;
@@ -52,4 +52,29 @@ div{
     width: 15%;
     font-size: small;
     font-weight: bold;
+}
+/* pageNum */
+.pageNum{
+    display: flex;
+    width: 60%;
+    margin: auto;
+    margin-bottom: 10px;
+}
+.pageNum >a {
+    list-style: none;
+    width: 22px;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px;
+    margin: auto;
+    border-radius: 3px;
+}
+.pageNum > a:hover{
+    cursor: pointer;
+    opacity: 0.5;
+}
+.pageNum > .right_icon, .pageNum > .left_icon {
+    margin-left: 5px;
+    width: 24px;
+    height: 24px;
 }

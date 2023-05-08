@@ -35,6 +35,33 @@
 pre {
     font-family: var(--bs-font-sans-serif);
 }
+.icon_box {
+    display: flex;
+}
+.icon_box > .like {
+    width: 20px;
+    margin-right: 20px;
+    color: blue;
+}
+.icon_box > .like > svg:hover, .icon_box > .comment > svg:hover, .icon_box > .scrab > svg:hover{
+    cursor: pointer;
+    opacity: 0.6;
+}
+.icon_box > .comment {
+    width: 20px;
+    margin-right: 10px;
+    color: #0dcaf0;
+}
+.icon_box > .comment_size {
+    padding-top: 6px;
+    padding-right: 5px;
+    font-size: 15px;
+    font-weight: bold;
+}
+.icon_box > .scrab {
+    width: 20px;
+    color: chartreuse;
+}
 /* detail-comment */
 .detail-comment a {
     color: black;
@@ -140,4 +167,13 @@ pre {
 .recomment-list > .content > .name {
     font-size: 10px;
     margin-bottom: 2px;
+}
+
+/* 댓글 더보기 버튼 */
+.more_comments_btn {
+    margin: 15px;
+    border-radius: 3px;
+    border: none;
+    font-weight: bold;
+    padding: 5px;
 }

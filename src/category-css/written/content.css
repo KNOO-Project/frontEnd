@@ -3,12 +3,12 @@ a {
 }
 
 .written_content {
-    width: 80%;
+    width: 100%;
     margin: 10px auto 0 auto;
     border: 3px solid #ced2da;
     border-radius: 3px;
     text-align: left;
-    padding: 20px;
+    padding: 10px;
  }
  .written_content_list > button{
     margin-top: 10px;
@@ -20,8 +20,10 @@ a {
    color: black;
    font-weight: bold;
  }
-
- .written_content_list a:hover {
+.written_box{
+   width: 100%;
+}
+ .written_content:hover {
    cursor: pointer;
    color: #ced4da;
  }

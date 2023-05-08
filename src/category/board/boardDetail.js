@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { Routes, useNavigate, useParams, Route, Link } from "react-router-dom";
 import axios from "axios";
-import '../../category-css/board/boardDetail.css'
+import '../../category-css/board/boardDetail.css';
 import ModifyBoardForm from "./modifyBoardForm";
-//브랜치 새로 만듦
+import {AiOutlineLike, AiOutlineComment, AiOutlineStar} from 'react-icons/ai';
+
 function BoardDetail(props) {
     let {post_id} = useParams();
     let params = useParams();
     let navigate = useNavigate();
     let category_path = props.category_path
-    //let content = localStorage.getItem('content');
     let [postData, setPostData] = useState({
         post_title:'',
         post_content: "",
@@ -26,11 +26,13 @@ function BoardDetail(props) {
         hour: '',
         min: ''
     })
-    let [commentData, setCommentData] = useState([]);       //댓글 리스트 담을 변수
-    let [recommentData, setRecommentData] = useState([]);   //대댓글 리스트 담을 변수
-    let [comment, setComment] = useState();                 //댓글 value 값
-    let [clickId, setClickId] = useState(null);             //대댓글 해당 Id 판별
-    let [recomment, setRecomment] = useState();             //대댓글 value 값
+    let [commentData, setCommentData] = useState([]);           //댓글 리스트 담을 변수
+    let initialCommentData = []                                 // 더보기 누르기 전 보여질 댓글 데이터
+    let moreCommentsClick = 0;
+    let [recommentData, setRecommentData] = useState([]);       //대댓글 리스트 담을 변수
+    let [comment, setComment] = useState();                     //댓글 value 값
+    let [clickId, setClickId] = useState(null);                 //대댓글 해당 Id 판별
+    let [recomment, setRecomment] = useState();                 //대댓글 value 값
     let currentDate = new Date();
     let currentDateData = {
         year: Number(currentDate.getFullYear()),
@@ -40,6 +42,12 @@ function BoardDetail(props) {
         min: Number(currentDate.getMinutes())
     }
     
+    const getMoreComments = (moreCommentsClick, initialCommentData, commentData) => {
+        for(var i=(20 * (moreCommentsClick-1)); i<(20 * moreCommentsClick); i++){
+            initialCommentData.push(commentData[i]);
+        }
+    }
+
     const postComment = () => {
         axios.post('/api/v1/comments', {                    //post 첫번째 인자 url, 두번째 인자 data(request Body), 세번째 인자 params(key, type, headers ...)
             comment_content: comment
@@ -101,7 +109,8 @@ function BoardDetail(props) {
                 }
             }
             setCommentData(comment);
-            setRecommentData(recomment)
+            console.log(comment);
+            setRecommentData(recomment);
         })
         
         .catch((res) => {console.log(res)})
@@ -136,7 +145,15 @@ function BoardDetail(props) {
             }
         }
     }
-    
+    /* if(moreCommentsClick === 0){
+        for(var i=0; i<20; i++){
+            initialCommentData.push(commentData[i]);
+        }
+    } */
+    console.log(commentData)
+    console.log('initialCommentData', initialCommentData)
+    console.log('moreCommentsClick', moreCommentsClick)
+
     return(
         <>
         {params['*'] === '' ?                                   // params['*'] 여부에 따라 삼항연산자로 
@@ -167,9 +184,31 @@ function BoardDetail(props) {
             <pre>
             <p className="content">{postData.post_content}</p>
             </pre>
+            <div className="icon_box">
+                <p className="like" onClick={e => {
+                    if(window.confirm('이 글에 좋아요를 누르시겠습니까?')){
+                        alert(true);
+                        //해당 게시글에 좋아요 + 1 값 서버로 전송
+                    }else {
+                        alert(false);
+                        //그냥 아무일도 일어나지 않음
+                    }
+                }} ><AiOutlineLike /></p>
+                <p className="comment"><AiOutlineComment /></p>
+                <p className="comment_size">{commentData.length}</p>
+                <p className="scrab" onClick={e => {
+                    if(window.confirm('이 글을 스크랩 하시겠습니까?')){
+                        alert(true);
+                        //해당 게시글에 좋아요 + 1 값 서버로 전송
+                    }else {
+                        alert(false);
+                        //그냥 아무일도 일어나지 않음
+                    }
+                }}><AiOutlineStar /></p>
+            </div>
         </div>
             {/* 댓글 놓을 자리 */}
-            {commentData.map((a, i) => {
+            {initialCommentData.map((a, i) => {
                 return(
                     <>
                     <div className="detail-comment" key={i} >
@@ -228,6 +267,11 @@ function BoardDetail(props) {
                     </>
                 )
             })}
+            {initialCommentData !== commentData ? 
+            <button className="more_comments_btn" onClick={e => {
+                moreCommentsClick ++;
+                getMoreComments(moreCommentsClick, initialCommentData, commentData);
+            }}>댓글 더보기</button> : null}
         <div className="write-comment">
             <input placeholder="댓글을 입력하세요" value={comment} onChange={(e) => {setComment(e.target.value)}} /><button onClick={((e) => {
                 postComment();          //댓글 post 함수

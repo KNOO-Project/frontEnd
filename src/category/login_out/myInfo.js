@@ -42,7 +42,17 @@ function MyInfo(props) {
                 <li>닉네임 : {userData.userName}</li>
                 <li>email : {userData.userEmail}</li>
             </ul>
-            <div className='written'>
+            <div className='my_writing'>
+                <div className='my_content_writing'>
+                <h3>내가 쓴 글</h3>
+                <Content cookies={props.cookies} />
+                </div>
+                <div className='my_comment_writing'>
+                <h3>댓글 단 글</h3>
+                <Comment cookies={props.cookies} />
+                </div>
+            </div>
+            {/* <div className='written'>
                 <Link to='written_content_by_me' onClick={(e) => {
                     localStorage.setItem('writtenClick', true)
                 }} >내가 쓴 글</Link>
@@ -50,7 +60,7 @@ function MyInfo(props) {
                 <Link to='written_comment_by_me' onClick={(e) => {
                     localStorage.setItem('writtenClick', true)
                 }}>댓글 단 글</Link>
-            </div>
+            </div> */}
         </div>
          }
         

@@ -9,7 +9,7 @@
     list-style: none;
     padding-bottom: 10px;
 }
-.written {
+/* .written {
     width: 80%;
     text-align: left;
     margin: auto;
@@ -20,4 +20,17 @@
     color: white;
     background-color: aqua;
     border-radius: 3px;
+} */
+.my_writing {
+    width: 80%;
+    margin: auto;
+    display: flex;
+}
+.my_content_writing {
+    width: 50%;
+    padding: 5px;
+}
+.my_comment_writing {
+    width: 50%;
+    padding: 5px;
 }

@@ -3,14 +3,13 @@ import { Link, Outlet, Route, Routes, useNavigate, useParams } from "react-route
 import '../../category-css/board/categoryBoard.css'
 import {useEffect, useState} from 'react';
 import BoardDetail from "./boardDetail";
-import CategoryBoardPagenation from "./categoryBoardPagenation";
 import axios from "axios";
-import {TbCircleChevronRight} from 'react-icons/tb'
+import {TbCircleChevronLeft} from 'react-icons/tb'
 
-function CategoryBoard(props){
+function CategoryBoardPagenation(props){
     let navigate = useNavigate();
     let params = useParams();
-    //console.log(params)
+    //console.log(params);
     const currentUrl = window.location.href;
     //console.log(currentUrl);
     let category = currentUrl.split('/')[3];
@@ -20,8 +19,10 @@ function CategoryBoard(props){
     let [preBoardTitle, setPreBoardTitle] = useState();
     let [boardData, setBoardData] = useState([]);
     let [pageLength, setPageLength] = useState([]);
-    let [pageNum, setPageNum] = useState();            
-    
+    let [pageNum, setPageNum] = useState(props.pageNum);                    // categoryBoard에서 props로 넘어온 pageNum을 초기 pageNum으로 사용
+    /* if(params.pageNum === undefined){
+        setPageNum(1);
+    } */
     useEffect(() => {
         if(category.includes('free')){
             setBoardTitle('자유')
@@ -40,12 +41,13 @@ function CategoryBoard(props){
         axios.get(`/api/v1/posts/${category_path}`, {
             headers: {Authorization : props.cookies.token},
             params: {
-                page: 1                                     // 페이지 첫 로드시 pageNum은 1
+                page: pageNum
             }
           })
           .then((res)=>{
             //console.log('boardTitle', boardTitle)
             //console.log(res)
+            console.log(res.data)
             setBoardData(res.data.posts);
             let dataLength = [];
             for(var i=1; i<=res.data.total_pages; i++){
@@ -73,12 +75,11 @@ function CategoryBoard(props){
             () => {
                 setBoardData([]);
                 setPageLength([]);     //boardData를 보여준 후 pageNum을 보여줌
-                //console.log('preBoardTitle', boardTitle)
+                console.log('preBoardTitle', boardTitle)
             }
             )
-    }, [currentUrl, pageNum, category, category_path, props.cookies.token]                                          // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
+    }, [currentUrl, pageNum, category, category_path, props.cookies.token]                       // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
     );
-    //console.log(pageNum)
     return(
         <>
         {params['*'] === ''  ? <>
@@ -109,13 +110,13 @@ function CategoryBoard(props){
                 </div>
                 {/* page number */}
                 <div className="pageNum">
+                    <TbCircleChevronLeft className="left_icon" />
                     {pageLength.map((a, i) => {
                         while(i < 20){
                             return(
-                                <Link to={`page/${a}`} key={i} style={a === 1 ? {color: '#0d6efd'} : null}>
+                                <Link to={`../page/${a}`} key={i} style={a === pageNum ? {color: '#0d6efd'} : null}>
                                 <li  onClick={e => {
                                     setPageNum(a);
-                                    //navigate(`page=${a}`)
                                     //window.location.href = `${category_path}_board/page=${a}`
                                     //해당 pageNum을 get요청으로 서버에 전송
                                 }} >{a}</li>
@@ -123,14 +124,12 @@ function CategoryBoard(props){
                             )
                         }
                     })}
-                    <TbCircleChevronRight className="right_icon" />
                 </div>
             </div>
                 {/* 글쓰기 버튼 누르면 null에 해당하는 값을 보여주면서 위의 값이 감춰지고 글쓰기 페이지에 해당하는 UI 보여주기 */}
         </> : null}
         
                 <Routes>
-                    <Route path="page/:pageNum/*" element={<CategoryBoardPagenation cookies={props.cookies} pageNum={pageNum} />} />
                     <Route path="writing" element={<BoardForm cookies={props.cookies}  />} />
                     <Route path='detail/:post_id/*' element={<BoardDetail category_path={category_path} cookies={props.cookies} />} />
                 </Routes>
@@ -144,4 +143,4 @@ function CategoryBoard(props){
     )
 }
 
-export default CategoryBoard;
+export default CategoryBoardPagenation;
