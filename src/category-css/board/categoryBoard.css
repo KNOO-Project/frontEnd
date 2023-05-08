@@ -78,3 +78,7 @@ div{
     width: 24px;
     height: 24px;
 }
+.pageNum > .right_icon:hover, .pageNum > .left_icon:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}

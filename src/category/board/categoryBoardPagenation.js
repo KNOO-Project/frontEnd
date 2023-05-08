@@ -4,25 +4,24 @@ import '../../category-css/board/categoryBoard.css'
 import {useEffect, useState} from 'react';
 import BoardDetail from "./boardDetail";
 import axios from "axios";
-import {TbCircleChevronLeft} from 'react-icons/tb'
+import {TbCircleChevronLeft, TbCircleChevronRight} from 'react-icons/tb'
 
 function CategoryBoardPagenation(props){
     let navigate = useNavigate();
     let params = useParams();
-    //console.log(params);
+    console.log(params);
+    console.log(params['pageNum'])
     const currentUrl = window.location.href;
     //console.log(currentUrl);
     let category = currentUrl.split('/')[3];
     //let categoryTitle = localStorage.getItem('pathBoardTitle');
     let category_path = localStorage.getItem('pathBoardTitle');
     let [boardTitle, setBoardTitle] = useState();
-    let [preBoardTitle, setPreBoardTitle] = useState();
     let [boardData, setBoardData] = useState([]);
     let [pageLength, setPageLength] = useState([]);
-    let [pageNum, setPageNum] = useState(props.pageNum);                    // categoryBoard에서 props로 넘어온 pageNum을 초기 pageNum으로 사용
-    /* if(params.pageNum === undefined){
-        setPageNum(1);
-    } */
+    let [pageNum, setPageNum] = useState(params['pageNum']);                    // categoryBoard에서 props로 넘어온 pageNum을 초기 pageNum으로 사용
+    let [totalPages,setTotalPages] = useState();
+    let [pageClick, setPageClick] = useState(Number(params['pageNum'] <= 10 ? 0 : 1));  //Number(params['pageNum'] <= 10 이면 pageLength를 1~10까지 유지
     useEffect(() => {
         if(category.includes('free')){
             setBoardTitle('자유')
@@ -47,13 +46,18 @@ function CategoryBoardPagenation(props){
           .then((res)=>{
             //console.log('boardTitle', boardTitle)
             //console.log(res)
+            console.log(res.data.total_pages)
+            setTotalPages(res.data.total_pages)
             console.log(res.data)
             setBoardData(res.data.posts);
             let dataLength = [];
-            for(var i=1; i<=res.data.total_pages; i++){
+            for(var i=((pageClick*10)+1); i<=((pageClick+1)*10); i++){
                 dataLength.push(i);
+                if(i === res.data.total_pages){
+                    break;
+                }
             }
-            setPageLength(dataLength)
+            setPageLength(dataLength);
             /* if(res.data.total_pages % 20 === 0){
                 let num = res.data.total_pages / 20;
                 for(var i=1; i<=num; i++){
@@ -78,8 +82,19 @@ function CategoryBoardPagenation(props){
                 console.log('preBoardTitle', boardTitle)
             }
             )
-    }, [currentUrl, pageNum, category, category_path, props.cookies.token]                       // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
+    }, [currentUrl, pageNum, category, category_path, props.cookies.token, pageClick]                       // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
     );
+    /* function getNewpage(pageLength, pageClick){
+        let newPage = [];
+        for(var i=pageClick * 10; i<(pageClick+1)*10; i++){
+            newPage.push(pageLength[i]);
+        }
+        return newPage;
+    }
+    setPageNation(getNewpage(pageLength, pageClick)); */
+    console.log(pageClick)
+    console.log('totalPages', totalPages)
+    console.log(pageLength)
     return(
         <>
         {params['*'] === ''  ? <>
@@ -94,7 +109,7 @@ function CategoryBoardPagenation(props){
                     {boardData.map((a, i) => {
                         while(i < 20){
                             return(
-                                <Link to={`detail/${a.post_id}`} key={i}>
+                                <Link to={`../detail/${a.post_id}`} key={i}>
                                 <li  onClick={() => {
                                     localStorage.removeItem('categoryBoardClick');
                                     localStorage.setItem('content', a.post_content);
@@ -110,11 +125,15 @@ function CategoryBoardPagenation(props){
                 </div>
                 {/* page number */}
                 <div className="pageNum">
-                    <TbCircleChevronLeft className="left_icon" />
+                    {pageLength.includes(1)  ? null : 
+                        <TbCircleChevronLeft className="left_icon" onClick={e => {
+                            setPageClick(prev => prev -= 1);            //pageClick - 1해서 밑에 보여지는 pageNum 변경
+                            navigate(`../page/${pageLength[0] - 10}`)
+                        }} />
+                    }
                     {pageLength.map((a, i) => {
-                        while(i < 20){
                             return(
-                                <Link to={`../page/${a}`} key={i} style={a === pageNum ? {color: '#0d6efd'} : null}>
+                                <Link to={`../page/${a}`} key={i} style={a === Number(params['pageNum']) /* type 맞춰주기 */ ? {color: '#0d6efd'} : null}>
                                 <li  onClick={e => {
                                     setPageNum(a);
                                     //window.location.href = `${category_path}_board/page=${a}`
@@ -122,8 +141,13 @@ function CategoryBoardPagenation(props){
                                 }} >{a}</li>
                                 </Link>
                             )
-                        }
                     })}
+                    {pageLength.includes(totalPages) ? null : 
+                    <TbCircleChevronRight className="right_icon" onClick={e => {
+                        setPageClick(prev => prev += 1);                ////pageClick + 1해서 밑에 보여지는 pageNum 변경
+                        navigate(`../page/${pageLength[0] + 10}`)
+                    }} />
+                }
                 </div>
             </div>
                 {/* 글쓰기 버튼 누르면 null에 해당하는 값을 보여주면서 위의 값이 감춰지고 글쓰기 페이지에 해당하는 UI 보여주기 */}

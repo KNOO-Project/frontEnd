@@ -5,7 +5,7 @@ import {useEffect, useState} from 'react';
 import BoardDetail from "./boardDetail";
 import CategoryBoardPagenation from "./categoryBoardPagenation";
 import axios from "axios";
-import {TbCircleChevronRight} from 'react-icons/tb'
+import {TbCircleChevronRight, TbCircleChevronLeft} from 'react-icons/tb'
 
 function CategoryBoard(props){
     let navigate = useNavigate();
@@ -20,7 +20,9 @@ function CategoryBoard(props){
     let [preBoardTitle, setPreBoardTitle] = useState();
     let [boardData, setBoardData] = useState([]);
     let [pageLength, setPageLength] = useState([]);
-    let [pageNum, setPageNum] = useState();            
+    let [pageNum, setPageNum] = useState();          
+    let [totalPages,setTotalPages] = useState();
+    let [pageClick, setPageClick] = useState(0);  
     
     useEffect(() => {
         if(category.includes('free')){
@@ -46,10 +48,14 @@ function CategoryBoard(props){
           .then((res)=>{
             //console.log('boardTitle', boardTitle)
             //console.log(res)
+            setTotalPages(res.data.total_pages)
             setBoardData(res.data.posts);
             let dataLength = [];
-            for(var i=1; i<=res.data.total_pages; i++){
+            for(var i=1; i<=10; i++){
                 dataLength.push(i);
+                if(i === res.data.total_pages){
+                    break;
+                }
             }
             setPageLength(dataLength)
             /* if(res.data.total_pages % 20 === 0){
@@ -109,21 +115,24 @@ function CategoryBoard(props){
                 </div>
                 {/* page number */}
                 <div className="pageNum">
+                
                     {pageLength.map((a, i) => {
-                        while(i < 20){
                             return(
                                 <Link to={`page/${a}`} key={i} style={a === 1 ? {color: '#0d6efd'} : null}>
                                 <li  onClick={e => {
                                     setPageNum(a);
-                                    //navigate(`page=${a}`)
                                     //window.location.href = `${category_path}_board/page=${a}`
                                     //해당 pageNum을 get요청으로 서버에 전송
                                 }} >{a}</li>
                                 </Link>
                             )
-                        }
                     })}
-                    <TbCircleChevronRight className="right_icon" />
+                    {pageLength.includes(totalPages) ? null : 
+                    <TbCircleChevronRight className="right_icon" onClick={e => {
+                        setPageClick(prev => prev += 1);                ////pageClick + 1해서 밑에 보여지는 pageNum 변경
+                        navigate(`page/${pageLength[0] + 10}`)
+                    }} />
+                }
                 </div>
             </div>
                 {/* 글쓰기 버튼 누르면 null에 해당하는 값을 보여주면서 위의 값이 감춰지고 글쓰기 페이지에 해당하는 UI 보여주기 */}
