@@ -27,8 +27,8 @@ function BoardDetail(props) {
         min: ''
     })
     let [commentData, setCommentData] = useState([]);           //댓글 리스트 담을 변수
-    let initialCommentData = []                                 // 더보기 누르기 전 보여질 댓글 데이터
-    let moreCommentsClick = 0;
+    let [initialCommentData, setInitialCommentData] = useState([]);                                 // 더보기 누르기 전 보여질 댓글 데이터
+    let [moreCommentsClick, setMoreCommentsClick] = useState(1);
     let [recommentData, setRecommentData] = useState([]);       //대댓글 리스트 담을 변수
     let [comment, setComment] = useState();                     //댓글 value 값
     let [clickId, setClickId] = useState(null);                 //대댓글 해당 Id 판별
@@ -42,10 +42,21 @@ function BoardDetail(props) {
         min: Number(currentDate.getMinutes())
     }
     
-    const getMoreComments = (moreCommentsClick, initialCommentData, commentData) => {
-        for(var i=(20 * (moreCommentsClick-1)); i<(20 * moreCommentsClick); i++){
-            initialCommentData.push(commentData[i]);
+    /* 더보기 클릭시 실햄 함수(댓글 더 가져와서 더 보여줌) */
+    const getMoreComments = (moreCommentsClick, initialCommentData, commentData) => { 
+        setMoreCommentsClick(prev => prev + 1);
+        console.log('moreCommentsClick', moreCommentsClick);
+        let moreCommentsData = initialCommentData;
+        console.log('moreCommentsClick', moreCommentsClick);
+        for(var i=(10 * (moreCommentsClick-1)); i<(10 * moreCommentsClick); i++){
+            if(i+1 <= commentData.length){
+                moreCommentsData.push(commentData[i]);
+            }else {
+                break;
+            }
+            
         }
+        setInitialCommentData(moreCommentsData)
     }
 
     const postComment = () => {
@@ -86,7 +97,7 @@ function BoardDetail(props) {
               }
         ))
         .then((res) => {
-            //console.log(res.data)
+            console.log(res)
             let [dateValue, timeValue] = res.data.post.post_date.split(' ');
             let [year, month, day] = dateValue.split('/');
             let [hour, min] = timeValue.split(':');
@@ -109,10 +120,22 @@ function BoardDetail(props) {
                 }
             }
             setCommentData(comment);
-            console.log(comment);
+            //console.log(comment);
             setRecommentData(recomment);
+            let initialData = [];
+            if(res.data.comments.length > 10){
+                for(var i=0; i<10; i++){
+                    initialData.push(res.data.comments[i]);
+                }
+                setInitialCommentData(initialData);
+            } else {
+                for(var j=0; j<res.data.comments.length; j++){
+                    initialData.push(res.data.comments[j]);
+                }
+                setInitialCommentData(initialData);
+            }
+            
         })
-        
         .catch((res) => {console.log(res)})
     },[post_id])
 
@@ -150,7 +173,8 @@ function BoardDetail(props) {
             initialCommentData.push(commentData[i]);
         }
     } */
-    console.log(commentData)
+    //console.log('commentData', commentData)
+    //console.log('recommentData', recommentData)
     console.log('initialCommentData', initialCommentData)
     console.log('moreCommentsClick', moreCommentsClick)
 
@@ -171,7 +195,7 @@ function BoardDetail(props) {
                     }
                 })
                 .then((res) => {
-                    navigate(`/${category_path}_board`)
+                    navigate(`/${category_path}_board`);
                     //window.location.reload();                   //나중에 바꾸기
                 })
                 .catch(console.log('err'))
@@ -195,7 +219,7 @@ function BoardDetail(props) {
                     }
                 }} ><AiOutlineLike /></p>
                 <p className="comment"><AiOutlineComment /></p>
-                <p className="comment_size">{commentData.length}</p>
+                <p className="comment_size">{commentData.length + recommentData.length}</p>             {/* 댓글 + 대댓글 갯수 */}
                 <p className="scrab" onClick={e => {
                     if(window.confirm('이 글을 스크랩 하시겠습니까?')){
                         alert(true);
@@ -209,70 +233,81 @@ function BoardDetail(props) {
         </div>
             {/* 댓글 놓을 자리 */}
             {initialCommentData.map((a, i) => {
-                return(
-                    <>
-                    <div className="detail-comment" key={i} >
-                        <p className="name">{a.writer_name}</p>
-                        {a.is_written_by_user ? 
-                            <>
-                            <p className="comment_delete" onClick={() => {
-                                axios.delete('/api/v1/comments',{
-                                    headers: { Authorization : props.cookies.token},      /* 인증 위해 헤더에 토큰 담아서 보내기 */
-                                    params : {
-                                        'comment_id': a.comment_id
-                                    }
-                                })
-                                .then((res) => {
-                                    alert('댓글이 삭제되었습니다!');
-                                    window.location.reload();                  
-                                })
-                                .catch(console.log('err'))
-                            }} >삭제</p>
-                            </>
-                            : null}
-                            <div style={{clear: 'both'}}></div>
-                        <button className="btn" onClick={() => {
-                            if(clickId === null) {
-                                setClickId(a.comment_id)                //clickId 값 받아서 대댓글 작성화면 보여주기
-                            } else {
-                                setClickId(null)                        //한번더 누르면 대댓글 작성화면 없어짐
-                            }
-                        }} >대댓글작성</button>
-                        <br style={{clear: 'both'}}></br>                   {/* float 속성 없애주기 */}
-                        <p className="date">{a.comment_date}</p>
-                        <p className="comment">{a.comment_content}</p>
-                        {/* 대댓글 화면 표시 */}
-                        {a.comment_id === clickId ?                     //클릭한 댓글의 아이디와 일치하는 댓글에만 대댓글 작성화면 보여주기
-                        <div className="write-recomment">
-                            <input placeholder="대댓글을 입력해주세요." value={recomment} onChange={(e) => {setRecomment(e.target.value)}} />
-                            <button onClick={() => {
-                                writeRecomment(a.comment_id);
-                            }}>작성</button>
-                        </div> : null}
-                        <div className="recomment-list" >
-                            {recommentData.map((b, i) => {
-                                if(a.comment_id === b.parent_comment_id){
-                                    return(
-                                        <div className="content" key={i} >
-                                            <p className="date">{b.comment_date}</p>
-                                            <p className="content">{b.comment_content}</p>
-                                            <p className="name">{b.writer_name}</p>
-                                        </div>
-                                    )
+                while(a !== undefined){
+                    return(
+                        <>
+                        <div className="detail-comment" key={i} >
+                            <p className="name">{a.writer_name}</p>
+                            {a.is_written_by_user ? 
+                                <>
+                                <p className="comment_delete" onClick={() => {
+                                    axios.delete('/api/v1/comments',{
+                                        headers: { Authorization : props.cookies.token},      /* 인증 위해 헤더에 토큰 담아서 보내기 */
+                                        params : {
+                                            'comment_id': a.comment_id
+                                        }
+                                    })
+                                    .then((res) => {
+                                        alert('댓글이 삭제되었습니다!');
+                                        window.location.reload();                  
+                                    })
+                                    .catch(console.log('err'))
+                                }} >삭제</p>
+                                </>
+                                : null}
+                                <div style={{clear: 'both'}}></div>
+                            <button className="btn" onClick={() => {
+                                if(clickId === null) {
+                                    setClickId(a.comment_id);                //clickId 값 받아서 대댓글 작성화면 보여주기
+                                } else {
+                                    setClickId(null);                        //한번더 누르면 대댓글 작성화면 없어짐
                                 }
-                            })}
+                            }} >대댓글작성</button>
+                            <br style={{clear: 'both'}}></br>                   {/* float 속성 없애주기 */}
+                            <p className="date">{a.comment_date}</p>
+                            <p className="comment">{a.comment_content}</p>
+                            {/* 대댓글 화면 표시 */}
+                            {a.comment_id === clickId ?                     //클릭한 댓글의 아이디와 일치하는 댓글에만 대댓글 작성화면 보여주기
+                            <div className="write-recomment">
+                                <input placeholder="대댓글을 입력해주세요." value={recomment} onChange={(e) => {setRecomment(e.target.value)}} />
+                                <button onClick={() => {
+                                    writeRecomment(a.comment_id);
+                                }}>작성</button>
+                            </div> : null}
+                            <div className="recomment-list" >
+                                {recommentData.map((b, i) => {
+                                    if(a.comment_id === b.parent_comment_id){
+                                        return(
+                                            <div className="content" key={i} >
+                                                <p className="date">{b.comment_date}</p>
+                                                <p className="content">{b.comment_content}</p>
+                                                <p className="name">{b.writer_name}</p>
+                                            </div>
+                                        )
+                                    }
+                                })}
+                            </div>
+                            
                         </div>
                         
-                    </div>
-                    </>
-                )
+                        </>
+                    )
+                }
+                
             })}
-            {initialCommentData !== commentData ? 
-            <button className="more_comments_btn" onClick={e => {
-                moreCommentsClick ++;
-                getMoreComments(moreCommentsClick, initialCommentData, commentData);
-            }}>댓글 더보기</button> : null}
-        <div className="write-comment">
+            {initialCommentData === [] ? null : 
+            <>
+            {initialCommentData.length === commentData.length  ? 
+                null : 
+                <button className="more_comments_btn" onClick={e => {
+                    //setMoreCommentsClick(moreCommentsClick => moreCommentsClick + 1);
+                    getMoreComments(moreCommentsClick, initialCommentData, commentData);
+                }}>댓글 더보기</button>
+                }
+            </>
+            }
+       
+         <div className="write-comment">
             <input placeholder="댓글을 입력하세요" value={comment} onChange={(e) => {setComment(e.target.value)}} /><button onClick={((e) => {
                 postComment();          //댓글 post 함수
             })}>댓글 달기</button>
