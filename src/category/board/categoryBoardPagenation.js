@@ -128,6 +128,7 @@ function CategoryBoardPagenation(props){
                     {pageLength.includes(1)  ? null : 
                         <TbCircleChevronLeft className="left_icon" onClick={e => {
                             setPageClick(prev => prev -= 1);            //pageClick - 1해서 밑에 보여지는 pageNum 변경
+                            //console.log('leftClick', pageClick);
                             navigate(`../page/${pageLength[0] - 10}`)
                         }} />
                     }
@@ -145,6 +146,7 @@ function CategoryBoardPagenation(props){
                     {pageLength.includes(totalPages) ? null : 
                     <TbCircleChevronRight className="right_icon" onClick={e => {
                         setPageClick(prev => prev += 1);                ////pageClick + 1해서 밑에 보여지는 pageNum 변경
+                        //console.log('rightClick', pageClick);
                         navigate(`../page/${pageLength[0] + 10}`)
                     }} />
                 }

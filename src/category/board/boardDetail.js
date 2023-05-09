@@ -28,7 +28,7 @@ function BoardDetail(props) {
     })
     let [commentData, setCommentData] = useState([]);           //댓글 리스트 담을 변수
     let [initialCommentData, setInitialCommentData] = useState([]);                                 // 더보기 누르기 전 보여질 댓글 데이터
-    let [moreCommentsClick, setMoreCommentsClick] = useState(1);
+    let [moreCommentsClick, setMoreCommentsClick] = useState(2);    // useState는 비동기여서 강제로 값 1말고 2 로 설정
     let [recommentData, setRecommentData] = useState([]);       //대댓글 리스트 담을 변수
     let [comment, setComment] = useState();                     //댓글 value 값
     let [clickId, setClickId] = useState(null);                 //대댓글 해당 Id 판별
@@ -42,22 +42,7 @@ function BoardDetail(props) {
         min: Number(currentDate.getMinutes())
     }
     
-    /* 더보기 클릭시 실햄 함수(댓글 더 가져와서 더 보여줌) */
-    const getMoreComments = (moreCommentsClick, initialCommentData, commentData) => { 
-        setMoreCommentsClick(prev => prev + 1);
-        console.log('moreCommentsClick', moreCommentsClick);
-        let moreCommentsData = initialCommentData;
-        console.log('moreCommentsClick', moreCommentsClick);
-        for(var i=(10 * (moreCommentsClick-1)); i<(10 * moreCommentsClick); i++){
-            if(i+1 <= commentData.length){
-                moreCommentsData.push(commentData[i]);
-            }else {
-                break;
-            }
-            
-        }
-        setInitialCommentData(moreCommentsData)
-    }
+    
 
     const postComment = () => {
         axios.post('/api/v1/comments', {                    //post 첫번째 인자 url, 두번째 인자 data(request Body), 세번째 인자 params(key, type, headers ...)
@@ -168,11 +153,25 @@ function BoardDetail(props) {
             }
         }
     }
-    /* if(moreCommentsClick === 0){
-        for(var i=0; i<20; i++){
-            initialCommentData.push(commentData[i]);
+
+    /* 더보기 클릭시 실햄 함수(댓글 더 가져와서 더 보여줌) */
+    const getMoreComments = (moreCommentsClick, initialCommentData, commentData) => { 
+        //console.log('moreCommentsClick', moreCommentsClick);
+        setMoreCommentsClick(prev => prev + 1);
+        
+        let moreCommentsData = initialCommentData;
+        //console.log('moreCommentsClick', moreCommentsClick);
+        for(var i=(10 * (moreCommentsClick-1)); i<(10 * moreCommentsClick); i++){
+            if(i+1 <= commentData.length){
+                moreCommentsData.push(commentData[i]);
+            }else {
+                break;
+            }
+            
         }
-    } */
+        setInitialCommentData(moreCommentsData)
+    }
+    
     //console.log('commentData', commentData)
     //console.log('recommentData', recommentData)
     console.log('initialCommentData', initialCommentData)
