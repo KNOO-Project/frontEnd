@@ -6,6 +6,8 @@ import ModifyBoardForm from "./modifyBoardForm";
 import {AiOutlineLike, AiOutlineComment, AiOutlineStar} from 'react-icons/ai';
 
 function BoardDetail(props) {
+    let token = props.cookies.token;
+    //console.log(token);
     let {post_id} = useParams();
     let params = useParams();
     let navigate = useNavigate();
@@ -33,6 +35,7 @@ function BoardDetail(props) {
     let [comment, setComment] = useState();                     //댓글 value 값
     let [clickId, setClickId] = useState(null);                 //대댓글 해당 Id 판별
     let [recomment, setRecomment] = useState();                 //대댓글 value 값
+    let [likeCount, setLikeCount] = useState()
     let currentDate = new Date();
     let currentDateData = {
         year: Number(currentDate.getFullYear()),
@@ -48,7 +51,7 @@ function BoardDetail(props) {
         axios.post('/api/v1/comments', {                    //post 첫번째 인자 url, 두번째 인자 data(request Body), 세번째 인자 params(key, type, headers ...)
             comment_content: comment
         },
-            { headers: {Authorization: props.cookies.token},
+            { headers: {Authorization: token},
             params: {'post_id' : post_id}
         }
             )
@@ -63,7 +66,7 @@ function BoardDetail(props) {
             comment_content: recomment
         }, 
         {
-            headers: {Authorization : props.cookies.token},
+            headers: {Authorization : token},
             params: {
                 comment_id: commentId
             }
@@ -73,16 +76,33 @@ function BoardDetail(props) {
         })
         .catch((res) => {console.log(res)})
     }
+    
+    const likePost = (postId) => {                  //좋아요 기능
+        axios.post('/api/v1/posts/likes',{}, {
+            headers: {Authorization : token},
+            params: {
+                post_id: postId
+            }
+        })
+        .then((res) => {
+            console.log(res);
+        })
+        .catch(() => {
+            console.log('err');
+        })
+    }
+
     useEffect(() => {
         let comment = [];
         let recomment = []
         axios.get(`/api/v1/posts/${category_path}/${post_id}`, (
             {
-                headers: {Authorization: props.cookies.token} /* 헤더에 토큰 담아서 보내기 */
+                headers: {Authorization: token} /* 헤더에 토큰 담아서 보내기 */
               }
         ))
         .then((res) => {
             console.log(res)
+            setLikeCount(res.data.post.likes_count);
             let [dateValue, timeValue] = res.data.post.post_date.split(' ');
             let [year, month, day] = dateValue.split('/');
             let [hour, min] = timeValue.split(':');
@@ -174,8 +194,8 @@ function BoardDetail(props) {
     
     //console.log('commentData', commentData)
     //console.log('recommentData', recommentData)
-    console.log('initialCommentData', initialCommentData)
-    console.log('moreCommentsClick', moreCommentsClick)
+    //console.log('initialCommentData', initialCommentData)
+    //console.log('moreCommentsClick', moreCommentsClick)
 
     return(
         <>
@@ -188,7 +208,7 @@ function BoardDetail(props) {
             <p className="content_modify" ><Link to='content_modify'>수정</Link></p>
             <p className="content_delete" onClick={() => {
                 axios.delete('/api/v1/posts',{
-                    headers: { Authorization : props.cookies.token},      /* 인증 위해 헤더에 토큰 담아서 보내기 */
+                    headers: { Authorization : token},      /* 인증 위해 헤더에 토큰 담아서 보내기 */
                     params : {
                         'post_id': post_id
                     }
@@ -209,20 +229,16 @@ function BoardDetail(props) {
             </pre>
             <div className="icon_box">
                 <p className="like" onClick={e => {
-                    if(window.confirm('이 글에 좋아요를 누르시겠습니까?')){
-                        alert(true);
-                        //해당 게시글에 좋아요 + 1 값 서버로 전송
-                    }else {
-                        alert(false);
-                        //그냥 아무일도 일어나지 않음
-                    }
+                    likePost(post_id);
+                    window.location.reload();
                 }} ><AiOutlineLike /></p>
+                <p className="like_count">{likeCount}</p>
                 <p className="comment"><AiOutlineComment /></p>
                 <p className="comment_size">{commentData.length + recommentData.length}</p>             {/* 댓글 + 대댓글 갯수 */}
                 <p className="scrab" onClick={e => {
                     if(window.confirm('이 글을 스크랩 하시겠습니까?')){
                         alert(true);
-                        //해당 게시글에 좋아요 + 1 값 서버로 전송
+                        //해당 게시글 스크랩했다고 서버로 전송
                     }else {
                         alert(false);
                         //그냥 아무일도 일어나지 않음
@@ -241,7 +257,7 @@ function BoardDetail(props) {
                                 <>
                                 <p className="comment_delete" onClick={() => {
                                     axios.delete('/api/v1/comments',{
-                                        headers: { Authorization : props.cookies.token},      /* 인증 위해 헤더에 토큰 담아서 보내기 */
+                                        headers: { Authorization : token},      /* 인증 위해 헤더에 토큰 담아서 보내기 */
                                         params : {
                                             'comment_id': a.comment_id
                                         }
