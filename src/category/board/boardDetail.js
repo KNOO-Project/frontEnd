@@ -3,7 +3,7 @@ import { Routes, useNavigate, useParams, Route, Link } from "react-router-dom";
 import axios from "axios";
 import '../../category-css/board/boardDetail.css';
 import ModifyBoardForm from "./modifyBoardForm";
-import {AiOutlineLike, AiOutlineComment, AiOutlineStar} from 'react-icons/ai';
+import {AiOutlineLike, AiOutlineComment, AiOutlineStar, AiFillStar} from 'react-icons/ai';
 
 function BoardDetail(props) {
     let token = props.cookies.token;
@@ -35,7 +35,9 @@ function BoardDetail(props) {
     let [comment, setComment] = useState();                     //댓글 value 값
     let [clickId, setClickId] = useState(null);                 //대댓글 해당 Id 판별
     let [recomment, setRecomment] = useState();                 //대댓글 value 값
-    let [likeCount, setLikeCount] = useState()
+    let [likeCount, setLikeCount] = useState();                 //좋아요 갯수 담을 변수
+    let [isScrap, setIsScrap] = useState()                      //게시글 스크랩 여부
+    let [scrapCount, setScrapCount] = useState();               //게시글 스크랩 횟수
     let currentDate = new Date();
     let currentDateData = {
         year: Number(currentDate.getFullYear()),
@@ -46,7 +48,7 @@ function BoardDetail(props) {
     }
     
     
-
+    //댓글 작성 함수
     const postComment = () => {
         axios.post('/api/v1/comments', {                    //post 첫번째 인자 url, 두번째 인자 data(request Body), 세번째 인자 params(key, type, headers ...)
             comment_content: comment
@@ -60,8 +62,9 @@ function BoardDetail(props) {
         })
         .catch(console.log('err'))
     }
-
-    const writeRecomment = (commentId) => {                 //대댓글 작성 함수
+    
+    //대댓글 작성 함수
+    const writeRecomment = (commentId) => {                 
         axios.post('/api/v1/comments/reply', {
             comment_content: recomment
         }, 
@@ -76,12 +79,28 @@ function BoardDetail(props) {
         })
         .catch((res) => {console.log(res)})
     }
-    
-    const likePost = (postId) => {                  //좋아요 기능
-        axios.post('/api/v1/posts/likes',{}, {
+
+    //좋아요 기능
+    const likePost = (postId) => {                  
+        axios.post('/api/v1/posts/likes',{/* body 자리 비워놓기 */}, {
             headers: {Authorization : token},
             params: {
                 post_id: postId
+            }
+        })
+        .then((res) => {
+            console.log(res);
+        })
+        .catch(() => {
+            console.log('err');
+        })
+    }
+    //스크랩 기능
+    const scrap = (postId) => {
+        axios.post('/api/v1/posts/scraps', {/* body 자리 비워놓기 */}, {
+            headers: {Authorization : token},
+            params: {
+                post_id : postId
             }
         })
         .then((res) => {
@@ -103,6 +122,8 @@ function BoardDetail(props) {
         .then((res) => {
             console.log(res)
             setLikeCount(res.data.post.likes_count);
+            setIsScrap(res.data.post.scrapped);
+            setScrapCount(res.data.post.scraps_count);
             let [dateValue, timeValue] = res.data.post.post_date.split(' ');
             let [year, month, day] = dateValue.split('/');
             let [hour, min] = timeValue.split(':');
@@ -196,7 +217,8 @@ function BoardDetail(props) {
     //console.log('recommentData', recommentData)
     //console.log('initialCommentData', initialCommentData)
     //console.log('moreCommentsClick', moreCommentsClick)
-
+    console.log(isScrap);
+    console.log(scrapCount);
     return(
         <>
         {params['*'] === '' ?                                   // params['*'] 여부에 따라 삼항연산자로 
@@ -235,15 +257,30 @@ function BoardDetail(props) {
                 <p className="like_count">{likeCount}</p>
                 <p className="comment"><AiOutlineComment /></p>
                 <p className="comment_size">{commentData.length + recommentData.length}</p>             {/* 댓글 + 대댓글 갯수 */}
-                <p className="scrab" onClick={e => {
-                    if(window.confirm('이 글을 스크랩 하시겠습니까?')){
-                        alert(true);
+                {isScrap ?
+                //isScrap == true 
+                <p className="scrap" onClick={e => {
+                    if(window.confirm('스크랩을 취소하시겠습니까?')){
+                        scrap(post_id);
+                        window.location.reload();
                         //해당 게시글 스크랩했다고 서버로 전송
                     }else {
-                        alert(false);
+                        //그냥 아무일도 일어나지 않음
+                    }
+                }}><AiFillStar style={{color : '#adb5bd'}} /></p> : 
+                //isScrap == false
+                <p className="scrap" onClick={e => {
+                    if(window.confirm('이 글을 스크랩 하시겠습니까?')){
+                        scrap(post_id);
+                        window.location.reload();
+                        //해당 게시글 스크랩했다고 서버로 전송
+                    }else {
                         //그냥 아무일도 일어나지 않음
                     }
                 }}><AiOutlineStar /></p>
+                }
+                
+                <p className="scrap_count">{scrapCount}</p>
             </div>
         </div>
             {/* 댓글 놓을 자리 */}

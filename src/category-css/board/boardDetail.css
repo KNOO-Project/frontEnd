@@ -43,7 +43,7 @@ pre {
     margin-right: 10px;
     color: blue;
 }
-.icon_box > .like > svg:hover, .icon_box > .comment > svg:hover, .icon_box > .scrab > svg:hover{
+.icon_box > .like > svg:hover, .icon_box > .comment > svg:hover, .icon_box > .scrap > svg:hover{
     cursor: pointer;
     opacity: 0.6;
 }
@@ -64,9 +64,15 @@ pre {
     font-size: 15px;
     font-weight: bold;
 }
-.icon_box > .scrab {
+.icon_box > .scrap {
     width: 20px;
     color: chartreuse;
+}
+.icon_box > .scrap_count {
+    padding-top: 6px;
+    padding-left: 5px;
+    font-size: 15px;
+    font-weight: bold;
 }
 /* detail-comment */
 .detail-comment a {
