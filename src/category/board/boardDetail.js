@@ -256,7 +256,7 @@ function BoardDetail(props) {
                 }} ><AiOutlineLike /></p>
                 <p className="like_count">{likeCount}</p>
                 <p className="comment"><AiOutlineComment /></p>
-                <p className="comment_size">{commentData.length + recommentData.length}</p>             {/* 댓글 + 대댓글 갯수 */}
+                <p className="comment_count">{commentData.length + recommentData.length}</p>             {/* 댓글 + 대댓글 갯수 */}
                 {isScrap ?
                 //isScrap == true 
                 <p className="scrap" onClick={e => {

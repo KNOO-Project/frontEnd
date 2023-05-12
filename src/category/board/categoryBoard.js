@@ -10,7 +10,7 @@ import {TbCircleChevronRight, TbCircleChevronLeft} from 'react-icons/tb'
 function CategoryBoard(props){
     let navigate = useNavigate();
     let params = useParams();
-    //console.log(params)
+    console.log(params)
     const currentUrl = window.location.href;
     //console.log(currentUrl);
     let category = currentUrl.split('/')[3];
@@ -114,14 +114,13 @@ function CategoryBoard(props){
                     })}
                 </div>
                 {/* page number */}
-                <div className="pageNum">
+                <div className="categoryBoard_pageNum">
                 
                     {pageLength.map((a, i) => {
                             return(
                                 <Link to={`page/${a}`} key={i} style={a === 1 ? {color: '#0d6efd'} : null}>
                                 <li  onClick={e => {
                                     setPageNum(a);
-                                    //window.location.href = `${category_path}_board/page=${a}`
                                     //해당 pageNum을 get요청으로 서버에 전송
                                 }} >{a}</li>
                                 </Link>

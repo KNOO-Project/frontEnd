@@ -54,13 +54,13 @@ div{
     font-weight: bold;
 }
 /* pageNum */
-.pageNum{
+.categoryBoard_pageNum{
     display: flex;
     width: 60%;
     margin: auto;
     margin-bottom: 10px;
 }
-.pageNum >a {
+.categoryBoard_pageNum >a {
     list-style: none;
     width: 22px;
     font-size: 15px;
@@ -69,16 +69,16 @@ div{
     margin: auto;
     border-radius: 3px;
 }
-.pageNum > a:hover{
+.categoryBoard_pageNum > a:hover{
     cursor: pointer;
     opacity: 0.5;
 }
-.pageNum > .right_icon, .pageNum > .left_icon {
+.categoryBoard_pageNum > .right_icon, .categoryBoard_pageNum > .left_icon {
     margin-left: 5px;
     width: 24px;
     height: 24px;
 }
-.pageNum > .right_icon:hover, .pageNum > .left_icon:hover {
+.categoryBoard_pageNum > .right_icon:hover, .categoryBoard_pageNum > .left_icon:hover {
     opacity: 0.5;
     cursor: pointer;
 }

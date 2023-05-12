@@ -19,7 +19,6 @@ function CategoryBoardPagenation(props){
     let [boardTitle, setBoardTitle] = useState();
     let [boardData, setBoardData] = useState([]);
     let [pageLength, setPageLength] = useState([]);
-    let [pageNum, setPageNum] = useState(params['pageNum']);                    // categoryBoard에서 props로 넘어온 pageNum을 초기 pageNum으로 사용
     let [totalPages,setTotalPages] = useState();
     let [pageClick, setPageClick] = useState(Number(params['pageNum'] <= 10 ? 0 : 1));  //Number(params['pageNum'] <= 10 이면 pageLength를 1~10까지 유지
     useEffect(() => {
@@ -40,7 +39,7 @@ function CategoryBoardPagenation(props){
         axios.get(`/api/v1/posts/${category_path}`, {
             headers: {Authorization : props.cookies.token},
             params: {
-                page: pageNum
+                page: params['pageNum']
             }
           })
           .then((res)=>{
@@ -82,7 +81,7 @@ function CategoryBoardPagenation(props){
                 console.log('preBoardTitle', boardTitle)
             }
             )
-    }, [currentUrl, pageNum, category, category_path, props.cookies.token, pageClick]                       // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
+    }, [currentUrl , category, category_path, props.cookies.token, pageClick]                       // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
     );
     /* function getNewpage(pageLength, pageClick){
         let newPage = [];
@@ -124,7 +123,7 @@ function CategoryBoardPagenation(props){
                     })}
                 </div>
                 {/* page number */}
-                <div className="pageNum">
+                <div className="categoryBoard_pageNum">
                     {pageLength.includes(1)  ? null : 
                         <TbCircleChevronLeft className="left_icon" onClick={e => {
                             setPageClick(prev => prev -= 1);            //pageClick - 1해서 밑에 보여지는 pageNum 변경
@@ -136,7 +135,6 @@ function CategoryBoardPagenation(props){
                             return(
                                 <Link to={`../page/${a}`} key={i} style={a === Number(params['pageNum']) /* type 맞춰주기 */ ? {color: '#0d6efd'} : null}>
                                 <li  onClick={e => {
-                                    setPageNum(a);
                                     //window.location.href = `${category_path}_board/page=${a}`
                                     //해당 pageNum을 get요청으로 서버에 전송
                                 }} >{a}</li>

@@ -89,7 +89,7 @@ div{
   background-color: blueviolet;
 }
 /* footer */
-.footer {
+.App > .footer {
   margin-top: 50px;
   width: 100%;
   height: 80px;

@@ -1,0 +1,87 @@
+/* my_scrap */
+.my_scrap {
+    width: 70%;
+    margin: 10px auto 0 auto;
+    border: 3px solid #ced2da;
+    border-radius: 3px;
+    text-align: left;
+    padding: 10px;
+}
+
+.my_scrap > .title {
+    font-size: 15px;
+}
+
+.my_scrap > .content {
+    font-size: 15px;
+}
+/* footer */
+.my_scrap > .footer {
+    height: 20px;
+}
+/* date_writer */
+.footer > .date_writer {
+    display: flex;
+    float: left;
+    height: 100%;
+}
+.footer > .date_writer > .date {
+    font-size: 13px;
+}
+.footer > .date_writer > .writer {
+    margin-left: 10px;
+    font-size: 13px;
+}
+/* scrap_icon */
+.scrapPage_icons {
+    display: flex;
+    float: right;
+}
+
+.scrapPage_icons > .like_icon {
+    color: blue;
+    font-size: 17px;
+}
+.scrapPage_icons > .like_count {
+    font-size: 14px;
+    width: 20px;
+    margin-bottom: 0;
+}
+.scrapPage_icons > .comment_icon {
+    color: #0dcaf0;
+    font-size: 17px;
+}
+.scrapPage_icons > .comment_count {
+    font-size: 14px;
+    width: 20px;
+    margin-bottom: 0;
+}
+.scrapPage_icons > .scrap_icon {
+    color: chartreuse;
+    font-size: 17px;
+}
+.scrapPage_icons > .scrap_count {
+    font-size: 14px;
+    width: 20px;
+    margin-bottom: 0;
+}
+/* pageNum */
+.myScrap_pageNum{
+    display: flex;
+    width: 60%;
+    margin: auto;
+    margin-bottom: 10px;
+}
+.myScrap_pageNum >a {
+    list-style: none;
+    width: 22px;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 2px;
+    margin: auto;
+    border-radius: 3px;
+}
+.myScrap_pageNum > a:hover{
+    cursor: pointer;
+    opacity: 0.5;
+}

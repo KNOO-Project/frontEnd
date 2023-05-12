@@ -8,8 +8,9 @@ import Login from './category/login_out/login';
 import Membership from './category/membership';
 import Restaurant from './category/restaurant';
 import MainBoard from './category/board/mainBoard';
-import MyInfo from './category/login_out/myInfo';
+import MyInfo from './category/myInfo/myInfo';
 import CategoryBoard from './category/board/categoryBoard';
+import MyScrap from './category/myInfo/myScrap';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
@@ -123,7 +124,7 @@ function App() {
           {localStorage.getItem('isLogin') ? <>
           <div className='text-right' onClick={()=>{
             moveMyInfo();
-            localStorage.removeItem('writtenClick', false)                    //마이페이지 클릭하면 myInfo의 false 값만 보여주기
+            //localStorage.removeItem('writtenClick', false)                    //마이페이지 클릭하면 myInfo의 false 값만 보여주기
             }} ><h4>내 정보</h4></div>
           </> : null}
         </div>
@@ -143,6 +144,7 @@ function App() {
         <Route path='/login' element={<Login  setCookie={setCookie} />} />
         <Route path='/회원가입' element={<Membership />} />
         <Route path='/myInfo/*' element={<MyInfo  cookies={cookies} /> } />
+        <Route path='/my_scrap/*' element={<MyScrap cookies={cookies}/>} />
       </Routes>
     </div>
   );
