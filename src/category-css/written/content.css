@@ -2,7 +2,7 @@ a {
    text-decoration: none;
 }
 
-.written_content {
+.written_box {
     width: 100%;
     margin: 10px auto 0 auto;
     border: 3px solid #ced2da;
@@ -23,7 +23,75 @@ a {
 .written_box{
    width: 100%;
 }
- .written_content:hover {
+.written_box:hover {
    cursor: pointer;
-   color: #ced4da;
+   opacity: 0.5;
+}
+ .written_box > a > .written_content {
+   cursor: pointer;
  }
+
+ .written_box > a > .written_content {
+   cursor: pointer;
+}
+
+.written_box > a > .written_content > .title {
+   font-size: 15px;
+   text-align: left;
+}
+
+.written_box > a > .written_content > .content {
+   font-size: 14px;
+   text-align: left;
+   margin-left: 10px;
+}
+/* footer */
+.written_box > a > .footer {
+   height: 20px;
+}
+/* date_writer */
+.footer > .date_writer {
+   display: flex;
+   float: left;
+   height: 100%;
+}
+.footer > .date_writer > .date {
+   font-size: 13px;
+}
+.footer > .date_writer > .writer {
+   margin-left: 10px;
+   font-size: 13px;
+}
+/* scrap_icon */
+.scrapPage_icons {
+   display: flex;
+   float: right;
+}
+
+.scrapPage_icons > .like_icon {
+   color: blue;
+   font-size: 17px;
+}
+.scrapPage_icons > .like_count {
+   font-size: 14px;
+   width: 20px;
+   margin-bottom: 0;
+}
+.scrapPage_icons > .comment_icon {
+   color: #0dcaf0;
+   font-size: 17px;
+}
+.scrapPage_icons > .comment_count {
+   font-size: 14px;
+   width: 20px;
+   margin-bottom: 0;
+}
+.scrapPage_icons > .scrap_icon {
+   color: chartreuse;
+   font-size: 17px;
+}
+.scrapPage_icons > .scrap_count {
+   font-size: 14px;
+   width: 20px;
+   margin-bottom: 0;
+}

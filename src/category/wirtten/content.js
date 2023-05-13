@@ -3,9 +3,10 @@ import axios from "axios"
 import { Route, Routes, Link, useParams } from "react-router-dom";
 import '../../category-css/written/content.css';
 import BoardDetail from "../board/boardDetail";
+import {AiOutlineLike, AiOutlineComment, AiOutlineStar, AiFillStar} from 'react-icons/ai';
 
 function Content(props){
-    let params = useParams();
+
     let [contentList, setContentList] = useState([])
     useEffect(() => {
         axios.get('/api/v1/users', {
@@ -19,29 +20,36 @@ function Content(props){
     }, [])
     
     return(
-        <>
-        
         <div className="written_content_list">
         {contentList.map((a,i) => {
             return(
-                <div className="written_box" 
-                key={i} onClick={() => {localStorage.setItem('pathBoardTitle', a.post_category)}}>
+                <div className="written_box" key={i} >
                     <Link to={`../${a.post_category}_board/detail/${a.post_id}`} key={i}>
                         <div className="written_content" >
-                            <p>{a.post_title}</p>
-                        </div>
+                            <p className="title">{a.post_title}</p>
+                            <p className="content">{a.post_content}</p>
+                            <div className="footer">
+                                <div className="date_writer">
+                                    <p className="date">{a.post_date}</p>
+                                    <p className="writer">{a.writer_name}</p>
+                                </div>
+                            <div className="scrapPage_icons">
+                                <AiOutlineLike className="like_icon" />
+                                <p className="like_count">{a.likes_count}</p>
+                                <AiOutlineComment className="comment_icon" />
+                                <p className="comment_count">{a.comments_count}</p>
+                                <AiOutlineStar className="scrap_icon" />
+                                <p className="scrap_count">{a.scraps_count}</p>
+                            </div>
+                            <div style={{clear: 'both'}}></div>
+                            </div>
+                         </div>   
                     </Link>
                 </div>
             )
         })}
         <button>더보기</button>
         </div>
-        
-        
-        
-        
-        </>
-        
     )
 }
 
