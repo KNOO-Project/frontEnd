@@ -15,6 +15,7 @@ function BoardForm(props){
         anonymous: false
     })
     console.log(data)
+    console.log(data.post_content.length)
     return(
         <div>
         <h2>{localStorage.getItem('boardTitle')} 게시판</h2>
@@ -32,6 +33,7 @@ function BoardForm(props){
                 //window.location.reload();                                   // 나중에 바꾸기 강제 리로드 말고 다른걸로
             }).catch(res => {
                 alert(res.response.data.message)                            //실패시 받아온 data에서 message 보여쥬기
+                console.log(data)
             });
         }
         } >

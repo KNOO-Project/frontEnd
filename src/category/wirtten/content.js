@@ -26,7 +26,7 @@ function Content(props){
             return(
                 <div className="written_box" 
                 key={i} onClick={() => {localStorage.setItem('pathBoardTitle', a.post_category)}}>
-                    <Link to={`../../${a.post_category}_board/detail/${a.post_id}`} key={i}>
+                    <Link to={`../${a.post_category}_board/detail/${a.post_id}`} key={i}>
                         <div className="written_content" >
                             <p>{a.post_title}</p>
                         </div>
