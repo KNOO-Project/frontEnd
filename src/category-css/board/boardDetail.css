@@ -86,14 +86,23 @@ pre {
     text-align: left;
     padding: 10px;
 }
-
+.detail-comment > .recomment_btn {
+    float: right;
+    border: none;
+    font-size: small;
+    font-weight: 500;
+}
+.detail-comment > .recomment_btn:hover {
+    cursor: pointer;
+    opacity: 0.5;
+}
 .detail-comment > .name, .detail-comment > .date {
     font-size: 14px;
 }
 .detail-comment > .name {
     float: left;
 }
-.detail-comment > .btn {
+.detail-comment > .write_comment_btn {
     float: right;
     font-size: 13px;
     border: 1px solid #ced4da;
@@ -129,40 +138,63 @@ pre {
 /* recomment */
 .write-recomment {
     width: 90%;
-    height: 24px;
+    display: flex;
     margin: auto;
     margin-bottom: 10px;
 }
-.write-recomment > input {
-    width: 80%;
+.write-recomment > textarea {
+    width: 90%;
     border: 1px solid #adb5bd;
 }
-.write-recomment > button {
-    width: 20%;
+.write-recomment > .write_recomment_btn {
+    width: 10%;
     border: 1px solid #adb5bd;
+    background-color: aqua;
+}
+.write-recomment > .write_recomment_btn > .write_recomment_icon {
+    font-size: 20px;
+}
+.write-recomment > .write_recomment_btn > .write_recomment_icon:hover {
+    cursor: pointer;
+    opacity: 0.5;
 }
 /* write-comment */
 .write-comment{
     width: 70%;
     margin: auto;
+    display: flex;
+    margin-bottom: 10px;
 }
-.write-comment > input {
-    width: 80%;
-    height: 40px;
+.write-comment > textarea {
+    width: 90%;
+    height: 100%;
     border: 1px solid #adb5bd;
 }
-.write-comment > button {
-    width: 20%;
-    height: 40px;
+.write-comment > .write_comment_btn  {
+    width: 10%;
     border: 1px solid #adb5bd;
     background-color: aqua;
+}
+.write-comment > .write_comment_btn > .write_comment_icon {
+    margin-top: 10px;
+    font-size: 30px;
+}
+.write-comment > .write_comment_btn > .write_comment_icon:hover {
+    cursor: pointer;
+    opacity: 0.5;
 }
 /* recomment-list */
 .recomment-list {
     width: 90%;
     margin: auto;
 }
+.recomment-list > .recomment_arrow_icon {
+    float: left;
+    width: 5%;
+}
 .recomment-list > .content {
+    float: right;
+    width: 95%;
     padding: 10px;
     border: 2px solid #dee2e6;
     border-radius: 3px;

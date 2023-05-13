@@ -4,6 +4,8 @@ import axios from "axios";
 import '../../category-css/board/boardDetail.css';
 import ModifyBoardForm from "./modifyBoardForm";
 import {AiOutlineLike, AiOutlineComment, AiOutlineStar, AiFillStar} from 'react-icons/ai';
+import {BiPencil} from 'react-icons/bi';
+import {MdOutlineSubdirectoryArrowRight} from 'react-icons/md';
 
 function BoardDetail(props) {
     let token = props.cookies.token;
@@ -213,12 +215,13 @@ function BoardDetail(props) {
         setInitialCommentData(moreCommentsData)
     }
     
-    //console.log('commentData', commentData)
-    //console.log('recommentData', recommentData)
-    //console.log('initialCommentData', initialCommentData)
+    console.log('commentData', commentData)
+    console.log('recommentData', recommentData)
+    console.log('initialCommentData', initialCommentData)
     //console.log('moreCommentsClick', moreCommentsClick)
-    console.log(isScrap);
-    console.log(scrapCount);
+    //console.log(isScrap);
+    //console.log(scrapCount);
+    console.log('postData', postData);
     return(
         <>
         {params['*'] === '' ?                                   // params['*'] 여부에 따라 삼항연산자로 
@@ -285,7 +288,7 @@ function BoardDetail(props) {
         </div>
             {/* 댓글 놓을 자리 */}
             {initialCommentData.map((a, i) => {
-                while(a !== undefined){
+                if(a.parent_comment_id === null){
                     return(
                         <>
                         <div className="detail-comment" key={i} >
@@ -308,7 +311,7 @@ function BoardDetail(props) {
                                 </>
                                 : null}
                                 <div style={{clear: 'both'}}></div>
-                            <button className="btn" onClick={() => {
+                            <button className="recomment_btn" onClick={() => {
                                 if(clickId === null) {
                                     setClickId(a.comment_id);                //clickId 값 받아서 대댓글 작성화면 보여주기
                                 } else {
@@ -321,20 +324,26 @@ function BoardDetail(props) {
                             {/* 대댓글 화면 표시 */}
                             {a.comment_id === clickId ?                     //클릭한 댓글의 아이디와 일치하는 댓글에만 대댓글 작성화면 보여주기
                             <div className="write-recomment">
-                                <input placeholder="대댓글을 입력해주세요." value={recomment} onChange={(e) => {setRecomment(e.target.value)}} />
-                                <button onClick={() => {
-                                    writeRecomment(a.comment_id);
-                                }}>작성</button>
+                                <textarea placeholder="대댓글을 입력해주세요." value={recomment} onChange={(e) => {setRecomment(e.target.value)}} />
+                                <div className="write_recomment_btn">
+                                    <BiPencil className="write_recomment_icon" onClick={e => {
+                                        writeRecomment(a.comment_id);          //대댓글 작성 함수
+                                    }} />
+                                </div>
                             </div> : null}
                             <div className="recomment-list" >
                                 {recommentData.map((b, i) => {
                                     if(a.comment_id === b.parent_comment_id){
                                         return(
+                                            <>
+                                            <MdOutlineSubdirectoryArrowRight className="recomment_arrow_icon" />
                                             <div className="content" key={i} >
                                                 <p className="date">{b.comment_date}</p>
                                                 <p className="content">{b.comment_content}</p>
                                                 <p className="name">{b.writer_name}</p>
                                             </div>
+                                            <div style={{clear: 'both'}}></div>
+                                            </>
                                         )
                                     }
                                 })}
@@ -349,7 +358,7 @@ function BoardDetail(props) {
             })}
             {initialCommentData === [] ? null : 
             <>
-            {initialCommentData.length === commentData.length  ? 
+            {initialCommentData.length === commentData.length + recommentData.length  ? 
                 null : 
                 <button className="more_comments_btn" onClick={e => {
                     //setMoreCommentsClick(moreCommentsClick => moreCommentsClick + 1);
@@ -360,9 +369,12 @@ function BoardDetail(props) {
             }
        
          <div className="write-comment">
-            <input placeholder="댓글을 입력하세요" value={comment} onChange={(e) => {setComment(e.target.value)}} /><button onClick={((e) => {
-                postComment();          //댓글 post 함수
-            })}>댓글 달기</button>
+            <textarea placeholder="댓글을 입력하세요" value={comment} onChange={(e) => {setComment(e.target.value)}} />
+            <div className="write_comment_btn">
+            <BiPencil className="write_comment_icon" onClick={e => {
+                postComment();          //댓글 작성 함수
+            }} />
+            </div>
         </div>
         </> : null}
         
