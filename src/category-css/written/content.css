@@ -10,13 +10,14 @@ a {
     text-align: left;
     padding: 10px;
  }
- .written_content_list > button{
+
+.written_content_list > button{
     margin-top: 10px;
     border: 1px solid #ced4da;
     background: #ced4da
  }
 
- .written_content_list a {
+.written_content_list a {
    color: black;
    font-weight: bold;
  }

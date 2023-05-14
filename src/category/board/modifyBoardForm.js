@@ -21,10 +21,20 @@ function ModifyBoardForm(props) {
                 post_title: e.target.value
             })}} />
             <br/>
-            <textarea placeholder="내용을 입력해주세요." value={data.post_content} onChange={e => {setData({
-                ...data,
-                post_content: e.target.value
-            })}} />
+            <textarea placeholder="내용을 입력해주세요." value={data.post_content} onChange={e => {
+                console.log(data.post_content);
+                if(data.post_content.length % 48 === 0 && data.post_content.length !== 0){          //textarea 너비가 48
+                    setData({
+                        ...data,
+                        post_content: e.target.value + '\n'
+                    })
+                }else {
+                    setData({
+                        ...data,
+                        post_content: e.target.value
+                    })
+                }
+            }} />
             <br/>
             <div className='boardForm-btn'>
             <input  type='checkbox' id='anonymous'

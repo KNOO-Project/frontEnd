@@ -26,8 +26,8 @@ input {
     height: 300px;
 }
 .boardForm > textarea:focus {
-        outline: none;
-        box-shadow: 0 0 10px#0d7ef0;
+    outline: none;
+    box-shadow: 0 0 10px#0d7ef0;
 }
 .boardForm-btn > input[type='checkbox'] {
     width: 13px;
@@ -45,4 +45,7 @@ input {
     width: 50%;
     margin: auto;
 }
+/* .boardForm textarea {
+    word-wrap: break-word;
+} */
 

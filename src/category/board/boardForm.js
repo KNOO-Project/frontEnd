@@ -2,11 +2,9 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../category-css/board/boardForm.css'
-import Parser from 'html-react-parser';
 
 function BoardForm(props){
     let navigate = useNavigate();
-    //console.log(props.cookies.token)
     let token = props.cookies.token;
     let [data, setData] = useState({
         post_title: "",
@@ -20,6 +18,7 @@ function BoardForm(props){
         <div>
         <h2>{localStorage.getItem('boardTitle')} 게시판</h2>
         <form className='boardForm' onSubmit={(e) => {
+            
             console.log(data)
             e.preventDefault();
             console.log('post', token)
@@ -43,11 +42,19 @@ function BoardForm(props){
                 post_title: e.target.value
             })}} />
             <br/>
-            <textarea placeholder="내용을 입력해주세요." value={data.post_content}  onChange={e => {
-                setData({
-                ...data,
-                post_content: e.target.value
-            })}} />
+            <textarea placeholder="내용을 입력해주세요."  value={data.post_content}  onChange={e => {
+                if(data.post_content.length % 48 === 0 && data.post_content.length !== 0){          //textarea 너비가 48
+                    setData({
+                        ...data,
+                        post_content: e.target.value + '\n'
+                    })
+                }else {
+                    setData({
+                        ...data,
+                        post_content: e.target.value
+                    })
+                }
+                }} />
             <br/>
             <div className='boardForm-btn'>
             <input  type='checkbox' id='anonymous'
