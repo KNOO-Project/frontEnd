@@ -10,10 +10,12 @@ import {MdOutlineSubdirectoryArrowRight} from 'react-icons/md';
 function BoardDetail(props) {
     let token = props.cookies.token;
     //console.log(token);
-    let {post_id} = useParams();
     let params = useParams();
+    let post_id = params.postId, category = params.category_board.split('_')[0];        //axios 전송 주소 값
+    console.log(params);
+    console.log(post_id);
+    console.log(category);
     let navigate = useNavigate();
-    let category_path = props.category_path
     let [postData, setPostData] = useState({
         post_title:'',
         post_content: "",
@@ -121,7 +123,7 @@ function BoardDetail(props) {
             }
         })
         .then((res) => {
-            navigate(`/${category_path}_board`);
+            navigate(`/${category}_board`);
             //window.location.reload();                   //나중에 바꾸기
         })
         .catch(console.log('err'))
@@ -130,7 +132,7 @@ function BoardDetail(props) {
     useEffect(() => {
         let comment = [];
         let recomment = []
-        axios.get(`/api/v1/posts/${category_path}/${post_id}`, (
+        axios.get(`/api/v1/posts/${category}/${post_id}` , (
             {
                 headers: {Authorization: token} /* 헤더에 토큰 담아서 보내기 */
               }
@@ -389,7 +391,7 @@ function BoardDetail(props) {
         
         <Routes>
             <Route path="content_modify" element={<ModifyBoardForm cookies={props.cookies} post_id={post_id} title={postData.post_title} content={postData.post_content} 
-            category_path={props.category_path}
+            category = {category}
             />} />
         </Routes>
         </>

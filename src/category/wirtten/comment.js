@@ -3,6 +3,7 @@ import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import axios from "axios";
 import '../../category-css/written/comment.css';
 import {AiOutlineLike, AiOutlineComment, AiOutlineStar, AiFillStar} from 'react-icons/ai';
+import BoardDetail from "../board/boardDetail";
 
 
 function Comment(props){
@@ -52,7 +53,7 @@ function Comment(props){
         })}
         <button>더보기</button>
         </div>
-
+        
         </>
     )
 }

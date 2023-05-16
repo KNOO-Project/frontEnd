@@ -13,6 +13,7 @@ import CategoryBoard from './category/board/categoryBoard';
 import MyScrap from './category/myInfo/myScrap';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
+import BoardDetail from './category/board/boardDetail';
 
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
@@ -86,19 +87,19 @@ function App() {
                     <ul>
                         <li onClick={(e)=>{
                           moveBoard('free', '자유')
-                          }} ><Link to={`${category[0]}_board`}>자유게시판</Link></li>
+                          }} ><Link to={`free_board`}>자유게시판</Link></li>
                         <li onClick={(e)=>{
                           moveBoard('graduate', '졸업생')
-                          }} ><Link to={`${category[2]}_board`}>졸업생게시판</Link></li>
+                          }} ><Link to={`graduate_board`}>졸업생게시판</Link></li>
                         <li onClick={(e)=>{
                           moveBoard('newcomer', '새내기');
-                          }} ><Link to={`${category[1]}_board`}>새내기게시판</Link></li>
+                          }} ><Link to={`newcomer_board`}>새내기게시판</Link></li>
                         <li onClick={(e)=>{
                           moveBoard('info', '정보');
-                          }} ><Link to={`${category[5]}_board`}>정보게시판</Link></li>
+                          }} ><Link to={`info_board`}>정보게시판</Link></li>
                         <li onClick={(e)=>{
                           moveBoard('employment', '취업&진로');
-                          }} ><Link to={`${category[3]}_board`}>취업.진로</Link></li>
+                          }} ><Link to={`employment_board`}>취업.진로</Link></li>
                         <li onClick={(e)=>{
                           moveBoard('student-club', '동아리&학회');
                           }} ><Link to={`student-club_board`}>동아리.학회</Link></li>
@@ -139,7 +140,8 @@ function App() {
         <Route path='/맛집' element={<Restaurant />} />
         <Route path='/진로&취업' element={<Future />} />
         <Route path='/main_board/*' element={<MainBoard  />} />
-        <Route path={`/${localStorage.getItem('pathBoardTitle')}_board/*`} element={<CategoryBoard cookies={cookies} />} />
+        <Route path='/:category_board/*' element={<CategoryBoard cookies={cookies} />} />
+        <Route path='/:category_board/detail/:postId/*' element={<BoardDetail cookies={cookies} />} />                  {/* 내가 쓴 글 or 댓글 단 글 or 내 스크랩 */}
         <Route path='/login' element={<Login  setCookie={setCookie} />} />
         <Route path='/회원가입' element={<Membership />} />
         <Route path='/myInfo/*' element={<MyInfo  cookies={cookies} /> } />

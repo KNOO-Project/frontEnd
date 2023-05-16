@@ -9,9 +9,9 @@ function BoardForm(props){
     let [data, setData] = useState({
         post_title: "",
         post_content: "",
-        post_category: localStorage.getItem('pathBoardTitle'),
+        post_category: props.category,
         anonymous: false
-    })
+    });
 
     return(
         <div>
@@ -42,7 +42,7 @@ function BoardForm(props){
             }
             )
             .then((res)=>{
-                navigate(`/${data.post_category}_board`);
+                navigate(`/${props.category}_board`);
                 //window.location.reload();                                   // 나중에 바꾸기 강제 리로드 말고 다른걸로
             }).catch(res => {
                 alert(res.response.data.message)                            //실패시 받아온 data에서 message 보여쥬기

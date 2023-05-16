@@ -11,9 +11,9 @@ function CategoryBoardPagenation(props){
     let params = useParams();
     console.log(params);
     console.log(params['pageNum'])
-    const currentUrl = window.location.href;
+    //const currentUrl = window.location.href;
     //console.log(currentUrl);
-    let category = currentUrl.split('/')[3];
+    let category = params.category_board.split('_')[0];
     //let categoryTitle = localStorage.getItem('pathBoardTitle');
     let category_path = localStorage.getItem('pathBoardTitle');
     let [boardTitle, setBoardTitle] = useState();
@@ -36,7 +36,7 @@ function CategoryBoardPagenation(props){
             setBoardTitle('동아리/학회')
         }
         //console.log('pageNum',pageNum)
-        axios.get(`/api/v1/posts/${category_path}`, {
+        axios.get(`/api/v1/posts/${category}`, {
             headers: {Authorization : props.cookies.token},
             params: {
                 page: params['pageNum']
@@ -81,7 +81,7 @@ function CategoryBoardPagenation(props){
                 console.log('preBoardTitle', boardTitle)
             }
             )
-    }, [currentUrl , category, category_path, props.cookies.token, pageClick]                       // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
+    }, [ category, props.cookies.token, pageClick, params['pageNum']]                       // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
     );
     /* function getNewpage(pageLength, pageClick){
         let newPage = [];
@@ -155,7 +155,7 @@ function CategoryBoardPagenation(props){
         
                 <Routes>
                     <Route path="writing" element={<BoardForm cookies={props.cookies}  />} />
-                    <Route path='detail/:post_id/*' element={<BoardDetail category_path={category_path} cookies={props.cookies} />} />
+                    <Route path='detail/:postId/*' element={<BoardDetail cookies={props.cookies} />} />
                 </Routes>
         </>
         

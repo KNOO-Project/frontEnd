@@ -11,9 +11,10 @@ function CategoryBoard(props){
     let navigate = useNavigate();
     let params = useParams();
     console.log(params)
+    let category = params.category_board.split('_')[0];
     const currentUrl = window.location.href;
     //console.log(currentUrl);
-    let category = currentUrl.split('/')[3];
+    
     //let categoryTitle = localStorage.getItem('pathBoardTitle');
     let category_path = localStorage.getItem('pathBoardTitle');
     let [boardTitle, setBoardTitle] = useState();
@@ -39,7 +40,7 @@ function CategoryBoard(props){
             setBoardTitle('동아리/학회')
         }
         //console.log('pageNum',pageNum)
-        axios.get(`/api/v1/posts/${category_path}`, {
+        axios.get(`/api/v1/posts/${category}`, {
             headers: {Authorization : props.cookies.token},
             params: {
                 page: 1                                     // 페이지 첫 로드시 pageNum은 1
@@ -82,7 +83,7 @@ function CategoryBoard(props){
                 //console.log('preBoardTitle', boardTitle)
             }
             )
-    }, [currentUrl, pageNum, category, category_path, props.cookies.token]                                          // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
+    }, [ pageNum, category, currentUrl, props.cookies.token]                                          // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
     );
     //console.log(pageNum)
     return(
@@ -139,8 +140,8 @@ function CategoryBoard(props){
         
                 <Routes>
                     <Route path="page/:pageNum/*" element={<CategoryBoardPagenation cookies={props.cookies} pageNum={pageNum} />} />
-                    <Route path="writing" element={<BoardForm cookies={props.cookies}  />} />
-                    <Route path='detail/:post_id/*' element={<BoardDetail category_path={category_path} cookies={props.cookies} />} />
+                    <Route path="writing" element={<BoardForm cookies={props.cookies} category={category} />} />
+                    <Route path='detail/:postId/*' element={<BoardDetail  cookies={props.cookies} />} />
                 </Routes>
         </>
         
