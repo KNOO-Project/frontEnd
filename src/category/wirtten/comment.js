@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import axios from "axios";
 import '../../category-css/written/comment.css';
 import {AiOutlineLike, AiOutlineComment, AiOutlineStar, AiFillStar} from 'react-icons/ai';
 
+
 function Comment(props){
 
-    let [commentList, setCommentList] = useState([])
+    let [commentList, setCommentList] = useState([]);
+    //let navigate = useNavigate();
     useEffect(() => {
         axios.get('/api/v1/users', {
             headers: {Authorization: props.cookies.token} /* 헤더에 토큰 담아서 보내기 */
@@ -16,9 +18,10 @@ function Comment(props){
             setCommentList(res.data.comment_posts)
           })
           .catch(/* console.log('err') */)
-    }, [])
+    }, []);
 
     return(
+        <>
         <div className="written_comment_list">
         {commentList.map((a,i) => {
             return(
@@ -49,6 +52,8 @@ function Comment(props){
         })}
         <button>더보기</button>
         </div>
+
+        </>
     )
 }
 

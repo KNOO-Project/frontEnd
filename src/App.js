@@ -12,7 +12,6 @@ import MyInfo from './category/myInfo/myInfo';
 import CategoryBoard from './category/board/categoryBoard';
 import MyScrap from './category/myInfo/myScrap';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useCookies } from 'react-cookie';
 
 function App() {
@@ -140,7 +139,7 @@ function App() {
         <Route path='/맛집' element={<Restaurant />} />
         <Route path='/진로&취업' element={<Future />} />
         <Route path='/main_board/*' element={<MainBoard  />} />
-        <Route path={`${localStorage.getItem('pathBoardTitle')}_board/*`} element={<CategoryBoard cookies={cookies} />} />
+        <Route path={`/${localStorage.getItem('pathBoardTitle')}_board/*`} element={<CategoryBoard cookies={cookies} />} />
         <Route path='/login' element={<Login  setCookie={setCookie} />} />
         <Route path='/회원가입' element={<Membership />} />
         <Route path='/myInfo/*' element={<MyInfo  cookies={cookies} /> } />

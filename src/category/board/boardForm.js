@@ -12,12 +12,26 @@ function BoardForm(props){
         post_category: localStorage.getItem('pathBoardTitle'),
         anonymous: false
     })
-    console.log(data)
-    console.log(data.post_content.length)
+
     return(
         <div>
         <h2>{localStorage.getItem('boardTitle')} 게시판</h2>
         <form className='boardForm' onSubmit={(e) => {
+            let k = 0;
+            while(k === data.post_content.length){
+                let array = '';
+                for(var i=k; i<k+48; i++){
+                    if(data.post_content[k] === '\n'){
+                        k = i;
+                        break;
+                    }
+                    array = array + data.post_content[k];
+                }
+                if(!array.includes('\n')){
+                    data.post_content = data.post_content.slice(0, k+48) + '\n' + data.post_content.slice(k+48, data.post_content.length);
+                    k += 48;
+                }
+            }
             
             console.log(data)
             e.preventDefault();

@@ -59,10 +59,13 @@ function Membership(){
                         else if(data.name.length < 2 || data.name.length > 10){
                             alert('닉네임을 글자수에 맞게 다시 입력해주세요.')
                         }
-                        else if(data.email !== '') {
-                            data.email = data.email + '@smail.kongju.ac.kr';
-                        }
-                        axios.post('/api/v1/auth/sign-up', data)
+                        axios.post('/api/v1/auth/sign-up', {
+                            username: data.username,
+                            password: data.password,
+                            password_check: data.password_check,
+                            name: data.name,
+                            email: data.email + '@smail.kongju.ac.kr'
+                        })
                         .then(res => {
                             if(res.data === '회원가입 인증 이메일이 전송되었습니다.'){
                                 alert('OutLook에서 학교이메일로 로그인 후 url 클릭');

@@ -113,6 +113,20 @@ function BoardDetail(props) {
         })
     }
 
+    const deletePost = (postId) => {
+        axios.delete('/api/v1/posts',{
+            headers: { Authorization : token},      /* 인증 위해 헤더에 토큰 담아서 보내기 */
+            params : {
+                post_id : postId
+            }
+        })
+        .then((res) => {
+            navigate(`/${category_path}_board`);
+            //window.location.reload();                   //나중에 바꾸기
+        })
+        .catch(console.log('err'))
+    }
+
     useEffect(() => {
         let comment = [];
         let recomment = []
@@ -232,17 +246,12 @@ function BoardDetail(props) {
             <>
             <p className="content_modify" ><Link to='content_modify'>수정</Link></p>
             <p className="content_delete" onClick={() => {
-                axios.delete('/api/v1/posts',{
-                    headers: { Authorization : token},      /* 인증 위해 헤더에 토큰 담아서 보내기 */
-                    params : {
-                        'post_id': post_id
-                    }
-                })
-                .then((res) => {
-                    navigate(`/${category_path}_board`);
-                    //window.location.reload();                   //나중에 바꾸기
-                })
-                .catch(console.log('err'))
+                if(window.confirm('해당 게시글을 삭제 하시겠습니까?')){
+                    deletePost(post_id);
+                    //해당 게시글 삭제한다고 서버로 전송
+                }else {
+                    //그냥 아무일도 일어나지 않음
+                }
             }} >삭제</p>
             </>
             : null}
