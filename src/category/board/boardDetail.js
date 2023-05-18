@@ -40,6 +40,7 @@ function BoardDetail(props) {
     let [clickId, setClickId] = useState(null);                 //대댓글 해당 Id 판별
     let [recomment, setRecomment] = useState();                 //대댓글 value 값
     let [likeCount, setLikeCount] = useState();                 //좋아요 갯수 담을 변수
+    let [likeCountClick, setLikeCountClick] = useState(false);  //likeCountClick 값 변경시 likeCount 값 업데이트되고 useEffect 다시 실행  
     let [isScrap, setIsScrap] = useState()                      //게시글 스크랩 여부
     let [scrapCount, setScrapCount] = useState();               //게시글 스크랩 횟수
     let currentDate = new Date();
@@ -94,6 +95,7 @@ function BoardDetail(props) {
         })
         .then((res) => {
             console.log(res);
+            setLikeCountClick(prev => !prev);
         })
         .catch(() => {
             console.log('err');
@@ -181,7 +183,7 @@ function BoardDetail(props) {
             
         })
         .catch((res) => {console.log(res)})
-    },[post_id])
+    },[post_id, likeCountClick])
 
     //console.log(commentData)
     let diffTime = {
@@ -234,6 +236,7 @@ function BoardDetail(props) {
     console.log('commentData', commentData)
     console.log('recommentData', recommentData)
     console.log('initialCommentData', initialCommentData)
+    console.log('likeCountClick', likeCountClick);
     //console.log('moreCommentsClick', moreCommentsClick)
     //console.log(isScrap);
     //console.log(scrapCount);
@@ -266,7 +269,8 @@ function BoardDetail(props) {
             <div className="icon_box">
                 <p className="like" onClick={e => {
                     likePost(post_id);
-                    window.location.reload();
+                    //navigate(`/${category}_board/detail/${post_id}`)
+                    //window.location.reload();
                 }} ><AiOutlineLike /></p>
                 <p className="like_count">{likeCount}</p>
                 <p className="comment"><AiOutlineComment /></p>
