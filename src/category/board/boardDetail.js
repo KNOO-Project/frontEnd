@@ -25,13 +25,15 @@ function BoardDetail(props) {
         likes_count: '',
         is_written_by_user : '' 
     });
+
     let [dateData, setDateData] = useState({
         year: '',
         month: '',
         day: '',
         hour: '',
         min: ''
-    })
+    });
+
     let [commentData, setCommentData] = useState([]);           //댓글 리스트 담을 변수
     let [initialCommentData, setInitialCommentData] = useState([]);                                 // 더보기 누르기 전 보여질 댓글 데이터
     let [moreCommentsClick, setMoreCommentsClick] = useState(2);    // useState는 비동기여서 강제로 값 1말고 2 로 설정
@@ -40,7 +42,8 @@ function BoardDetail(props) {
     let [clickId, setClickId] = useState(null);                 //대댓글 해당 Id 판별
     let [recomment, setRecomment] = useState();                 //대댓글 value 값
     let [likeCount, setLikeCount] = useState();                 //좋아요 갯수 담을 변수
-    let [likeCountClick, setLikeCountClick] = useState(false);  //likeCountClick 값 변경시 likeCount 값 업데이트되고 useEffect 다시 실행  
+    let [likePostClick, setLikePostClick] = useState(false);        //likePostClick 값 변경시 likeCount 값 업데이트되고 useEffect 다시 실행
+    let [likeCommentClick, setLikeCommentClick] = useState(false);  //likeCommentClick 값 변경시 likeComment 값 업데이트되고 useEffect 다시 실행
     let [isScrap, setIsScrap] = useState()                      //게시글 스크랩 여부
     let [scrapCount, setScrapCount] = useState();               //게시글 스크랩 횟수
     let currentDate = new Date();
@@ -95,7 +98,23 @@ function BoardDetail(props) {
         })
         .then((res) => {
             console.log(res);
-            setLikeCountClick(prev => !prev);
+            setLikePostClick(prev => !prev);
+        })
+        .catch(() => {
+            console.log('err');
+        })
+    }
+
+    const likeComment = (commentId) => {
+        axios.post('/api/v1/comments/likes', {/* body 자리 비워놓기 */}, {
+            headers: {Authorization: token},
+            params: {
+                comment_id: commentId
+            }
+        })
+        .then((res) => {
+            console.log(res);
+            setLikeCommentClick(prev => !prev);
         })
         .catch(() => {
             console.log('err');
@@ -140,7 +159,7 @@ function BoardDetail(props) {
               }
         ))
         .then((res) => {
-            console.log(res)
+            console.log(res);
             setLikeCount(res.data.post.likes_count);
             setIsScrap(res.data.post.scrapped);
             setScrapCount(res.data.post.scraps_count);
@@ -183,7 +202,7 @@ function BoardDetail(props) {
             
         })
         .catch((res) => {console.log(res)})
-    },[post_id, likeCountClick])
+    },[post_id, likePostClick, likeCommentClick]);
 
     //console.log(commentData)
     let diffTime = {
@@ -236,7 +255,7 @@ function BoardDetail(props) {
     console.log('commentData', commentData)
     console.log('recommentData', recommentData)
     console.log('initialCommentData', initialCommentData)
-    console.log('likeCountClick', likeCountClick);
+    console.log('likeCountClick', likePostClick);
     //console.log('moreCommentsClick', moreCommentsClick)
     //console.log(isScrap);
     //console.log(scrapCount);
@@ -247,6 +266,7 @@ function BoardDetail(props) {
         <>
         <div className="detail-post">
             <p className="name">{postData.writer_name}</p>
+            <p className="date">{calcullateDate(dateUnit, diffTimeMin)}</p>
             {postData.is_written_by_user ? 
             <>
             <p className="content_modify" ><Link to='content_modify'>수정</Link></p>
@@ -262,15 +282,11 @@ function BoardDetail(props) {
             : null}
             <div style={{clear: 'both'}}></div>
             <p className="title">{postData.post_title}</p>
-            <p className="date">{calcullateDate(dateUnit, diffTimeMin)}</p>
-            <pre>
+            
             <p className="content">{postData.post_content}</p>
-            </pre>
             <div className="icon_box">
                 <p className="like" onClick={e => {
                     likePost(post_id);
-                    //navigate(`/${category}_board/detail/${post_id}`)
-                    //window.location.reload();
                 }} ><AiOutlineLike /></p>
                 <p className="like_count">{likeCount}</p>
                 <p className="comment"><AiOutlineComment /></p>
@@ -308,6 +324,7 @@ function BoardDetail(props) {
                         <>
                         <div className="detail-comment" key={i} >
                             <p className="name">{a.writer_name}</p>
+                            <p className="date">{a.comment_date}</p>
                             {a.is_written_by_user ? 
                                 <>
                                 <p className="comment_delete" onClick={() => {
@@ -334,8 +351,14 @@ function BoardDetail(props) {
                                 }
                             }} >대댓글작성</button>
                             <br style={{clear: 'both'}}></br>                   {/* float 속성 없애주기 */}
-                            <p className="date">{a.comment_date}</p>
+                            
                             <p className="comment">{a.comment_content}</p>
+                            <p className="comment_like"><AiOutlineLike onClick={() => {
+                                let commentId = a.comment_id;
+                                console.log(commentId);
+                                likeComment(commentId);
+                            }}  /><span className="like_count">{a.likes_count}</span></p>
+                            <div style={{clear: 'both'}}></div>
                             {/* 대댓글 화면 표시 */}
                             {a.comment_id === clickId ?                     //클릭한 댓글의 아이디와 일치하는 댓글에만 대댓글 작성화면 보여주기
                             <div className="write-recomment">

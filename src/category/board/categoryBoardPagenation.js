@@ -7,6 +7,7 @@ import BoardDetail from "./boardDetail";
 import axios from "axios";
 import {TbCircleChevronLeft, TbCircleChevronRight} from 'react-icons/tb';
 import {AiOutlineSearch} from 'react-icons/ai';
+import {HiPencil} from 'react-icons/hi';
 
 function CategoryBoardPagenation(props){
     let navigate = useNavigate();
@@ -106,7 +107,7 @@ function CategoryBoardPagenation(props){
             <div className="head">
                 <button className="writing_btn" onClick={() => {
                         localStorage.removeItem('categoryBoardClick');
-                    }} ><Link to='writing' >글쓰기</Link></button>
+                    }} ><Link to='writing' ><HiPencil className="write_icon" /><span>작성하기</span></Link></button>
                     <h2>{boardTitle} 게시판</h2>
                     <form className="search">
                         <select className="search_select" onChange={e => {

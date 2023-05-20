@@ -9,9 +9,17 @@ div{
 }
 .category_board .head > .writing_btn {
     width: 20%;
+    background-color: #0dcdfd;
 }
 .category_board .head > h2 {
     width: 30%;
+}
+.category_board > .head  .write_icon {
+    font-size: 25px;
+    margin-right: 5px;
+}
+.category_board > .head span {
+    font-weight: bold;
 }
 .category_board .head > .search {
     width: 50%;

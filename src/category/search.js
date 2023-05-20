@@ -117,8 +117,6 @@ function Search(props) {
                         }
                         console.log('len', len);
                         setPageLength(len);
-                        //setPageClick(prev => prev -= 1);            //pageClick - 1해서 밑에 보여지는 pageNum 변경
-                        //console.log('leftClick', pageClick);
                         navigate(`../search/keyword=${keyword}&page=${pageLength[0] - 10}`);
                     }} />
                     }
@@ -133,7 +131,6 @@ function Search(props) {
                     })}
                     {pageLength.includes(totalPages) || totalPages === 0 ? null : 
                     <TbCircleChevronRight className="right_icon" onClick={e => {
-                        //setPageClick(prev => prev += 1);                ////pageClick + 1해서 밑에 보여지는 pageNum 변경
                         let len = [];
                         for(var i=pageLength[0]+10; i<=pageLength[9]+10; i++){
                             if(i === totalPages){

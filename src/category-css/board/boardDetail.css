@@ -7,6 +7,20 @@
     text-align: left;
     padding: 20px;
 }
+.detail-post > .name {
+    float: left;
+}
+.detail-post > .title {
+    font-size: 25px;
+}
+.detail-post > .name, .detail-post > .content {
+    font-size: 15px;
+}
+.detail-post > .date {
+    font-size: 13px;
+    float: left;
+    margin-left: 10px;
+}
 .detail-post > .content_modify, .detail-post > .content_delete {
     float: right;
     font-size: 15px;
@@ -23,15 +37,7 @@
     cursor: pointer;
     color:#adb5bd
 }
-.detail-post > .name {
-    float: left;
-}
-.detail-post > .name, .detail-post > .content {
-    font-size: 15px;
-}
-.detail-post > .date {
-    font-size: 13px;
-}
+
 pre {
     font-family: var(--bs-font-sans-serif);
 }
@@ -96,12 +102,19 @@ pre {
     cursor: pointer;
     opacity: 0.5;
 }
-.detail-comment > .name, .detail-comment > .date {
+.detail-comment > .name {
     font-size: 14px;
+    float: left;
+}
+.detail-comment > .date {
+    font-size: 11px;
+    float: left;
+    margin-left: 10px;
 }
 .detail-comment > .name {
     float: left;
 }
+
 .detail-comment > .write_comment_btn {
     float: right;
     font-size: 13px;
@@ -110,9 +123,26 @@ pre {
 }
 .detail-comment > .comment {
     font-size: 15px;
+    float: left;
+}
+.detail-comment > .comment_like  {
+    font-size: 20px;
+    float: right;
+}
+.detail-comment > .comment_like > svg {
+    color: blue;
+}
+.detail-comment > .comment_like > svg:hover {
+    cursor: pointer;
+    opacity: 0.5;
+}
+.detail-comment > .comment_like > .like_count {
+    font-size: 15px;
+    margin-left: 10px;
 }
 /* modify-comment & delete-commnet */
-.detail-comment > .comment_modify, .detail-comment > .comment_delete {
+.detail-comment > .comment_delete {
+    font-size: 15px;
     float: right;
     margin-left: 5px;
 }
