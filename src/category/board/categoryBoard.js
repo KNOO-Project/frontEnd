@@ -4,12 +4,15 @@ import '../../category-css/board/categoryBoard.css'
 import {useEffect, useState} from 'react';
 import BoardDetail from "./boardDetail";
 import CategoryBoardPagenation from "./categoryBoardPagenation";
+import Search from "../search";
 import axios from "axios";
 import {TbCircleChevronRight, TbCircleChevronLeft} from 'react-icons/tb'
+import {AiOutlineSearch} from 'react-icons/ai';
 
 function CategoryBoard(props){
     let navigate = useNavigate();
     let params = useParams();
+    let token = props.cookies.token;
     console.log(params)
     let category = params.category_board.split('_')[0];
     const currentUrl = window.location.href;
@@ -18,12 +21,14 @@ function CategoryBoard(props){
     //let categoryTitle = localStorage.getItem('pathBoardTitle');
     let category_path = localStorage.getItem('pathBoardTitle');
     let [boardTitle, setBoardTitle] = useState();
-    let [preBoardTitle, setPreBoardTitle] = useState();
     let [boardData, setBoardData] = useState([]);
     let [pageLength, setPageLength] = useState([]);
     let [pageNum, setPageNum] = useState();          
     let [totalPages,setTotalPages] = useState();
     let [pageClick, setPageClick] = useState(0);  
+    let [searchContent, setSearchContent] = useState(null);
+    let [searchTypeSelected, setSearchTypeSelected] = useState('all');
+
     
     useEffect(() => {
         if(category.includes('free')){
@@ -41,14 +46,14 @@ function CategoryBoard(props){
         }
         //console.log('pageNum',pageNum)
         axios.get(`/api/v1/posts/${category}`, {
-            headers: {Authorization : props.cookies.token},
+            headers: {Authorization : token},
             params: {
                 page: 1                                     // 페이지 첫 로드시 pageNum은 1
             }
           })
           .then((res)=>{
             //console.log('boardTitle', boardTitle)
-            //console.log(res)
+            console.log(res)
             setTotalPages(res.data.total_pages)
             setBoardData(res.data.posts);
             let dataLength = [];
@@ -58,7 +63,7 @@ function CategoryBoard(props){
                     break;
                 }
             }
-            setPageLength(dataLength)
+            setPageLength(dataLength);
             /* if(res.data.total_pages % 20 === 0){
                 let num = res.data.total_pages / 20;
                 for(var i=1; i<=num; i++){
@@ -80,36 +85,76 @@ function CategoryBoard(props){
             () => {
                 setBoardData([]);
                 setPageLength([]);     //boardData를 보여준 후 pageNum을 보여줌
+                setSearchContent(null);
                 //console.log('preBoardTitle', boardTitle)
             }
             )
     }, [ pageNum, category, currentUrl, props.cookies.token]                                          // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
     );
+
+    //검색 기능
+    const search = () => {
+        axios.get('/api/v1/posts/search', {
+            headers: {Authorization: props.cookies.token},
+            params: {
+                'category': category,
+                condition: searchTypeSelected,
+                keyword: searchContent,
+                page: 1
+            }
+        })
+        .then((res) => {
+            console.log(res);
+            //setSearchData(res.data);
+            navigate(`search/keyword=${searchContent}/page=1`);
+        })
+        .catch(() => {
+            console.log('err');
+        })
+    }
     //console.log(pageNum)
+    console.log(searchTypeSelected);
     return(
         <>
         {params['*'] === ''  ? <>
             <div className="category_board">
                 <div className="head">
-                    <h2>{boardTitle} 게시판</h2>
-                    <button onClick={() => {
+                <button className="writing_btn" onClick={() => {
                         localStorage.removeItem('categoryBoardClick');
                     }} ><Link to='writing' >글쓰기</Link></button>
+                    <h2>{boardTitle} 게시판</h2>
+                    <form className="search">
+                        <select className="search_select" onChange={e => {
+                            setSearchTypeSelected(e.target.value)
+                        }} value={searchTypeSelected}>
+                            <option value='all' >제목+본문</option>
+                            <option value='title' >제목</option>
+                            <option value='content' >본문</option>
+                        </select>
+                        <input type="text" value={searchContent} onChange={e => {
+                            setSearchContent(e.target.value)
+                        }} />
+                        <AiOutlineSearch className="search_icon" onClick={() => {
+                            navigate(`search/keyword=${searchContent}&page=1`);
+                            //search();
+                            //console.log(searchTypeSelected);
+                            //console.log(searchContent);
+                        }} />
+                    </form>
                 </div>
                 <div className="board_list">
                     {boardData.map((a, i) => {
                         while(i < 20){
                             return(
-                                <Link to={`detail/${a.post_id}`} key={i}>
-                                <li  onClick={() => {
-                                    localStorage.removeItem('categoryBoardClick');
-                                    localStorage.setItem('content', a.post_content);
-                                }} ><div className="title">{a.post_title}</div>
-                                <div className="content">{a.post_content.substring(0, 20)
-                                //본문내용 20자만 보여주기
-                                }</div><div className="name">{a.writer_name}</div><div className="date">{a.post_date}</div>
-                                </li>
-                                </Link>
+                                <Link to={`detail/${a.post_id}`} key={i}>   
+                                    <div className="title">{a.post_title}</div>
+                                    <div className="content">{a.post_content.substring(0, 20)
+                                    //본문내용 20자만 보여주기
+                                    }</div>
+                                    <div className="name">{a.writer_name}</div>
+                                    <div className="date">{a.post_date}</div>
+                                </Link>    
+                                
                             )
                         }
                     })}
@@ -139,6 +184,8 @@ function CategoryBoard(props){
         </> : null}
         
                 <Routes>
+                    <Route path={`search/:searchContent_page/*`} element={<Search category={category} searchTypeSelected={searchTypeSelected} 
+                     cookies={props.cookies}   />} />
                     <Route path="page/:pageNum/*" element={<CategoryBoardPagenation cookies={props.cookies} pageNum={pageNum} />} />
                     <Route path="writing" element={<BoardForm cookies={props.cookies} category={category} />} />
                     <Route path='detail/:postId/*' element={<BoardDetail  cookies={props.cookies} />} />

@@ -1,14 +1,41 @@
 div{
     box-sizing: border-box;
 }
-
+/* .head */
 .category_board .head {
-    width: 30%;
+    width: 60%;
     margin: 10px auto;
     display: flex;
 }
+.category_board .head > .writing_btn {
+    width: 20%;
+}
 .category_board .head > h2 {
-    margin-right: 10px;
+    width: 30%;
+}
+.category_board .head > .search {
+    width: 50%;
+}
+.category_board .head > .search > input {
+    width: 50%;
+    border: none;
+    border: 1px solid blueviolet;
+    border-radius: 20px;
+    margin-right: 5px;
+}
+.category_board .head > .search > .search_select {
+    border-radius: 5px;
+}
+.category_board .head > .search > .search_icon {
+    background-color:cadetblue;
+    height: 25px;
+    width: 25px;
+    border-radius: 5px;
+    color: white;
+}
+.category_board .head > .search > .search_icon:hover {
+    cursor: pointer;
+    opacity: 0.5;
 }
 .category_board button {
     border: none;
@@ -22,7 +49,8 @@ div{
     font-weight: 500;
 }
 /* board_list */
-.board_list li {
+
+.board_list > a {
     text-decoration: none;
     display: flex;
     width: 70%;
@@ -30,24 +58,24 @@ div{
     margin-bottom: 10px;
     border-radius: 3px;
 }
-.board_list li:hover {
+.board_list a:hover {
     background-color:cyan;
 }
-.board_list li > .title {
+.board_list a > .title {
     width: 30%;
     opacity: 1;
     font-weight: bold;
     cursor: pointer;
 }
-.board_list li > .content {
+.board_list a > .content {
     width: 40%;
 }
-.board_list li > .name {
+.board_list a > .name {
     opacity: 0.8;
     width: 15%;
     font-weight: bold;
 }
-.board_list li > .date {
+.board_list a > .date {
     opacity: 0.8;
     width: 15%;
     font-size: small;

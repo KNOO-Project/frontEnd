@@ -29,7 +29,7 @@ function App() {
       localStorage.setItem('boardTitle', boardTitle);             // 카테고리별 게시판 들어가면 title값을 맞게 추가해서 "{title}게시판" 보여주기
       //window.location.reload();         
     } else {
-      alert('로그인을 해 주세요!')
+      alert('로그인을 해 주세요!');
     }
   }
 
@@ -37,12 +37,12 @@ function App() {
     if(localStorage.isLogin === 'true'){
       navigate(`/${path}`)
     } else {
-      alert('로그인을 해 주세요!')
+      alert('로그인을 해 주세요!');
     }
   }
 
   function moveMyInfo(){                              //회원정보조회로 페이지 이동
-    navigate('/myInfo')
+    navigate('/myInfo');
             //console.log(cookies.token)
             
   }
@@ -53,14 +53,14 @@ function App() {
         <div className='nav-box'>
           <div onClick={()=>{navigate('/')}}><h1>KNoo</h1></div>
           <div className='text-center' onClick={(e)=>{
-            moveCategory('community')
+            moveCategory('community');
             }}><h3>커뮤니티</h3></div>
           <div className='text-center' onClick={(e)=>{
-            moveCategory('맛집')
+            moveCategory('맛집');
           }
             }><h3>맛집</h3></div>
           <div className='text-center' onClick={(e)=>{
-            moveCategory('진로&취업')
+            moveCategory('진로&취업');
           }
           }><h3>진로.취업</h3></div>
           <div className='text-center' 
@@ -86,10 +86,10 @@ function App() {
                     <div className='board-box'>
                     <ul>
                         <li onClick={(e)=>{
-                          moveBoard('free', '자유')
+                          moveBoard('free', '자유');
                           }} ><Link to={`free_board`}>자유게시판</Link></li>
                         <li onClick={(e)=>{
-                          moveBoard('graduate', '졸업생')
+                          moveBoard('graduate', '졸업생');
                           }} ><Link to={`graduate_board`}>졸업생게시판</Link></li>
                         <li onClick={(e)=>{
                           moveBoard('newcomer', '새내기');

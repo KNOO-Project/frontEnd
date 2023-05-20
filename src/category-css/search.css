@@ -1,0 +1,36 @@
+.search_list {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.search_list > a:hover {
+    background-color:cyan;
+}
+.search_list > a {
+    text-decoration: none;
+    display: flex;
+    width: 70%;
+    margin: auto;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    color: black;
+}
+.search_list a > .title {
+    width: 30%;
+    opacity: 1;
+    font-weight: bold;
+    cursor: pointer;
+}
+.search_list a > .content {
+    width: 40%;
+}
+.search_list a > .name {
+    opacity: 0.8;
+    width: 15%;
+    font-weight: bold;
+}
+.search_list a > .date {
+    opacity: 0.8;
+    width: 15%;
+    font-size: small;
+    font-weight: bold;
+}
