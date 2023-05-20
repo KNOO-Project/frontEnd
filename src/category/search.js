@@ -104,6 +104,7 @@ function Search(props) {
                 <div className="categoryBoard_pageNum">
                 {totalPages === 0 ?
                 <>
+                <h2>검색한 게시글이 존재하지 않습니다.</h2>
                 </>
                 : null}    
                 {pageLength.length === 1  ? null : 
