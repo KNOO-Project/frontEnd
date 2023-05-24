@@ -101,7 +101,7 @@ function Search(props) {
             </div>
 
             {/* page number */}
-                <div className="categoryBoard_pageNum">
+                <div className="search_pageNum">
                 {totalPages === 0 ?
                 <>
                 <h2>검색한 게시글이 존재하지 않습니다.</h2>

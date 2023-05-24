@@ -42,7 +42,7 @@ function App() {
   }
 
   function moveMyInfo(){                              //회원정보조회로 페이지 이동
-    navigate('/myInfo');
+    navigate('/users');
             //console.log(cookies.token)
             
   }
@@ -133,7 +133,7 @@ function App() {
       
 
       <Routes>
-        <Route path='/' element={
+        <Route path='/' exact element={
           <Home />
         } />
         <Route path='/community' element={<Community />} />
@@ -144,7 +144,7 @@ function App() {
         <Route path='/:category_board/detail/:postId/*' element={<BoardDetail cookies={cookies} />} />                  {/* 내가 쓴 글 or 댓글 단 글 or 내 스크랩 */}
         <Route path='/login' element={<Login  setCookie={setCookie} />} />
         <Route path='/회원가입' element={<Membership />} />
-        <Route path='/myInfo/*' element={<MyInfo  cookies={cookies} /> } />
+        <Route path='/users/*' exact element={<MyInfo  cookies={cookies} /> } />
         <Route path='/my_scrap/*' element={<MyScrap cookies={cookies}/>} />
       </Routes>
     </div>

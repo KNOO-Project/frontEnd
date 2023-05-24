@@ -11,16 +11,14 @@ a {
    padding: 10px;
 }
 
-.written_comment_list > button{
-    margin-top: 10px;
-    border: 1px solid #ced4da;
-    background: #ced4da
- }
-
 .written_comment_list a {
    color: black;
    font-weight: bold;
- }
+}
+
+.written_comment_list a:hover {
+   opacity: 0.5;
+}
 
 .written_box{
    width: 100%;

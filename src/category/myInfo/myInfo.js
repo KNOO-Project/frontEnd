@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
 import '../../category-css/login_out/myInfo.css'
 import axios from 'axios';
-import { Route, Routes, Link } from 'react-router-dom';
+import { Route, Routes, Link, useParams } from 'react-router-dom';
 import Content from '../wirtten/content';
 import Comment from '../wirtten/comment';
 import MyScrap from './myScrap';
+import AllComments from '../wirtten/writtenDetail/allComments';
+import AllContent from '../wirtten/writtenDetail/allContent';
 
 function MyInfo(props) {
-
+    let cookies = props.cookies;
+    let params = useParams();
+    console.log(params['*']);
     let [userData, setUserData] = useState({
         userName: '',
         userEmail: ''
@@ -31,7 +35,8 @@ function MyInfo(props) {
 
     return(
         <>
-         
+        {params['*'] === '' ? 
+        <>
         <div className="userInfo">
             <ul>
                 <li>닉네임 : {userData.userName}</li>
@@ -48,23 +53,16 @@ function MyInfo(props) {
                 <Comment cookies={props.cookies} />
                 </div>
             </div>
-            <Routes>
-                <Route path='../my_scrap' element={<MyScrap cookies={props.cookies} />} />
-                <Route path='written_content_by_me/*' element={<Content cookies={props.cookies} />} />
-                <Route path='written_comment_by_me/*' element={<Comment cookies={props.cookies} />} />
-            </Routes>
-            {/* <div className='written'>
-                <Link to='written_content_by_me' onClick={(e) => {
-                    localStorage.setItem('writtenClick', true)
-                }} >내가 쓴 글</Link>
-                <br></br>
-                <Link to='written_comment_by_me' onClick={(e) => {
-                    localStorage.setItem('writtenClick', true)
-                }}>댓글 단 글</Link>
-            </div> */}
+            
+            
         </div>
+        </>    : null}
         
-        
+        <Routes>
+            <Route path='../my_scrap' element={<MyScrap cookies={props.cookies} />} />
+            <Route path="comments/*" element={<AllComments cookies={cookies} />} />
+            <Route path='contents/*' element={<AllContent cookies={cookies} />} />
+        </Routes>
         </>
     )
 }

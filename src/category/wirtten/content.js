@@ -4,6 +4,7 @@ import { Route, Routes, Link, useParams } from "react-router-dom";
 import '../../category-css/written/content.css';
 import BoardDetail from "../board/boardDetail";
 import {AiOutlineLike, AiOutlineComment, AiOutlineStar, AiFillStar} from 'react-icons/ai';
+import AllContent from "./writtenDetail/allContent";
 
 function Content(props){
 
@@ -48,7 +49,7 @@ function Content(props){
                 </div>
             )
         })}
-        <button>더보기</button>
+        <Link to={'contents'}>더보기</Link>
         </div>
     )
 }

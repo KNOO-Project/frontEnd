@@ -1,11 +1,4 @@
-.search_list {
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-.search_list > a:hover {
-    background-color:cyan;
-}
-.search_list > a {
+.user_contents > a {
     text-decoration: none;
     display: flex;
     width: 70%;
@@ -14,21 +7,24 @@
     border-radius: 3px;
     color: black;
 }
-.search_list a > .title {
+.user_contents a:hover {
+    background-color:cyan;
+}
+.user_contents a > .title {
     width: 30%;
     opacity: 1;
     font-weight: bold;
     cursor: pointer;
 }
-.search_list a > .content {
+.user_contents a > .content {
     width: 40%;
 }
-.search_list a > .name {
+.user_contents a > .name {
     opacity: 0.8;
     width: 15%;
     font-weight: bold;
 }
-.search_list a > .date {
+.user_contents a > .date {
     opacity: 0.8;
     width: 15%;
     font-size: small;
@@ -36,13 +32,14 @@
 }
 
 /* pageNum */
-.search_pageNum{
+.allContents_pageNum{
     display: flex;
     width: 60%;
     margin: auto;
     margin-bottom: 10px;
+    margin-top: 20px;
 }
-.search_pageNum >a {
+.allContents_pageNum >a {
     list-style: none;
     width: 22px;
     font-size: 15px;
@@ -51,16 +48,16 @@
     margin: auto;
     border-radius: 3px;
 }
-.search_pageNum > a:hover{
+.allContents_pageNum > a:hover{
     cursor: pointer;
     opacity: 0.5;
 }
-.search_pageNum > .right_icon, .search_pageNum > .left_icon {
+.allContents_pageNum > .right_icon, .allContents_pageNum > .left_icon {
     margin-left: 5px;
     width: 24px;
     height: 24px;
 }
-.search_pageNum > .right_icon:hover, .search_pageNum > .left_icon:hover {
+.allContents_pageNum > .right_icon:hover, .allContents_pageNum > .left_icon:hover {
     opacity: 0.5;
     cursor: pointer;
 }

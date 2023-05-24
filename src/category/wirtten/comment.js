@@ -3,11 +3,10 @@ import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import axios from "axios";
 import '../../category-css/written/comment.css';
 import {AiOutlineLike, AiOutlineComment, AiOutlineStar, AiFillStar} from 'react-icons/ai';
-import BoardDetail from "../board/boardDetail";
+import AllComments from "./writtenDetail/allComments";
 
 
 function Comment(props){
-
     let [commentList, setCommentList] = useState([]);
     //let navigate = useNavigate();
     useEffect(() => {
@@ -51,8 +50,10 @@ function Comment(props){
                 </div>
             )
         })}
-        <button>더보기</button>
+        <Link className="more_btn" to={'comments'}>더보기</Link>
         </div>
+
+        
         
         </>
     )

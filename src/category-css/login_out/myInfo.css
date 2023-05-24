@@ -20,6 +20,9 @@
     list-style: none;
     padding-bottom: 10px;
 }
+.userInfo {
+    margin-bottom: 20px;
+}
 /* .written {
     width: 80%;
     text-align: left;
