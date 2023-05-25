@@ -19,7 +19,6 @@ function CategoryBoard(props){
     const currentUrl = window.location.href;
     //console.log(currentUrl);
     
-    //let categoryTitle = localStorage.getItem('pathBoardTitle');
     let category_path = localStorage.getItem('pathBoardTitle');
     let [boardTitle, setBoardTitle] = useState();
     let [boardData, setBoardData] = useState([]);
@@ -29,7 +28,6 @@ function CategoryBoard(props){
     let [pageClick, setPageClick] = useState(0);  
     let [searchContent, setSearchContent] = useState(null);
     let [searchTypeSelected, setSearchTypeSelected] = useState('all');
-
     
     useEffect(() => {
         if(category.includes('free')){
@@ -65,19 +63,7 @@ function CategoryBoard(props){
                 }
             }
             setPageLength(dataLength);
-            /* if(res.data.total_pages % 20 === 0){
-                let num = res.data.total_pages / 20;
-                for(var i=1; i<=num; i++){
-                    dataLength.push(i);
-                }
-                setPageLength(dataLength);
-            }else{
-                let num = Math.floor(res.data.total_pages / 20) + 1;
-                for(var j=1; j<=num; j++){
-                    dataLength.push(j);
-                }
-                setPageLength(dataLength);
-            } */
+            
           })
           .catch((res) => {
             console.log(res)

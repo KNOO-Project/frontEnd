@@ -1,5 +1,5 @@
 import BoardForm from "./boardForm";
-import Search from "../search";
+import CategorySearch from "../search";
 import { Link, Outlet, Route, Routes, useNavigate, useParams } from "react-router-dom";
 import '../../category-css/board/categoryBoard.css'
 import {useEffect, useState} from 'react';
@@ -174,7 +174,7 @@ function CategoryBoardPagenation(props){
         </> : null}
         
                 <Routes>
-                    <Route path={`../search/:searchContent_page/*`} element={<Search category={category} searchTypeSelected={searchTypeSelected} 
+                    <Route path={`../search/:searchContent_page/*`} element={<CategorySearch category={category} searchTypeSelected={searchTypeSelected} 
                      cookies={props.cookies}   />} />
                     <Route path="writing" element={<BoardForm cookies={props.cookies}  />} />
                     <Route path='detail/:postId/*' element={<BoardDetail cookies={props.cookies} />} />

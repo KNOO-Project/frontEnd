@@ -1,0 +1,21 @@
+.board .search_select {
+    border-radius: 5px;
+}
+.board input {
+    width: 50%;
+    border: none;
+    border: 1px solid blueviolet;
+    border-radius: 20px;
+    margin-right: 5px;
+}
+.board .search_icon {
+    background-color:cadetblue;
+    height: 25px;
+    width: 25px;
+    border-radius: 5px;
+    color: white;
+}
+.board .search_icon:hover {
+    cursor: pointer;
+    opacity: 0.5;
+}

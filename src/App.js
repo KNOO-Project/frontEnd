@@ -139,7 +139,7 @@ function App() {
         <Route path='/community' element={<Community />} />
         <Route path='/맛집' element={<Restaurant />} />
         <Route path='/진로&취업' element={<Future />} />
-        <Route path='/main_board/*' element={<MainBoard  />} />
+        <Route path='/main_board/*' element={<MainBoard cookies={cookies} />} />
         <Route path='/:category_board/*' element={<CategoryBoard cookies={cookies} />} />
         <Route path='/:category_board/detail/:postId/*' element={<BoardDetail cookies={cookies} />} />                  {/* 내가 쓴 글 or 댓글 단 글 or 내 스크랩 */}
         <Route path='/login' element={<Login  setCookie={setCookie} />} />
