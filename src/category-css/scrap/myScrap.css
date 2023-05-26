@@ -1,3 +1,25 @@
+/* head */
+.head .search_select {
+    border-radius: 5px;
+}
+.head input {
+    width: 50%;
+    border: none;
+    border: 1px solid blueviolet;
+    border-radius: 20px;
+    margin-right: 5px;
+}
+.head .search_icon {
+    background-color:cadetblue;
+    height: 25px;
+    width: 25px;
+    border-radius: 5px;
+    color: white;
+}
+.head .search_icon:hover {
+    cursor: pointer;
+    opacity: 0.5;
+}
 /* my_scrap */
 .my_scrap {
     width: 70%;
@@ -58,7 +80,7 @@
 }
 .scrapPage_icons > .like_count {
     font-size: 14px;
-    width: 20px;
+    width: 25px;
     margin-bottom: 0;
 }
 .scrapPage_icons > .comment_icon {
@@ -67,7 +89,7 @@
 }
 .scrapPage_icons > .comment_count {
     font-size: 14px;
-    width: 20px;
+    width: 25px;
     margin-bottom: 0;
 }
 .scrapPage_icons > .scrap_icon {
@@ -76,7 +98,7 @@
 }
 .scrapPage_icons > .scrap_count {
     font-size: 14px;
-    width: 20px;
+    width: 25px;
     margin-bottom: 0;
 }
 /* pageNum */

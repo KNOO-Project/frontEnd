@@ -1,51 +1,48 @@
 import axios from "axios";
-import '../../category-css/scrap/myScrap.css';
 import { useEffect, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {AiOutlineLike, AiOutlineComment, AiOutlineStar, AiFillStar} from 'react-icons/ai';
+import '../../category-css/scrap/myScrapSearch.css';
 
-function MyScrapPagenation(props) {
-    const token = props.token;
+function MyScrapSearch(props) {
     let params = useParams();
-    let pageNum = params['pageNum'];
-    var navigate = useNavigate();
-    let [scrapList, setScrapList] = useState([]);
-    let [totalPages, setTotalPages] = useState([]);
-    let [pageClick, setPageClick] = useState(Number(params['pageNum'] <= 10 ? 0 : 1));
+    console.log(params['keyword_pageNum']);
+    let navigate = useNavigate();
+    let keyword = params['keyword_pageNum'].split('&')[0].split('=')[1];
+    let pageNum = params['keyword_pageNum'].split('&')[1].split('=')[1];
+    let [searchList, setSearchList] = useState([]);
+    let [totalPages, setTotalPages] = useState();
+    console.log(keyword, pageNum);
 
     useEffect(() => {
-        axios.get('/api/v1/users/scraps', {
-            headers : {Authorization: token},
-            params : {
-                page: params['pageNum']
+        axios.get('/api/v1/users/scraps/search', {
+            headers: {Authorization: props.token},
+            params: {
+                condition: props.searchTypeSelected,
+                'keyword': keyword,
+                page: pageNum
             }
-        } )
+        })
         .then((res) => {
             console.log(res);
-            console.log(res.data.total_pages)
-            setScrapList(res.data.posts);
-            let dataLength = [];
-            for(var i=((pageClick*10)+1); i<=((pageClick+1)*10); i++){
-                dataLength.push(i);
-                if(i === res.data.total_pages){
-                    break;
-                }
-            }
-            setTotalPages(dataLength);
+            setSearchList(res.data.posts);
+            setTotalPages(res.data.total_pages);
         })
         .catch(() => {
             console.log('err');
         })
-    }, [params['pageNum']]);
+    }, [])
+    
+    console.log(searchList);
+    console.log(totalPages);
 
     return(
         <>
-        {params['*'] !== '' ? 
-        <>
-            {scrapList.map((a, i) => {
+        {searchList.map((a, i) => {
                 return(
                     <div key={i} className="my_scrap">
-                    <Link to={`../${a.post_category}_board/detail/${a.post_id}`}>
+                    <Link to={`../../${a.post_category}_board/detail/${a.post_id}`}>
                     <div className="my_scrap_box" >
                         <p className="title">{a.post_title}</p>
                         <p className="content">{a.post_content}</p>
@@ -69,21 +66,11 @@ function MyScrapPagenation(props) {
                 </div>
                 )
             })}
-            <div className="myScrap_pageNum">
-            {totalPages.map((a, i) => {
-                return(
-                    <Link to={`../page/${a}`} key={i} style={a === Number(pageNum) ? {color: '#0d6efd'} : {color: 'black'}}>
-                        <li>{a}</li>
-                    </Link>
-                )
-            })}
-            </div>
-        </>    
-
-        : null}
+         
         </>
     )
-    
 }
 
-export default MyScrapPagenation;
+export default MyScrapSearch;
+
+           

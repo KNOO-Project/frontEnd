@@ -1,0 +1,31 @@
+/* my_scrap */
+.my_scrap {
+    width: 70%;
+    margin: 10px auto 0 auto;
+    border: 3px solid #ced2da;
+    border-radius: 3px;
+    text-align: left;
+    padding: 10px;
+}
+.my_scrap > a {
+    color: black;
+}
+.my_scrap > a > .my_scrap_box {
+    width: 100%;
+}
+
+.my_scrap > .my_scrap_box:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.my_scrap > a > .my_scrap_box > .title {
+    font-size: 15px;
+    text-align: left;
+}
+
+.my_scrap > a > .my_scrap_box > .content {
+    font-size: 14px;
+    text-align: left;
+    margin-left: 10px;
+}

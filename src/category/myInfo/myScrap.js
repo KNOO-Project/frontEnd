@@ -1,18 +1,21 @@
 import axios from "axios";
-import '../../category-css/myScrap.css';
+import '../../category-css/scrap/myScrap.css';
 import { useEffect, useState } from "react";
-import {AiOutlineLike, AiOutlineComment, AiOutlineStar, AiFillStar} from 'react-icons/ai';
+import {AiOutlineLike, AiOutlineComment, AiOutlineStar, AiOutlineSearch} from 'react-icons/ai';
 import MyScrapPagenation from "./myScrapPagenation";
 import { Route, Routes, Link, useParams, useNavigate } from "react-router-dom";
+import MyScrapSearch from "./myScrapSearch";
 
 function MyScrap(props) {
     const token = props.cookies.token;
     let params = useParams();
     console.log(params)
-    var navigate = useNavigate();
-    
+    let navigate = useNavigate();
     let [scrapList, setScrapList] = useState([]);
     let [totalPages, setTotalPages] = useState([]);
+    let [searchTypeSelected, setSearchTypeSelected] = useState('all');
+    let [searchContent, setSearchContent] = useState('');
+
     useEffect(() => {
         axios.get('/api/v1/users/scraps', {
             headers : {Authorization: token},
@@ -38,9 +41,30 @@ function MyScrap(props) {
         })
     }, [])
     console.log(scrapList);
-    console.log(totalPages)
+    console.log(totalPages[0]);
     return(
         <>
+        <h2>내 스크랩</h2>
+            <div className="head">
+                <form className="search">
+                    <select className="search_select" onChange={e => {
+                        setSearchTypeSelected(e.target.value)
+                    }} value={searchTypeSelected}>
+                        <option value='all' >제목+본문</option>
+                        <option value='title' >제목</option>
+                        <option value='content' >본문</option>
+                    </select>
+                    <input type="text" value={searchContent} onChange={e => {
+                        setSearchContent(e.target.value)
+                    }} />
+                    <AiOutlineSearch className="search_icon" onClick={() => {
+                        navigate(`search/keyword=${searchContent}&page=1`);
+                        //search();
+                        console.log(searchTypeSelected);
+                        console.log(searchContent);
+                    }} />
+                </form>
+            </div>
         {params['*'] === '' ? 
         <>
             {scrapList.map((a, i) => {
@@ -74,7 +98,7 @@ function MyScrap(props) {
         <div className="myScrap_pageNum">
             {totalPages.map((a, i) => {
                 return(
-                    <Link to={`page/${a}`} key={i} style={a === 1 ? {color: '#0d6efd'} : null}>
+                    <Link to={`page/${a}`} key={i} style={a === 1 ? {color: '#0d6efd'} : {color: 'black'}}>
                         <li>{a}</li>
                     </Link>
                 )
@@ -109,6 +133,7 @@ function MyScrap(props) {
 
         <Routes>
             <Route path="page/:pageNum" element={<MyScrapPagenation token={token} />} />
+            <Route path="search/:keyword_pageNum" element={<MyScrapSearch token={token} searchTypeSelected={searchTypeSelected} />} />
         </Routes>
         </>
     )

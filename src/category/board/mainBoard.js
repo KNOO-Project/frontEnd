@@ -36,25 +36,25 @@ function MainBoard(props){
         <div className='board'>
             <h2>메인 게시판</h2>
             <div className="head">
-                    <form className="search">
-                        <select className="search_select" onChange={e => {
-                            setSearchTypeSelected(e.target.value)
-                        }} value={searchTypeSelected}>
-                            <option value='all' >제목+본문</option>
-                            <option value='title' >제목</option>
-                            <option value='content' >본문</option>
-                        </select>
-                        <input type="text" value={searchContent} onChange={e => {
-                            setSearchContent(e.target.value)
-                        }} />
-                        <AiOutlineSearch className="search_icon" onClick={() => {
-                            //navigate(`search/keyword=${searchContent}&page=1`);
-                            search();
-                            console.log(searchTypeSelected);
-                            console.log(searchContent);
-                        }} />
-                    </form>
-                </div>
+                <form className="search">
+                    <select className="search_select" onChange={e => {
+                        setSearchTypeSelected(e.target.value)
+                    }} value={searchTypeSelected}>
+                        <option value='all' >제목+본문</option>
+                        <option value='title' >제목</option>
+                        <option value='content' >본문</option>
+                    </select>
+                    <input type="text" value={searchContent} onChange={e => {
+                        setSearchContent(e.target.value)
+                    }} />
+                    <AiOutlineSearch className="search_icon" onClick={() => {
+                        //navigate(`search/keyword=${searchContent}&page=1`);
+                        search();
+                        console.log(searchTypeSelected);
+                        console.log(searchContent);
+                    }} />
+                </form>
+            </div>
         </div>
         <Routes>
             <Route path={`search/:searchContent_page/*`} element={<MainBoardSearch  searchTypeSelected={searchTypeSelected} 
