@@ -12,7 +12,7 @@ function MyScrapSearch(props) {
     let keyword = params['keyword_pageNum'].split('&')[0].split('=')[1];
     let pageNum = params['keyword_pageNum'].split('&')[1].split('=')[1];
     let [searchList, setSearchList] = useState([]);
-    let [totalPages, setTotalPages] = useState();
+    let [totalPages, setTotalPages] = useState([]);
     console.log(keyword, pageNum);
 
     useEffect(() => {
@@ -27,7 +27,14 @@ function MyScrapSearch(props) {
         .then((res) => {
             console.log(res);
             setSearchList(res.data.posts);
-            setTotalPages(res.data.total_pages);
+            let dataLength = [];
+            for(var i=1; i<=10; i++){
+                dataLength.push(i);
+                if(i === res.data.total_pages){
+                    break;
+                }
+            }
+            setTotalPages(dataLength);
         })
         .catch(() => {
             console.log('err');
@@ -66,7 +73,17 @@ function MyScrapSearch(props) {
                 </div>
                 )
             })}
-         
+
+        {/* pageNum */}
+        <div className="myScrap_pageNum">
+            {totalPages.map((a, i) => {
+                return(
+                    <Link to={`page/${a}`} key={i} style={a === 1 ? {color: '#0d6efd'} : {color: 'black'}}>
+                        <li>{a}</li>
+                    </Link>
+                )
+            })}
+        </div>
         </>
     )
 }

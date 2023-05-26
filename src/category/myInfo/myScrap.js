@@ -34,7 +34,7 @@ function MyScrap(props) {
                     break;
                 }
             }
-            setTotalPages(dataLength)
+            setTotalPages(dataLength);
         })
         .catch(() => {
             console.log('err')
@@ -104,7 +104,7 @@ function MyScrap(props) {
                 )
             })}
         </div>
-        </> : null    }
+        </> : null }
         
         {/* {scrapList.length !== 0 ? scrapList.map((a, i) => {
             return(
