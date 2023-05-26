@@ -13,7 +13,7 @@ function Search(props) {
     let condition = props.searchTypeSelected;
     console.log(params);
     let keyword = params.searchContent_page.split('&')[0].split('=')[1];
-    let pageNum = params.searchContent_page.split('&')[1].split('=')[1]
+    let pageNum = params.searchContent_page.split('&')[1].split('=')[1];
 
     console.log(keyword, pageNum);
     //let postData = props.searchData.posts;
@@ -39,8 +39,10 @@ function Search(props) {
             setTotalPages(res.data.total_pages);
             /* url의 pageNum에 따라 dataLength 변경하는 함수 */
             if(res.data.total_pages === 0){
+                //검색결과가 없는 경우
                 pageLength([]);
             }else if(pageNum <= 10){
+                //totalPage가 10 이하인 경우
                 let dataLength = [];
             for(var i=1; i<=10; i++){
                 dataLength.push(i);
@@ -55,6 +57,11 @@ function Search(props) {
                     let startNum = pageNum - rest + 1;
                     let dataLength = [];
                     for(var i = startNum; i <= startNum + 9; i++){
+                        if(i === res.data.total_pages){
+                            //i === total_pages 이면 멈추기
+                            dataLength.push(i);
+                            break;    
+                        }
                         dataLength.push(i);
                     }
                     setPageLength(dataLength);    
