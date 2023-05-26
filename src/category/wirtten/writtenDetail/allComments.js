@@ -47,6 +47,11 @@ function AllComments(props) {
                     let startNum = pageNum - rest + 1;
                     let dataLength = [];
                     for(var i = startNum; i <= startNum + 9; i++){
+                        if(i === res.data.total_pages){
+                            //i === total_pages 이면 멈추기
+                            dataLength.push(i);
+                            break;    
+                        }
                         dataLength.push(i);
                     }
                     setPageLength(dataLength);    
