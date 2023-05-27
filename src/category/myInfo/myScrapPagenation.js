@@ -45,7 +45,7 @@ function MyScrapPagenation(props) {
             {scrapList.map((a, i) => {
                 return(
                     <div key={i} className="my_scrap">
-                    <Link to={`../${a.post_category}_board/detail/${a.post_id}`}>
+                    <Link to={`../../${a.post_category}_board/detail/${a.post_id}`}>
                     <div className="my_scrap_box" >
                         <p className="title">{a.post_title}</p>
                         <p className="content">{a.post_content}</p>
