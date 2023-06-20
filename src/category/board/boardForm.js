@@ -17,7 +17,29 @@ function BoardForm(props){
         <div>
         <h2>{localStorage.getItem('boardTitle')} 게시판</h2>
         <form className='boardForm' onSubmit={(e) => {
-            let k = 0;
+            /* let postData = data.post_content.split('\n');
+            let convertData = [];
+            for(var i=0; i<postData.length; i++){
+                if(postData[i].length > 48){
+                    let count = Math.floor(postData[i].length / 48);
+                    for(var j=0; j<count; j++){
+                        if((j+1)*48 > postData[i].length){
+                            convertData.push(postData[i].slice(j*48, postData[i].length));
+                        } else {
+                            convertData.push(postData[i].slice(j*48, (j+1)*48));
+                        }                        
+                    }
+                }else {
+                    convertData.push(postData[i]);
+                }
+            }
+            setData({
+                ...data,
+                post_content : convertData
+            })
+            console.log('postData', postData);
+            console.log('convertData', convertData); */
+            /* let k = 0;
             while(k === data.post_content.length){
                 let array = '';
                 for(var i=k; i<k+48; i++){
@@ -31,7 +53,7 @@ function BoardForm(props){
                     data.post_content = data.post_content.slice(0, k+48) + '\n' + data.post_content.slice(k+48, data.post_content.length);
                     k += 48;
                 }
-            }
+            } */
             
             console.log(data)
             e.preventDefault();
@@ -57,7 +79,11 @@ function BoardForm(props){
             })}} />
             <br/>
             <textarea placeholder="내용을 입력해주세요."  value={data.post_content}  onChange={e => {
-                if(data.post_content.length % 48 === 0 && data.post_content.length !== 0){          //textarea 너비가 48
+                setData({
+                    ...data,
+                    post_content: e.target.value
+                })
+                /* if(data.post_content.length % 48 === 0 && data.post_content.length !== 0){          //textarea 너비가 48
                     setData({
                         ...data,
                         post_content: e.target.value + '\n'
@@ -67,7 +93,7 @@ function BoardForm(props){
                         ...data,
                         post_content: e.target.value
                     })
-                }
+                } */
                 }} />
             <br/>
             <div className='boardForm-btn'>

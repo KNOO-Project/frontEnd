@@ -39,7 +39,8 @@ function MyScrap(props) {
         .catch(() => {
             console.log('err')
         })
-    }, [])
+    }, []);
+    
     console.log(scrapList);
     console.log(totalPages[0]);
     return(

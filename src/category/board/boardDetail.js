@@ -25,6 +25,7 @@ function BoardDetail(props) {
         likes_count: '',
         is_written_by_user : '' 
     });
+    let [contentData, setContentData] = useState([]);           //줄바꿈 적용해서 contentData에 담기
 
     let [dateData, setDateData] = useState({
         year: '',
@@ -174,8 +175,37 @@ function BoardDetail(props) {
                 'hour': Number(hour),
                 'min': Number(min)
             }))
-            setPostData(res.data.post)
+            setPostData(res.data.post);
+            console.log(res.data.post.post_content.length);
+            /* 게시글 줄바꿈 해주기 */
+            let postData = res.data.post.post_content.split('\n');
+            console.log(postData[0]);
+            let convertData = [];
+            for(var i=0; i<postData.length; i++){
+                if(postData[i].length > 58){
+                    console.log('postData[i].length', postData[i].length);
+                    let count = 0;
+                    if(postData[i] % 58 === 0){
+                        count = Math.floor(postData[i].length / 58);
+                    }else {
+                        count = Math.floor(postData[i].length / 58) + 1;
+                    }
             
+                    for(var j=0; j<count; j++){
+                        if((j+1)*58 > postData[i].length){                                  
+                            convertData.push(postData[i].slice(j*58, postData[i].length));
+                            console.log(convertData);
+                        } else {
+                            convertData.push(postData[i].slice(j*58, (j+1)*58));
+                            console.log(convertData);
+                        }                        
+                    }
+                    console.log('convertData', convertData);
+                }else {
+                    convertData.push(postData[i]);
+                }
+            }
+            setContentData(convertData);
             for(var i in res.data.comments){
                 //console.log(res.data.comments[i])
                 if(res.data.comments[i].parent_comment_id === null){
@@ -204,7 +234,9 @@ function BoardDetail(props) {
         .catch((res) => {console.log(res)})
     },[post_id, likePostClick, likeCommentClick]);
 
+    //console.log('contentData', contentData[0].length, contentData[1].length);
     //console.log(commentData)
+    console.log(postData);
     let diffTime = {
         year: currentDateData.year - dateData.year,
         month: currentDateData.month - dateData.month,
@@ -252,14 +284,14 @@ function BoardDetail(props) {
         setInitialCommentData(moreCommentsData)
     }
     
-    console.log('commentData', commentData)
-    console.log('recommentData', recommentData)
-    console.log('initialCommentData', initialCommentData)
-    console.log('likeCountClick', likePostClick);
+    //console.log('commentData', commentData)
+    //console.log('recommentData', recommentData)
+    //console.log('initialCommentData', initialCommentData)
+    //console.log('likeCountClick', likePostClick);
     //console.log('moreCommentsClick', moreCommentsClick)
     //console.log(isScrap);
     //console.log(scrapCount);
-    console.log('postData', postData);
+    //console.log('postData', postData);
     return(
         <>
         {params['*'] === '' ?                                   // params['*'] 여부에 따라 삼항연산자로 
@@ -267,7 +299,7 @@ function BoardDetail(props) {
         <div className="detail-post">
             <p className="name">{postData.writer_name}</p>
             <p className="date">{calcullateDate(dateUnit, diffTimeMin)}</p>
-            {postData.is_written_by_user ? 
+            {postData.is_written_by_user ?                                                 // 글쓴이가 유저이먄 삭제, 수정 버튼 보여주기
             <>
             <p className="content_modify" ><Link to='content_modify'>수정</Link></p>
             <p className="content_delete" onClick={() => {
@@ -283,7 +315,14 @@ function BoardDetail(props) {
             <div style={{clear: 'both'}}></div>
             <p className="title">{postData.post_title}</p>
             
-            <p className="content">{postData.post_content}</p>
+            <p className="content">{contentData.map((a, i) => {
+                return(
+                    <span>
+                        {a}
+                        <br/>
+                    </span>
+                )
+            })}</p>
             <div className="icon_box">
                 <p className="like" onClick={e => {
                     likePost(post_id);
