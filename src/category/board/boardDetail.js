@@ -151,6 +151,38 @@ function BoardDetail(props) {
         .catch(console.log('err'))
     }
 
+    /* 게시글 줄바꿈 함수 */
+    const lineBreak = (data, lineLength) => {
+        let postData = data.post.post_content.split('\n');
+            console.log(postData[0]);
+            let convertData = [];
+            for(var i=0; i<postData.length; i++){
+                if(postData[i].length > lineLength){
+                    console.log('postData[i].length', postData[i].length);
+                    let count = 0;
+                    if(postData[i] % lineLength === 0){
+                        count = Math.floor(postData[i].length / lineLength);
+                    }else {
+                        count = Math.floor(postData[i].length / lineLength) + 1;
+                    }
+            
+                    for(var j=0; j<count; j++){
+                        if((j+1)*lineLength > postData[i].length){                                  
+                            convertData.push(postData[i].slice(j*lineLength, postData[i].length));
+                            console.log(convertData);
+                        } else {
+                            convertData.push(postData[i].slice(j*lineLength, (j+1)*lineLength));
+                            console.log(convertData);
+                        }                        
+                    }
+                    console.log('convertData', convertData);
+                }else {
+                    convertData.push(postData[i]);
+                }
+            }
+            setContentData(convertData);
+    }
+
     useEffect(() => {
         let comment = [];
         let recomment = []
@@ -177,35 +209,8 @@ function BoardDetail(props) {
             }))
             setPostData(res.data.post);
             console.log(res.data.post.post_content.length);
-            /* 게시글 줄바꿈 해주기 */
-            let postData = res.data.post.post_content.split('\n');
-            console.log(postData[0]);
-            let convertData = [];
-            for(var i=0; i<postData.length; i++){
-                if(postData[i].length > 58){
-                    console.log('postData[i].length', postData[i].length);
-                    let count = 0;
-                    if(postData[i] % 58 === 0){
-                        count = Math.floor(postData[i].length / 58);
-                    }else {
-                        count = Math.floor(postData[i].length / 58) + 1;
-                    }
+            lineBreak(res.data, 89);
             
-                    for(var j=0; j<count; j++){
-                        if((j+1)*58 > postData[i].length){                                  
-                            convertData.push(postData[i].slice(j*58, postData[i].length));
-                            console.log(convertData);
-                        } else {
-                            convertData.push(postData[i].slice(j*58, (j+1)*58));
-                            console.log(convertData);
-                        }                        
-                    }
-                    console.log('convertData', convertData);
-                }else {
-                    convertData.push(postData[i]);
-                }
-            }
-            setContentData(convertData);
             for(var i in res.data.comments){
                 //console.log(res.data.comments[i])
                 if(res.data.comments[i].parent_comment_id === null){

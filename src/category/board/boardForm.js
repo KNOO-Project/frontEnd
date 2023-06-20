@@ -83,17 +83,6 @@ function BoardForm(props){
                     ...data,
                     post_content: e.target.value
                 })
-                /* if(data.post_content.length % 48 === 0 && data.post_content.length !== 0){          //textarea 너비가 48
-                    setData({
-                        ...data,
-                        post_content: e.target.value + '\n'
-                    })
-                }else {
-                    setData({
-                        ...data,
-                        post_content: e.target.value
-                    })
-                } */
                 }} />
             <br/>
             <div className='boardForm-btn'>
