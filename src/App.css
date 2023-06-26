@@ -46,7 +46,7 @@ div{
 }
 
 /* body */
-.body{
+.App > .body{
   width: 90%;
   margin: auto;
   height: 500px;

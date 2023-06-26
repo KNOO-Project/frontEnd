@@ -1,20 +1,28 @@
-import { useState  } from "react";
-import { Routes, useNavigate, useParams, Route } from "react-router-dom";
+import { useEffect, useState  } from "react";
+import { Routes, useNavigate, useParams, Route, Link } from "react-router-dom";
 import { AiOutlineSearch } from 'react-icons/ai';
 import '../../category-css/board/mainBoard.css';
 import axios from "axios";
 import MainBoardSearch from "../../mainBoardSearch";
+import BoardDetail from "./boardDetail";
+import { useSelector } from 'react-redux';
 
 function MainBoard(props){
-
+    let a = useSelector((state) => state.user );
+    //console.log('redux', a);
+    let token = props.cookies.token;
     let navigate = useNavigate();
     let [searchTypeSelected, setSearchTypeSelected] = useState('all');
     let [searchContent, setSearchContent] = useState('');
+    let [firstBoardLine, setFirstBoardLine] = useState([]);
+    let [secondBoardLine, setSecondBoardLine] = useState([]);
+    let firstLineTitle = ['자유', '새내기', '정보'];
+    let secondLineTitle = ['취업&진로', '졸업생', '동아리&학회'];
 
     //검색 기능
     const search = () => {
         axios.get('/api/v1/posts/search', {
-            headers: {Authorization: props.cookies.token},
+            headers: {Authorization: token},
             params: {
                 condition: searchTypeSelected,
                 keyword: searchContent,
@@ -30,6 +38,29 @@ function MainBoard(props){
             console.log('err');
         })
     }
+
+    useEffect(() => {
+        axios.get('/api/v1/posts', {
+            headers: { Authorization: token }
+        })
+        .then((res) => {
+            let firstLineData = [];
+            let secondLineData = [];
+            for(var i=0; i<3; i++){
+                firstLineData.push(res.data[i]);
+                secondLineData.push(res.data[i+3]);
+            }
+            setFirstBoardLine(firstLineData);
+            setSecondBoardLine(secondLineData);
+            
+        })
+        .catch(() => {
+            console.log('err');
+        })
+    }, []);
+
+    console.log('firstBoardLine', firstBoardLine);
+    console.log('secondBoardLine', secondBoardLine);
 
     return(
         <>
@@ -55,10 +86,47 @@ function MainBoard(props){
                     }} />
                 </form>
             </div>
+            <div className="body">
+                <div className="first_line">
+                    {/* style => display flex */}
+                    {firstBoardLine.map((a, i) => {
+                        return(
+                            <div className='preview_board_1' key={i}>
+                                <li className="board_category">{firstLineTitle[i]}게시판</li>
+                                {a.posts.map((b, j) => {
+                                    return(
+                                        <li className="post_preview" onClick={(e) => {
+                                            navigate(`/${a.category}_board/detail/${b.post_id}`);
+                                        }}>{b.post_content}</li>
+                                    )
+                                })}
+                            </div>
+                        )
+                    })}
+                </div>
+                <div className="second_line">
+                    {/* style => display flex */}
+                    {secondBoardLine.map((a, i) => {
+                        return(
+                            <div className="preview_board_2" key={i}>
+                                <li className="board_category">{secondLineTitle[i]}게시판</li>
+                                {a.posts.map((b, j) => {
+                                    return(
+                                        <li className="post_preview" onClick={(e) => {
+                                            navigate(`/${a.category}_board/detail/${b.post_id}`);
+                                        }}>{b.post_content}</li>
+                                    )
+                                })}
+                            </div>
+                        )
+                    })}
+                </div>
+            </div>
         </div>
         <Routes>
             <Route path={`search/:searchContent_page/*`} element={<MainBoardSearch  searchTypeSelected={searchTypeSelected} 
                      cookies={props.cookies}   />} />
+            <Route path=':categoryBoard/detail/:postId/*' element={<BoardDetail  cookies={props.cookies} />} />
         </Routes>
         </>
                     
