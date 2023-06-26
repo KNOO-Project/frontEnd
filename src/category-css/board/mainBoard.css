@@ -42,6 +42,16 @@
     font-weight: bold;
     border-bottom: 1px solid black;
 }
+.preview_board_1 > .board_category > .more_btn, .preview_board_2 > .board_category > .more_btn {
+    float: right;
+}
+.preview_board_1 > .board_category > .more_btn > svg, .preview_board_2 > .board_category > .more_btn > svg {
+    margin-bottom: 5px;
+}
+.preview_board_1 > .board_category > .more_btn:hover, .preview_board_2 > .board_category > .more_btn:hover {
+    cursor: pointer;
+    background: turquoise;
+}
 
 .preview_board_1 > .post_preview:hover, .preview_board_2 > .post_preview:hover {
     cursor: pointer;

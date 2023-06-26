@@ -1,10 +1,11 @@
 import { useEffect, useState  } from "react";
 import { Routes, useNavigate, useParams, Route, Link } from "react-router-dom";
-import { AiOutlineSearch } from 'react-icons/ai';
+import { AiOutlineSearch, AiOutlinePlus } from 'react-icons/ai';
 import '../../category-css/board/mainBoard.css';
 import axios from "axios";
 import MainBoardSearch from "../../mainBoardSearch";
 import BoardDetail from "./boardDetail";
+import CategoryBoard from "./categoryBoard";
 import { useSelector } from 'react-redux';
 
 function MainBoard(props){
@@ -92,7 +93,10 @@ function MainBoard(props){
                     {firstBoardLine.map((a, i) => {
                         return(
                             <div className='preview_board_1' key={i}>
-                                <li className="board_category">{firstLineTitle[i]}게시판</li>
+                                <li className="board_category">{firstLineTitle[i]}게시판 <span className="more_btn" onClick={(e) => {
+                                    navigate(`/${a.category}_board`);
+                                }}><AiOutlinePlus/> 더보기</span></li>
+                                <span style={{clear:' both'}}></span>
                                 {a.posts.map((b, j) => {
                                     return(
                                         <li className="post_preview" onClick={(e) => {
@@ -109,7 +113,9 @@ function MainBoard(props){
                     {secondBoardLine.map((a, i) => {
                         return(
                             <div className="preview_board_2" key={i}>
-                                <li className="board_category">{secondLineTitle[i]}게시판</li>
+                                <li className="board_category">{secondLineTitle[i]}게시판 <span className="more_btn" onClick={(e) => {
+                                    navigate(`/${a.category}_board`);
+                                }}><AiOutlinePlus/> 더보기</span></li>
                                 {a.posts.map((b, j) => {
                                     return(
                                         <li className="post_preview" onClick={(e) => {
@@ -127,6 +133,7 @@ function MainBoard(props){
             <Route path={`search/:searchContent_page/*`} element={<MainBoardSearch  searchTypeSelected={searchTypeSelected} 
                      cookies={props.cookies}   />} />
             <Route path=':categoryBoard/detail/:postId/*' element={<BoardDetail  cookies={props.cookies} />} />
+            <Route path=":cateoryBoard" element={<CategoryBoard cookies={props.cookies} />} />
         </Routes>
         </>
                     
