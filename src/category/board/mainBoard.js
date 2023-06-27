@@ -13,6 +13,8 @@ function MainBoard(props){
     //console.log('redux', a);
     let token = props.cookies.token;
     let navigate = useNavigate();
+    let params = useParams();
+    console.log(params['*']);
     let [searchTypeSelected, setSearchTypeSelected] = useState('all');
     let [searchContent, setSearchContent] = useState('');
     let [firstBoardLine, setFirstBoardLine] = useState([]);
@@ -35,8 +37,8 @@ function MainBoard(props){
             //setSearchData(res.data);
             navigate(`search/keyword=${searchContent}&page=1`);
         })
-        .catch(() => {
-            console.log('err');
+        .catch((res) => {
+            alert(res.response.data.message);
         })
     }
 
@@ -87,7 +89,7 @@ function MainBoard(props){
                     }} />
                 </form>
             </div>
-            <div className="body">
+            { params['*'] === '' ? <div className="body">               {/* 검색하면 미리보기 창 가려주기 */}
                 <div className="first_line">
                     {/* style => display flex */}
                     {firstBoardLine.map((a, i) => {
@@ -127,7 +129,7 @@ function MainBoard(props){
                         )
                     })}
                 </div>
-            </div>
+            </div> : null}
         </div>
         <Routes>
             <Route path={`search/:searchContent_page/*`} element={<MainBoardSearch  searchTypeSelected={searchTypeSelected} 

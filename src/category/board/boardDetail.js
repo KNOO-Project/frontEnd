@@ -39,7 +39,7 @@ function BoardDetail(props) {
     let [initialCommentData, setInitialCommentData] = useState([]);                                 // 더보기 누르기 전 보여질 댓글 데이터
     let [moreCommentsClick, setMoreCommentsClick] = useState(2);    // useState는 비동기여서 강제로 값 1말고 2 로 설정
     let [recommentData, setRecommentData] = useState([]);       //대댓글 리스트 담을 변수
-    let [comment, setComment] = useState();                     //댓글 value 값
+    let [comment, setComment] = useState('');                     //댓글 value 값
     let [clickId, setClickId] = useState(null);                 //대댓글 해당 Id 판별
     let [recomment, setRecomment] = useState();                 //대댓글 value 값
     let [likeCount, setLikeCount] = useState();                 //좋아요 갯수 담을 변수
@@ -69,7 +69,9 @@ function BoardDetail(props) {
         .then((res) => {
             window.location.reload();
         })
-        .catch(console.log('err'))
+        .catch((res) => {
+            alert(res.response.data.message);
+        });
     }
     
     //대댓글 작성 함수
@@ -454,7 +456,11 @@ function BoardDetail(props) {
             <textarea placeholder="댓글을 입력하세요" value={comment} onChange={(e) => {setComment(e.target.value)}} />
             <div className="write_comment_btn">
             <BiPencil className="write_comment_icon" onClick={e => {
-                postComment();          //댓글 작성 함수
+                if(comment.length === 0){
+                    alert('댓글을 입력해주세요.');
+                }else{
+                    postComment();          //댓글 작성 함수
+                }
             }} />
             </div>
         </div>
