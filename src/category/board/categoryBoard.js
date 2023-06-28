@@ -14,7 +14,7 @@ function CategoryBoard(props){
     let navigate = useNavigate();
     let params = useParams();
     let token = props.cookies.token;
-    console.log(params)
+    console.log('params', params);
     let category = params.category_board.split('_')[0];
     const currentUrl = window.location.href;
     //console.log(currentUrl);
@@ -52,8 +52,8 @@ function CategoryBoard(props){
           })
           .then((res)=>{
             //console.log('boardTitle', boardTitle)
-            console.log(res)
-            setTotalPages(res.data.total_pages)
+            //console.log(res)
+            setTotalPages(res.data.total_pages);
             setBoardData(res.data.posts);
             let dataLength = [];
             for(var i=1; i<=10; i++){
@@ -72,11 +72,10 @@ function CategoryBoard(props){
             () => {
                 setBoardData([]);
                 setPageLength([]);     //boardData를 보여준 후 pageNum을 보여줌
-                setSearchContent(null);
-                //console.log('preBoardTitle', boardTitle)
+                setSearchContent('');
             }
             )
-    }, [ pageNum, category, currentUrl, props.cookies.token]                                          // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
+    }, [ pageNum, category, currentUrl, props.cookies.token ]                                          // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
     );
 
     //검색 기능
@@ -100,10 +99,10 @@ function CategoryBoard(props){
         })
     }
     //console.log(pageNum)
-    console.log(searchTypeSelected);
+    //console.log(searchTypeSelected);
+    //console.log('searchContent', searchContent);
     return(
         <>
-        {params['*'] === ''  ? <>
             <div className="category_board">
                 <div className="head">
                 <button className="writing_btn" onClick={() => {
@@ -122,13 +121,35 @@ function CategoryBoard(props){
                             setSearchContent(e.target.value)
                         }} />
                         <AiOutlineSearch className="search_icon" onClick={() => {
-                            navigate(`search/keyword=${searchContent}&page=1`);
+                            axios.get('/api/v1/posts/search', {
+                                headers: {Authorization: props.cookies.token},
+                                params: {
+                                    'category': category,
+                                    condition: searchTypeSelected,
+                                    keyword: searchContent,
+                                    page: 1
+                                }
+                            })
+                            .then(() => {
+                                navigate(`search/keyword=${searchContent}&page=1`);
+                            })
+                            .catch((res) => {
+                                alert(res.response.data.message);
+                            })
+                            /* if(params['*'] === ''){
+                                navigate(`search/keyword=${searchContent}&page=1`);
+                            }else {
+                                navigate(`search/keyword=${searchContent}&page=1`);
+                            } */
+                            
                             //search();
                             //console.log(searchTypeSelected);
                             //console.log(searchContent);
                         }} />
                     </form>
                 </div>
+                {params['*'] === '' ?  
+                <>
                 <div className="board_list">
                     {boardData.map((a, i) => {
                         while(i < 20){
@@ -166,9 +187,11 @@ function CategoryBoard(props){
                     }} />
                 }
                 </div>
+                </>
+            : null}
+                
             </div>
                 {/* 글쓰기 버튼 누르면 null에 해당하는 값을 보여주면서 위의 값이 감춰지고 글쓰기 페이지에 해당하는 UI 보여주기 */}
-        </> : null}
         
                 <Routes>
                     <Route path={`search/:searchContent_page/*`} element={<Search category={category} searchTypeSelected={searchTypeSelected} 

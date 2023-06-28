@@ -9,12 +9,12 @@ import CategoryBoard from "./categoryBoard";
 import { useSelector } from 'react-redux';
 
 function MainBoard(props){
-    let a = useSelector((state) => state.user );
+    //let a = useSelector((state) => state.user );
     //console.log('redux', a);
     let token = props.cookies.token;
     let navigate = useNavigate();
     let params = useParams();
-    console.log(params['*']);
+    //console.log(params['*']);
     let [searchTypeSelected, setSearchTypeSelected] = useState('all');
     let [searchContent, setSearchContent] = useState('');
     let [firstBoardLine, setFirstBoardLine] = useState([]);
@@ -36,6 +36,7 @@ function MainBoard(props){
             console.log(res);
             //setSearchData(res.data);
             navigate(`search/keyword=${searchContent}&page=1`);
+            setSearchContent('');
         })
         .catch((res) => {
             alert(res.response.data.message);
@@ -60,10 +61,14 @@ function MainBoard(props){
         .catch(() => {
             console.log('err');
         })
+        return () => {
+            setSearchContent('');
+        }
     }, []);
 
-    console.log('firstBoardLine', firstBoardLine);
-    console.log('secondBoardLine', secondBoardLine);
+    console.log('searchContent', searchContent);
+    //console.log('firstBoardLine', firstBoardLine);
+    //console.log('secondBoardLine', secondBoardLine);
 
     return(
         <>

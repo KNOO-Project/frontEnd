@@ -11,7 +11,7 @@ function Search(props) {
     let params = useParams();
     let category = props.category;
     let condition = props.searchTypeSelected;
-    console.log(params);
+    //console.log(params);
     let keyword = params.searchContent_page.split('&')[0].split('=')[1];
     let pageNum = params.searchContent_page.split('&')[1].split('=')[1];
 
@@ -80,12 +80,12 @@ function Search(props) {
         .catch(() => {
             console.log('err');
         })
-    }, [pageNum])
+    }, [pageNum, keyword])
 
-    console.log('Data', postData);
-    console.log('pageLength', pageLength);
-    console.log('pageNum', pageNum);
-    console.log('totalPages', totalPages);
+    //console.log('Data', postData);
+    //console.log('pageLength', pageLength);
+    //console.log('pageNum', pageNum);
+    //console.log('totalPages', totalPages);
     //console.log('page', page);
 
     return(
