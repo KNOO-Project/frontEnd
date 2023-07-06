@@ -6,7 +6,7 @@ import Community from './category/community';
 import Future from './category/future';
 import Login from './category/login_out/login';
 import Membership from './category/membership';
-import Restaurant from './category/restaurant';
+import Restaurant from './category/restaurant/restaurant';
 import MainBoard from './category/board/mainBoard';
 import MyInfo from './category/myInfo/myInfo';
 import CategoryBoard from './category/board/categoryBoard';
