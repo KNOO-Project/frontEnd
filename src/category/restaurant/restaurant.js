@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams, Link, Route, Routes } from "react-router-dom";
 import CampusRes from "./campusRes";
+import '../../category-css/restaurants/restaurants.css';
 
 function Restaurant(){
 
@@ -17,7 +18,7 @@ function Restaurant(){
         var container = document.getElementById('map');
         let mapCoor;
         if(params['*'] === '' || params['*'] === '신관'){
-            mapCoor = new kakao.maps.LatLng( 36.4689996, 127.1414358 );
+            mapCoor = new kakao.maps.LatLng( 36.469903, 127.1414358 );
         }else {
             mapCoor = new kakao.maps.LatLng( 36.8511811, 127.1511352 );
         }
@@ -55,7 +56,7 @@ function Restaurant(){
         var resultDiv = document.getElementById('clickLatlng'); 
         resultDiv.innerHTML = message;
     
-});
+    });
         
 
         //console.log('mapCoor', mapCoor);
@@ -65,16 +66,15 @@ function Restaurant(){
     
     return(
         <div>
-            <div>
-                <div id="map" style={{width: '500px', height: '500px'}} ></div>
-                <div id='clickLatlng'>지도를 클릭해주세요</div>
-
-                
+            <div className="map_box">
+                <div id="map" ></div>
+                <div className="map_select">
+                    <Link className="shinkwan" to='신관' >신관캠퍼스</Link>
+                    <br/>
+                    <Link className="cheonan" to='천안'>천안캠퍼스</Link>
+                </div>    
             </div>
-            <div>
-                <Link to='신관' >신관캠퍼스</Link>
-                <Link to='천안'>천안캠퍼스</Link>
-            </div>
+            <div id='clickLatlng'>지도를 클릭해주세요</div>
 
             <Routes>
                 <Route path="신관" element={<CampusRes />} />

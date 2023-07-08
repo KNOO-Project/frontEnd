@@ -1,0 +1,35 @@
+.map_box {
+    padding-top: 20px;
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
+}
+
+.map_box > #map {
+    margin: 0 auto;
+    width: 700px;
+    height: 600px;
+}
+.map_select {
+    position: absolute;
+    right: 50px;
+    top: 30px;
+}
+.map_select > a {
+    border: 1px solid #adb5bd;
+    background-color: #adb5bd;
+    border-radius: 3px;
+    color: black;
+    font-weight: 300;
+}
+.map_select > a:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+@media screen and (max-width : 1200px) {
+    .map_box > #map {
+        width: 500px;
+        height: 500px;
+    }
+}
