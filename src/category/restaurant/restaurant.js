@@ -12,18 +12,34 @@ function Restaurant(){
     console.log('currentUrl', currentUrl);
     console.log(params['*']);
     //console.log(params['*'] === '' || params['*'] === '신관');
-    //console.log(params['*'] === '신관');
+    console.log(params['*'] === '신관');
     useEffect(() => {
 
         var mapDiv = document.getElementById('map');
-               
-        var map = new naver.maps.Map(mapDiv);;
-    }, []);
+        
+        let campus = new naver.maps.LatLng(36.469421, 127.1406507)
+        if(params['*'] === '천안') {
+            campus = new naver.maps.LatLng(36.8511811, 127.1511352);
+        }
+
+        var map = new naver.maps.Map(mapDiv, {
+            center:  campus
+        });
+
+        var marker = new naver.maps.Marker({
+            position: campus,
+            map: map
+        });
+    }, [params['*']]);
     
     
     
     return(
         <div className="map_box">
+            <div className="campus_btn">
+                <Link to='신관'>신관캠퍼스</Link>
+                <Link to='천안'>천안캠퍼스</Link>
+            </div>
             <div id="map" ></div>
                 
 
