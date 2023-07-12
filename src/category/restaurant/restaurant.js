@@ -12,18 +12,22 @@ function Restaurant(){
     console.log('currentUrl', currentUrl);
     console.log(params['*']);
     //console.log(params['*'] === '' || params['*'] === '신관');
-    console.log(params['*'] === '신관');
+    //console.log(params['*'] === '신관');
     useEffect(() => {
 
         var mapDiv = document.getElementById('map');
         
-        let campus = new naver.maps.LatLng(36.469421, 127.1406507)
+        let campus = new naver.maps.LatLng(36.469421, 127.1406507);
         if(params['*'] === '천안') {
             campus = new naver.maps.LatLng(36.8511811, 127.1511352);
         }
 
         var map = new naver.maps.Map(mapDiv, {
-            center:  campus
+            center:  campus,
+            zoomControl: true,
+            zoomControlOptions: { //줌 컨트롤의 옵션
+                position: naver.maps.Position.TOP_RIGHT
+            }
         });
 
         var marker = new naver.maps.Marker({
