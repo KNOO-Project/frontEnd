@@ -26,6 +26,7 @@ function Restaurant(){
             center:  campus,
             zoomControl: true,
             zoomControlOptions: { //줌 컨트롤의 옵션
+                style: naver.maps.ZoomControlStyle.SMALL,
                 position: naver.maps.Position.TOP_RIGHT
             }
         });
