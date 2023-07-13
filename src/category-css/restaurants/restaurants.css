@@ -2,6 +2,7 @@
     width: 700px;
     height: 600px;
     margin: 0 auto;
+    position: relative;
 }
 .campus_btn {
     display: flex;
@@ -21,4 +22,29 @@
 #map {
     width: 100%;
     height: 100%;
+}
+.map_navbar {
+    position: absolute;
+    z-index: 1;
+    top: 50px;
+    left: 20px;
+    display: flex;
+    background-color: white;
+    padding: 3px 10px;
+    border-radius: 3px;
+}
+.map_navbar > div {
+    margin-left: 5px;
+    display: flex;
+    cursor: pointer;
+}
+.map_navbar > div:hover {
+    color: blue;
+}
+.map_navbar > div > span {
+    margin: 0 3px;
+}
+.map_navbar li {
+    list-style: none;
+    cursor: ;
 }

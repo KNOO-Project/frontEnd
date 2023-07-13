@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useParams, Link, Route, Routes } from "react-router-dom";
 import CampusRes from "./campusRes";
 import '../../category-css/restaurants/restaurants.css';
+import {BiRestaurant} from 'react-icons/bi';
+import {IoIosCafe} from 'react-icons/io'
 
 const {naver} = window;
 function Restaurant(){
@@ -31,10 +33,14 @@ function Restaurant(){
             }
         });
 
-        var marker = new naver.maps.Marker({
+        var mainMarkerOptions = {
             position: campus,
             map: map
-        });
+        }
+
+        var marker = new naver.maps.Marker(mainMarkerOptions);
+
+        
     }, [params['*']]);
     
     
@@ -46,6 +52,10 @@ function Restaurant(){
                 <Link to='천안'>천안캠퍼스</Link>
             </div>
             <div id="map" ></div>
+            <div className="map_navbar">
+                <div className="res_icon"><span><BiRestaurant style={{color: 'orange'}} /></span><li>res</li></div>
+                <div className="cafe_icon"><span><IoIosCafe style={{color: 'orange'}} /></span><li>cafe</li></div>
+            </div>
                 
 
             <Routes>
