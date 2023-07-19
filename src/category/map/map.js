@@ -184,36 +184,9 @@ function Map(){
             console.log('신관');
         }
         
-        
-        /* var greenMarker = new naver.maps.Marker({
-            position: new naver.maps.LatLng(36.4687317, 127.1404852),
-            map: map,
-            title: 'Green',
-            icon: {
-                content: [
-                            '<div class="iw_inner">',
-                            '   <h3>5서울특별시청</h3>',
-                            '</div>'
-                        ].join(''),
-                size: new naver.maps.Size(38, 58),
-                anchor: new naver.maps.Point(19, 58),
-            },
-            draggable: true
-        });
-
-        var pinkMarker = new naver.maps.Marker({
-            position: new naver.maps.LatLng(36.4696239, 127.1394378),
-            map: map,
-            title: 'Green',
-            icon: {
-                content: contentString[2].join(''),
-                size: new naver.maps.Size(38, 58),
-                anchor: new naver.maps.Point(19, 58),
-            },
-            draggable: true
-        }); */
-
-        var mainMarker = new naver.maps.Marker(mainMarkerOptions);
+        if(params['*'] === '신관' || params['*'] === '천안'){
+            var mainMarker = new naver.maps.Marker(mainMarkerOptions);
+        }
 
     }, [params['*']]);
     

@@ -53,6 +53,7 @@
     height: 20px;
     border: 1px solid blueviolet;
     border-radius: 3px;
+    background: white;
 }
 
 .iw_inner > h3 {
