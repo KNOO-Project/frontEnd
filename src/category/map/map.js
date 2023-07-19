@@ -124,7 +124,7 @@ function Map(){
                 {position: new naver.maps.LatLng(36.4695256, 127.1376681)}
                 ,[
                     '<div class="iw_inner">',
-                    '<img src="/img/cafe.png" alt="" />',
+                    '<img src="/img/res.png" alt="" />',
                     '   <h3>찐돈가스</h3>',
                     '</div>'
                 ]
@@ -133,7 +133,7 @@ function Map(){
                 {position: new naver.maps.LatLng(36.4708549, 127.1381369)}
                 ,[
                     '<div class="iw_inner">',
-                    '<img src="/img/cafe.png" alt="" />',
+                    '<img src="/img/res.png" alt="" />',
                     '   <h3>파스타쿠치나</h3>',
                     '</div>'
                 ]
@@ -142,7 +142,7 @@ function Map(){
                 {position: new naver.maps.LatLng(36.4727017, 127.1432021)}
                 ,[
                     '<div class="iw_inner">',
-                    '<img src="/img/cafe.png" alt="" />',
+                    '<img src="/img/res.png" alt="" />',
                     '   <h3>부엉이식당</h3>',
                     '</div>'
                 ]
@@ -151,7 +151,7 @@ function Map(){
                 {position: new naver.maps.LatLng(36.4732522, 127.1415602)}
                 ,[
                     '<div class="iw_inner">',
-                    '<img src="/img/cafe.png" alt="" />',
+                    '<img src="/img/res.png" alt="" />',
                     '   <h3>다복수육국밥</h3>',
                     '</div>'
                 ]
@@ -160,7 +160,7 @@ function Map(){
                 {position: new naver.maps.LatLng(36.4736877, 127.1402451)}
                 ,[
                     '<div class="iw_inner">',
-                    '<img src="/img/cafe.png" alt="" />',
+                    '<img src="/img/res.png" alt="" />',
                     '   <h3>맘스터치</h3>',
                     '</div>'
                 ]
@@ -169,7 +169,7 @@ function Map(){
                 {position: new naver.maps.LatLng(36.4738207, 127.1397007)}
                 ,[
                     '<div class="iw_inner">',
-                    '<img src="/img/cafe.png" alt="" />',
+                    '<img src="/img/res.png" alt="" />',
                     '   <h3>국수정</h3>',
                     '</div>'
                 ]
@@ -245,7 +245,7 @@ function Map(){
                 {position: new naver.maps.LatLng(36.8497524, 127.1535756)}
                 ,[
                     '<div class="iw_inner">',
-                    '<img src="/img/cafe.png" alt="" />',
+                    '<img src="/img/res.png" alt="" />',
                     '   <h3>신당해물칼국수</h3>',
                     '</div>'
                 ]
@@ -254,7 +254,7 @@ function Map(){
                 {position: new naver.maps.LatLng(36.8501581, 127.1555891)}
                 ,[
                     '<div class="iw_inner">',
-                    '<img src="/img/cafe.png" alt="" />',
+                    '<img src="/img/res.png" alt="" />',
                     '   <h3>맘스터치</h3>',
                     '</div>'
                 ]
@@ -263,7 +263,7 @@ function Map(){
                 {position: new naver.maps.LatLng(36.8495709, 127.1550454)}
                 ,[
                     '<div class="iw_inner">',
-                    '<img src="/img/cafe.png" alt="" />',
+                    '<img src="/img/res.png" alt="" />',
                     '   <h3>롯데리아</h3>',
                     '</div>'
                 ]
