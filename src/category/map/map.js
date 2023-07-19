@@ -57,6 +57,7 @@ function Map(){
                 {position: new naver.maps.LatLng(36.4746, 127.140123)}
                 ,[
                     '<div class="iw_inner">',
+                    '<img src="/img/cafe.png" alt="" />',
                     '   <h3>스타벅스</h3>',
                     '</div>'
                 ]       
@@ -65,6 +66,7 @@ function Map(){
                 {position: new naver.maps.LatLng(36.4729509, 127.1416383)}
                 ,[
                     '<div class="iw_inner">',
+                    '<img src="/img/cafe.png" alt="" />',
                     '   <h3>이디야</h3>',
                     '</div>'
             ]
@@ -73,6 +75,7 @@ function Map(){
                 {position: new naver.maps.LatLng(36.4738035, 127.1371543)}
                 ,[
                     '<div class="iw_inner">',
+                    '<img src="/img/cafe.png" alt="" />',
                     '   <h3>미세스피베리</h3>',
                     '</div>'
             ]
@@ -81,24 +84,27 @@ function Map(){
                 {position: new naver.maps.LatLng(36.4679803, 127.1427074)}
                 ,[
                     '<div class="iw_inner">',
-                '   <h3>레브</h3>',
-                '</div>'
+                    '<img src="/img/cafe.png" alt="" />',
+                    '   <h3>레브</h3>',
+                    '</div>'
             ]
             ],
             [
                 {position: new naver.maps.LatLng(36.4687317, 127.1404852)}
                 ,[
                     '<div class="iw_inner">',
-                '   <h3>프린세스</h3>',
-                '</div>'
+                    '<img src="/img/cafe.png" alt="" />',
+                    '   <h3>프린세스</h3>',
+                    '</div>'
             ]
             ],
             [
                 {position: new naver.maps.LatLng(36.4696239, 127.1394378)}
                 ,[
                     '<div class="iw_inner">',
-                '   <h3>스타벅스</h3>',
-                '</div>'
+                    '<img src="/img/cafe.png" alt="" />',
+                    '   <h3>스타벅스</h3>',
+                    '</div>'
             ]
             ]
             
@@ -116,40 +122,45 @@ function Map(){
                 {position: new naver.maps.LatLng(36.8511811, 127.1511352)}
                 ,[
                     '<div class="iw_inner">',
-                '   <h3>클라우드나인</h3>',
-                '</div>'
+                    '<img src="/img/cafe.png" alt="" />',
+                    '   <h3>클라우드나인</h3>',
+                    '</div>'
                 ]
             ],
             [
                 {position: new naver.maps.LatLng(36.8426071, 127.1516687)}
                 ,[
                     '<div class="iw_inner">',
-                '   <h3>카페 카키</h3>',
-                '</div>'
+                    '<img src="/img/cafe.png" alt="" />',
+                    '   <h3>카페 카키</h3>',
+                    '</div>'
                 ]
             ],
             [
                 {position: new naver.maps.LatLng(36.8499386, 127.154690)}
                 ,[
                     '<div class="iw_inner">',
-                '   <h3>팝카페</h3>',
-                '</div>'
+                    '<img src="/img/cafe.png" alt="" />',
+                    '   <h3>팝카페</h3>',
+                    '</div>'
                 ]
             ],
             [
                 {position: new naver.maps.LatLng(36.8505861, 127.148625)}
                 ,[
                     '<div class="iw_inner">',
-                '   <h3>포롱</h3>',
-                '</div>'
+                    '<img src="/img/cafe.png" alt="" />',
+                    '   <h3>포롱</h3>',
+                    '</div>'
                 ]
             ],
             [
                 {position: new naver.maps.LatLng(36.8539118, 127.155214)}
                 ,[
                     '<div class="iw_inner">',
-                '   <h3>스윗포레스트</h3>',
-                '</div>'
+                    '<img src="/img/cafe.png" alt="" />',
+                    '   <h3>스윗포레스트</h3>',
+                    '</div>'
                 ]
             ]
         ]

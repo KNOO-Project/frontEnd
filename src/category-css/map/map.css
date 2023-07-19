@@ -49,13 +49,17 @@
     cursor: ;
 }
 .iw_inner {
-    width: 100px;
+    display: flex;
     height: 20px;
     border: 1px solid blueviolet;
     border-radius: 3px;
     background: white;
 }
-
+.iw_inner > img {
+    padding: 0 5px;
+}
 .iw_inner > h3 {
     font-size: 15px;
+    padding: 0 5px;
 }
+
