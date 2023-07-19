@@ -6,6 +6,7 @@ import '../../category-css/map/map.css';
 import {BiRestaurant} from 'react-icons/bi';
 import {IoIosCafe} from 'react-icons/io'
 import Cafe from "./cafe";
+import Res from "./res";
 
 const {naver} = window;
 function Map(){
@@ -111,6 +112,71 @@ function Map(){
         ];
 
         /* 
+        36.4695256!4d127.1376681 찐돈가스
+        36.4708549!4d127.1381369 파스타쿠치나
+        36.4727017!4d127.1432021 부엉이식당
+        36.4732522!4d127.1415602 다복수육국밥
+        36.4736877!4d127.1402451 맘스터치
+        36.4738207!4d127.1397007 국수정
+        */
+        var singwanResMarker = [
+            [
+                {position: new naver.maps.LatLng(36.4695256, 127.1376681)}
+                ,[
+                    '<div class="iw_inner">',
+                    '<img src="/img/cafe.png" alt="" />',
+                    '   <h3>찐돈가스</h3>',
+                    '</div>'
+                ]
+            ],
+            [
+                {position: new naver.maps.LatLng(36.4708549, 127.1381369)}
+                ,[
+                    '<div class="iw_inner">',
+                    '<img src="/img/cafe.png" alt="" />',
+                    '   <h3>파스타쿠치나</h3>',
+                    '</div>'
+                ]
+            ],
+            [
+                {position: new naver.maps.LatLng(36.4727017, 127.1432021)}
+                ,[
+                    '<div class="iw_inner">',
+                    '<img src="/img/cafe.png" alt="" />',
+                    '   <h3>부엉이식당</h3>',
+                    '</div>'
+                ]
+            ],
+            [
+                {position: new naver.maps.LatLng(36.4732522, 127.1415602)}
+                ,[
+                    '<div class="iw_inner">',
+                    '<img src="/img/cafe.png" alt="" />',
+                    '   <h3>다복수육국밥</h3>',
+                    '</div>'
+                ]
+            ],
+            [
+                {position: new naver.maps.LatLng(36.4736877, 127.1402451)}
+                ,[
+                    '<div class="iw_inner">',
+                    '<img src="/img/cafe.png" alt="" />',
+                    '   <h3>맘스터치</h3>',
+                    '</div>'
+                ]
+            ],
+            [
+                {position: new naver.maps.LatLng(36.4738207, 127.1397007)}
+                ,[
+                    '<div class="iw_inner">',
+                    '<img src="/img/cafe.png" alt="" />',
+                    '   <h3>국수정</h3>',
+                    '</div>'
+                ]
+            ]
+        ]
+
+        /* 
        36.8511811!4d127.1511352 클라우드 나인
        36.8426071!4d127.1516687 카페 카키
        127.154690, Y :36.8499386 팝카페
@@ -164,6 +230,45 @@ function Map(){
                 ]
             ]
         ]
+
+        /* 
+        36.8497524!4d127.1535756 신당해물칼국수
+        36.8501581!4d127.1555891 맘스터치
+        36.8505588!4d127.155659 이모네 식당
+        36.8502368!4d127.1549526 한솥도시락
+        36.8495709!4d127.1550454 롯데리아
+        36.8498624!4d127.1544815 파스타랩
+        36.8498624!4d127.1544815 장원식당
+        */
+        var cheonanResMarker = [
+            [
+                {position: new naver.maps.LatLng(36.8497524, 127.1535756)}
+                ,[
+                    '<div class="iw_inner">',
+                    '<img src="/img/cafe.png" alt="" />',
+                    '   <h3>신당해물칼국수</h3>',
+                    '</div>'
+                ]
+            ],
+            [
+                {position: new naver.maps.LatLng(36.8501581, 127.1555891)}
+                ,[
+                    '<div class="iw_inner">',
+                    '<img src="/img/cafe.png" alt="" />',
+                    '   <h3>맘스터치</h3>',
+                    '</div>'
+                ]
+            ],
+            [
+                {position: new naver.maps.LatLng(36.8495709, 127.1550454)}
+                ,[
+                    '<div class="iw_inner">',
+                    '<img src="/img/cafe.png" alt="" />',
+                    '   <h3>롯데리아</h3>',
+                    '</div>'
+                ]
+            ]
+        ]
     
         function createMarker(cafeMarker, i) {
             var marker = new naver.maps.Marker({
@@ -181,18 +286,24 @@ function Map(){
             return marker;
         }
 
-        let array = [];
+        let markerArray = [];
 
         if(params['*'] === '천안/cafe'){
             for(var i=0; i<cheonanCafeMarker.length; i++){
-                array.push((createMarker(cheonanCafeMarker, i)));
+                markerArray.push((createMarker(cheonanCafeMarker, i)));
             }
-            console.log('천안')
         }else if(params['*'] === '신관/cafe'){
-            for(var j=0; j<singwanCafeMarker.length; j++){
-                array.push((createMarker(singwanCafeMarker, j)));
+            for(var i=0; i<singwanCafeMarker.length; i++){
+                markerArray.push((createMarker(singwanCafeMarker, i)));
             }
-            console.log('신관');
+        }else if(params['*'] === '신관/res'){
+            for(var i=0; i<singwanResMarker.length; i++){
+                markerArray.push((createMarker(singwanResMarker, i)));
+            }
+        }else if(params['*'] === '천안/res'){
+            for(var i=0; i<cheonanResMarker.length; i++){
+                markerArray.push((createMarker(cheonanResMarker, i)));
+            }
         }
         
         if(params['*'] === '신관' || params['*'] === '천안'){
@@ -211,7 +322,21 @@ function Map(){
             </div>
             <div id="map" ></div>
             <div className="map_navbar">
-                <div className="res_icon"><span><BiRestaurant style={{color: 'orange'}} /></span><li>res</li></div>
+                <div className="res_icon" onClick={e => {
+                    if(params['*'].includes('천안')){
+                        if(params['*'] === '천안/res'){
+                            navigate('천안');
+                        }else {
+                            navigate('천안/res');
+                        }
+                    }else{
+                        if(params['*'] === '신관/res'){
+                            navigate('신관');
+                        }else {
+                            navigate('신관/res');
+                        }
+                    }
+                }}><span><BiRestaurant style={{color: 'orange'}} /></span><li>res</li></div>
                 <div className="cafe_icon" onClick={e => {
                     if(params['*'].includes('천안')){
                         if(params['*'] === '천안/cafe'){
@@ -235,6 +360,8 @@ function Map(){
                 <Route path="천안/*" element={<CampusRes />} />
                 <Route path="신관/cafe" element={<Cafe />} />
                 <Route path="천안/cafe" element={<Cafe />} />
+                <Route path="신관/res" element={<Res />} />
+                <Route path="천안/res" element={<Res />} />
             </Routes>
         </div>
         
