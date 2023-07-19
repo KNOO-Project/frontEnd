@@ -48,3 +48,13 @@
     list-style: none;
     cursor: ;
 }
+.iw_inner {
+    width: 100px;
+    height: 20px;
+    border: 1px solid blueviolet;
+    border-radius: 3px;
+}
+
+.iw_inner > h3 {
+    font-size: 15px;
+}

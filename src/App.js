@@ -6,7 +6,7 @@ import Community from './category/community';
 import Future from './category/future';
 import Login from './category/login_out/login';
 import Membership from './category/membership';
-import Restaurant from './category/restaurant/restaurant';
+import Map from './category/map/map';
 import MainBoard from './category/board/mainBoard';
 import MyInfo from './category/myInfo/myInfo';
 import CategoryBoard from './category/board/categoryBoard';
@@ -137,7 +137,7 @@ function App() {
           <Home />
         } />
         <Route path='/community' element={<Community />} />
-        <Route path='/맛집/*' element={<Restaurant />} />
+        <Route path='/맛집/*' element={<Map />} />
         <Route path='/진로&취업' element={<Future />} />
         <Route path='/main_board/*' element={<MainBoard cookies={cookies} />} />
         <Route path='/:category_board/*' element={<CategoryBoard cookies={cookies} />} />
