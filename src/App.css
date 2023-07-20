@@ -102,6 +102,7 @@ div{
 }
 .board-box {
   position: absolute;
+  z-index: 2;
 }
 .board-box ul {
   background-color:aqua;
