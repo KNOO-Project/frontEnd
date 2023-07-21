@@ -9,7 +9,8 @@ import Cafe from "./cafe";
 import Res from "./res";
 
 const {naver} = window;
-function Map(){
+
+function Map(props){
 
     let navigate = useNavigate();
     let params = useParams();
@@ -21,6 +22,16 @@ function Map(){
     //console.log(params['*'] === '' || params['*'] === '신관');
     //console.log(params['*'] === '신관');
     useEffect(() => {
+
+        axios.get('/api/restaurants', {
+            headers: { Authorization: props.cookies.token }
+        })
+        .then((res) => {
+            console.log(res);
+        })
+        .catch(() => {
+            console.log('err');
+        })
 
         var mapDiv = document.getElementById('map');
         
@@ -270,17 +281,22 @@ function Map(){
             ]
         ]
     
-        function createMarker(cafeMarker, i) {
+        function createMarker(cafeMarker, i, name) {
             var marker = new naver.maps.Marker({
                 position: cafeMarker[i][0].position,
                 map: map,
                 title: 'Green',
                 icon: {
-                    content: cafeMarker[i][1].join(''),
+                    content: [
+                        '<div class="iw_inner">',
+                        '<img src="/img/res.png" alt="" />',
+                        `   <h3>${name}</h3>`,
+                        '</div>'
+                    ].join(''),
                     size: new naver.maps.Size(38, 58),
                     anchor: new naver.maps.Point(19, 58),
                 },
-                draggable: true
+                draggable: false
             });
 
             return marker;

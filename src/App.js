@@ -137,7 +137,7 @@ function App() {
           <Home />
         } />
         <Route path='/community' element={<Community />} />
-        <Route path='/맛집/*' element={<Map />} />
+        <Route path='/맛집/*' element={<Map cookies={cookies} />} />
         <Route path='/진로&취업' element={<Future />} />
         <Route path='/main_board/*' element={<MainBoard cookies={cookies} />} />
         <Route path='/:category_board/*' element={<CategoryBoard cookies={cookies} />} />
