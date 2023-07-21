@@ -14,7 +14,7 @@ function MyScrapPagenation(props) {
     let [pageClick, setPageClick] = useState(Number(params['pageNum'] <= 10 ? 0 : 1));
 
     useEffect(() => {
-        axios.get('/api/v1/users/scraps', {
+        axios.get('/api/users/scraps', {
             headers : {Authorization: token},
             params : {
                 page: params['pageNum']

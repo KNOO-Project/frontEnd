@@ -17,7 +17,7 @@ function Map(props){
     let currentUrl = window.location.href;
     //console.log('currentUrl', currentUrl);
     console.log(params['*']);
-
+    let [resIconClick, setResIconClick] = useState(false);
     //let campus1 = params['*'].split('/')[0];
     //console.log(params['*'] === '' || params['*'] === '신관');
     //console.log(params['*'] === '신관');
@@ -27,7 +27,33 @@ function Map(props){
             headers: { Authorization: props.cookies.token }
         })
         .then((res) => {
-            console.log(res);
+            console.log(res.data);
+            var kongjKoreanResMarker = [];
+            var kongjuChineseResMarker = [];
+            var kongjuJapaneseResMarker = [];
+            var kongjuWesternResMarker = [];
+            var kongjuCafeMarker = [];
+            
+            /* 반복문 돌리면서 필터링 해주기 */
+            for(var i=0; i<res.data.length; i++){
+                if(res.data[i].cuisine_type === '카페'){
+                    kongjuCafeMarker.push(res.data[i]);
+                }else if(res.data[i].cuisine_type === '한식'){
+                    kongjKoreanResMarker.push(res.data[i]);
+                }else if(res.data.cuisine_type === '일식'){
+                    kongjuJapaneseResMarker.push(res.data[i]);
+                }else if(res.data.cuisine_type === '중식'){
+                    kongjuChineseResMarker.push(res.data[i]);
+                }else if(res.data[i].cuisine_type === '양식'){
+                    kongjuWesternResMarker.push(res.data[i]);
+                }
+            }
+
+            console.log("kongjKoreanResMarker", kongjKoreanResMarker);
+            console.log('kongjuCafeMarker', kongjuCafeMarker);
+            console.log('kongjuChineseResMarker', kongjuChineseResMarker);
+            console.log('kongjuJapaneseResMarker', kongjuJapaneseResMarker);
+            console.log('kongjuWesternResMarker', kongjuWesternResMarker);
         })
         .catch(() => {
             console.log('err');
@@ -63,7 +89,7 @@ function Map(props){
         36.4696239!4d127.1394378 레브
         */
 
-        var singwanCafeMarker = [
+        /* var singwanCafeMarker = [
 
             [
                 {position: new naver.maps.LatLng(36.4746, 127.140123)}
@@ -120,7 +146,7 @@ function Map(props){
             ]
             ]
             
-        ];
+        ]; */
 
         /* 
         36.4695256!4d127.1376681 찐돈가스
@@ -304,7 +330,7 @@ function Map(props){
 
         let markerArray = [];
 
-        if(params['*'] === '천안/cafe'){
+        /* if(params['*'] === '천안/cafe'){
             for(var i=0; i<cheonanCafeMarker.length; i++){
                 markerArray.push((createMarker(cheonanCafeMarker, i)));
             }
@@ -320,7 +346,7 @@ function Map(props){
             for(var i=0; i<cheonanResMarker.length; i++){
                 markerArray.push((createMarker(cheonanResMarker, i)));
             }
-        }
+        } */
         
         if(params['*'] === '신관' || params['*'] === '천안'){
             var mainMarker = new naver.maps.Marker(mainMarkerOptions);
@@ -328,7 +354,7 @@ function Map(props){
 
     }, [params['*']]);
     
-    
+    console.log('resIconClick', resIconClick);
     
     return(
         <div className="map_box">
@@ -338,22 +364,25 @@ function Map(props){
             </div>
             <div id="map" ></div>
             <div className="map_navbar">
-                <div className="res_icon" onClick={e => {
-                    if(params['*'].includes('천안')){
+                <div className="map_icon_box">
+                    <div className="res_icon" onClick={e => {
+                        resIconClick(prev => !prev);
+                    /* if(params['*'].includes('천안')){
                         if(params['*'] === '천안/res'){
                             navigate('천안');
                         }else {
                             navigate('천안/res');
-                        }
+                        }s
                     }else{
                         if(params['*'] === '신관/res'){
                             navigate('신관');
                         }else {
                             navigate('신관/res');
                         }
-                    }
-                }}><span><BiRestaurant style={{color: 'orange'}} /></span><li>res</li></div>
-                <div className="cafe_icon" onClick={e => {
+                    } */
+                    }}><span><BiRestaurant style={{color: 'orange'}} /></span><li>res</li>
+                    </div>
+                    <div className="cafe_icon" onClick={e => {
                     if(params['*'].includes('천안')){
                         if(params['*'] === '천안/cafe'){
                             navigate('천안');
@@ -367,7 +396,27 @@ function Map(props){
                             navigate('신관/cafe');
                         }
                     }
-                }}><span><IoIosCafe style={{color: 'orange'}} /></span><li>cafe</li></div>
+                    }}><span><IoIosCafe style={{color: 'orange'}} /></span><li>cafe</li>
+                    </div>
+                </div>
+                {resIconClick ? 
+                <>
+                <div className="res_box">
+                    <div>
+                        <span><BiRestaurant style={{color: 'orange'}} /></span><li>한식</li>
+                    </div>
+                    <div>
+                        <span><BiRestaurant style={{color: 'orange'}} /></span><li>양식</li>
+                    </div>
+                    <div>
+                        <span><BiRestaurant style={{color: 'orange'}} /></span><li>일식</li>
+                    </div>
+                    <div>
+                        <span><BiRestaurant style={{color: 'orange'}} /></span><li>중식</li>
+                    </div>
+                </div>
+                </> 
+                : null}
             </div>
                 
 
@@ -376,7 +425,10 @@ function Map(props){
                 <Route path="천안/*" element={<CampusRes />} />
                 <Route path="신관/cafe" element={<Cafe />} />
                 <Route path="천안/cafe" element={<Cafe />} />
-                <Route path="신관/res" element={<Res />} />
+                <Route path="신관/한식" element={<Res />} />
+                <Route path="신관/중식" element={<Res />} />
+                <Route path="신관/일식" element={<Res />} />
+                <Route path="신관/양식" element={<Res />} />
                 <Route path="천안/res" element={<Res />} />
             </Routes>
         </div>

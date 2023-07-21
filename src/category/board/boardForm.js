@@ -58,7 +58,7 @@ function BoardForm(props){
             console.log(data)
             e.preventDefault();
             console.log('post', token)
-            axios.post('/api/v1/posts', data,            // 게시글 데이터 형식에 맞게 보내기
+            axios.post('/api/posts', data,            // 게시글 데이터 형식에 맞게 보내기
             {
                 headers: { Authorization : token}        /* 인증 위해 헤더에 토큰 담아서 보내기 */
             }

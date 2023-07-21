@@ -19,7 +19,7 @@ function AllComments(props) {
     }
 
     useEffect(() => {
-        axios.get('/api/v1/users/more', {
+        axios.get('/api/users/more', {
             headers: {Authorization: cookies.token},
             params: {
                 kind: 'comment',

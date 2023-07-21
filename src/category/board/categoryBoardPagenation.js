@@ -42,7 +42,7 @@ function CategoryBoardPagenation(props){
             setBoardTitle('동아리/학회')
         }
         //console.log('pageNum',pageNum)
-        axios.get(`/api/v1/posts/${category}`, {
+        axios.get(`/api/posts/${category}`, {
             headers: {Authorization : props.cookies.token},
             params: {
                 page: params['pageNum']

@@ -38,7 +38,7 @@ function Login({setIsLogin, setCookie}){
                 <div className='btn'>
                     <Button className='btn-login' variant="info" onClick={(e)=>{
                         e.preventDefault();
-                        axios.post('/api/v1/auth/sign-in', data)
+                        axios.post('/api/auth/sign-in', data)
                         .then((res) => {
                             //console.log(res.data)
                             if(res.status === 200){

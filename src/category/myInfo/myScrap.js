@@ -17,7 +17,7 @@ function MyScrap(props) {
     let [searchContent, setSearchContent] = useState('');
 
     useEffect(() => {
-        axios.get('/api/v1/users/scraps', {
+        axios.get('/api/users/scraps', {
             headers : {Authorization: token},
             params : {
                 page: 1

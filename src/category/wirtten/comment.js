@@ -10,7 +10,7 @@ function Comment(props){
     let [commentList, setCommentList] = useState([]);
     //let navigate = useNavigate();
     useEffect(() => {
-        axios.get('/api/v1/users', {
+        axios.get('/api/users', {
             headers: {Authorization: props.cookies.token} /* 헤더에 토큰 담아서 보내기 */
           })
           .then(res => {

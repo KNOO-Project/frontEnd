@@ -16,7 +16,7 @@ function MyScrapSearch(props) {
     console.log(keyword, pageNum);
 
     useEffect(() => {
-        axios.get('/api/v1/users/scraps/search', {
+        axios.get('/api/users/scraps/search', {
             headers: {Authorization: props.token},
             params: {
                 condition: props.searchTypeSelected,

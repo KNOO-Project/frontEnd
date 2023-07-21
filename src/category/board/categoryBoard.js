@@ -44,7 +44,7 @@ function CategoryBoard(props){
             setBoardTitle('동아리/학회')
         }
         //console.log('pageNum',pageNum)
-        axios.get(`/api/v1/posts/${category}`, {
+        axios.get(`/api/posts/${category}`, {
             headers: {Authorization : token},
             params: {
                 page: 1                                     // 페이지 첫 로드시 pageNum은 1
@@ -80,7 +80,7 @@ function CategoryBoard(props){
 
     //검색 기능
     const search = () => {
-        axios.get('/api/v1/posts/search', {
+        axios.get('/api/posts/search', {
             headers: {Authorization: props.cookies.token},
             params: {
                 'category': category,
@@ -121,7 +121,7 @@ function CategoryBoard(props){
                             setSearchContent(e.target.value)
                         }} />
                         <AiOutlineSearch className="search_icon" onClick={() => {
-                            axios.get('/api/v1/posts/search', {
+                            axios.get('/api/posts/search', {
                                 headers: {Authorization: props.cookies.token},
                                 params: {
                                     'category': category,

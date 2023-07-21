@@ -24,7 +24,7 @@ function MainBoard(props){
 
     //검색 기능
     const search = () => {
-        axios.get('/api/v1/posts/search', {
+        axios.get('/api/posts/search', {
             headers: {Authorization: token},
             params: {
                 condition: searchTypeSelected,
@@ -44,7 +44,7 @@ function MainBoard(props){
     }
 
     useEffect(() => {
-        axios.get('/api/v1/posts', {
+        axios.get('/api/posts', {
             headers: { Authorization: token }
         })
         .then((res) => {

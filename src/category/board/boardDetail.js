@@ -59,7 +59,7 @@ function BoardDetail(props) {
     
     //댓글 작성 함수
     const postComment = () => {
-        axios.post('/api/v1/comments', {                    //post 첫번째 인자 url, 두번째 인자 data(request Body), 세번째 인자 params(key, type, headers ...)
+        axios.post('/api/comments', {                    //post 첫번째 인자 url, 두번째 인자 data(request Body), 세번째 인자 params(key, type, headers ...)
             comment_content: comment
         },
             { headers: {Authorization: token},
@@ -76,7 +76,7 @@ function BoardDetail(props) {
     
     //대댓글 작성 함수
     const writeRecomment = (commentId) => {                 
-        axios.post('/api/v1/comments/reply', {
+        axios.post('/api/comments/reply', {
             comment_content: recomment
         }, 
         {
@@ -93,7 +93,7 @@ function BoardDetail(props) {
 
     //좋아요 기능
     const likePost = (postId) => {                  
-        axios.post('/api/v1/posts/likes',{/* body 자리 비워놓기 */}, {
+        axios.post('/api/posts/likes',{/* body 자리 비워놓기 */}, {
             headers: {Authorization : token},
             params: {
                 post_id: postId
@@ -109,7 +109,7 @@ function BoardDetail(props) {
     }
 
     const likeComment = (commentId) => {
-        axios.post('/api/v1/comments/likes', {/* body 자리 비워놓기 */}, {
+        axios.post('/api/comments/likes', {/* body 자리 비워놓기 */}, {
             headers: {Authorization: token},
             params: {
                 comment_id: commentId
@@ -125,7 +125,7 @@ function BoardDetail(props) {
     }
     //스크랩 기능
     const scrap = (postId) => {
-        axios.post('/api/v1/posts/scraps', {/* body 자리 비워놓기 */}, {
+        axios.post('/api/posts/scraps', {/* body 자리 비워놓기 */}, {
             headers: {Authorization : token},
             params: {
                 post_id : postId
@@ -140,7 +140,7 @@ function BoardDetail(props) {
     }
 
     const deletePost = (postId) => {
-        axios.delete('/api/v1/posts',{
+        axios.delete('/api/posts',{
             headers: { Authorization : token},      /* 인증 위해 헤더에 토큰 담아서 보내기 */
             params : {
                 post_id : postId
@@ -188,7 +188,7 @@ function BoardDetail(props) {
     useEffect(() => {
         let comment = [];
         let recomment = []
-        axios.get(`/api/v1/posts/${category}/${post_id}` , (
+        axios.get(`/api/posts/${category}/${post_id}` , (
             {
                 headers: {Authorization: token} /* 헤더에 토큰 담아서 보내기 */
               }
@@ -374,7 +374,7 @@ function BoardDetail(props) {
                             {a.is_written_by_user ? 
                                 <>
                                 <p className="comment_delete" onClick={() => {
-                                    axios.delete('/api/v1/comments',{
+                                    axios.delete('/api/comments',{
                                         headers: { Authorization : token},      /* 인증 위해 헤더에 토큰 담아서 보내기 */
                                         params : {
                                             'comment_id': a.comment_id
