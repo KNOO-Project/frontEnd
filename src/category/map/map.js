@@ -61,7 +61,8 @@ function Map(props){
         })
         .then(() => {
 
-            function createMarker(cafeMarker, i) {
+            function createMarker(cafeMarker, i, iconImg) {
+                console.log('iconImg', iconImg);
                 var marker = new naver.maps.Marker({
                     position: new naver.maps.LatLng(cafeMarker[i].coordinate.latitude, cafeMarker[i].coordinate.longitude),
                     map: map,
@@ -69,7 +70,7 @@ function Map(props){
                     icon: {
                         content: [
                             '<div class="iw_inner">',
-                            '<img src="/img/res.png" alt="" />',
+                            `<img src="/img/${iconImg}.png" alt="" />`,
                             `   <h3>${cafeMarker[i].restaurant_name}</h3>`,
                             '</div>'
                         ].join(''),
@@ -84,23 +85,23 @@ function Map(props){
             let markerArray = [];
             if(params['*'] === '공주/cafe'){
                 for(var i=0; i<kongjuCafeMarker.length; i++){
-                    markerArray.push(createMarker(kongjuCafeMarker, i));
+                    markerArray.push(createMarker(kongjuCafeMarker, i, 'cafe'));
                 }
             }else if(params['*'] === '공주/한식'){
                 for(var i=0; i<kongjuKoreanResMarker.length; i++){
-                    markerArray.push(createMarker(kongjuKoreanResMarker, i));
+                    markerArray.push(createMarker(kongjuKoreanResMarker, i, 'res'));
                 }
             }else if(params['*'] === '공주/일식'){
                 for(var i=0; i<kongjuJapaneseResMarker.length; i++){
-                    markerArray.push(createMarker(kongjuJapaneseResMarker, i));
+                    markerArray.push(createMarker(kongjuJapaneseResMarker, i, 'res'));
                 }
             }else if(params['*'] === '공주/양식'){
                 for(var i=0; i<kongjuWesternResMarker.length; i++){
-                    markerArray.push(createMarker(kongjuWesternResMarker, i));
+                    markerArray.push(createMarker(kongjuWesternResMarker, i, 'res'));
                 }
             }else if(params['*'] === '공주/중식'){
                 for(var i=0; i<kongjuChineseResMarker.length; i++){
-                    markerArray.push(createMarker(kongjuChineseResMarker, i));
+                    markerArray.push(createMarker(kongjuChineseResMarker, i, 'res'));
                 }
             }
             console.log('markerArray', markerArray);
