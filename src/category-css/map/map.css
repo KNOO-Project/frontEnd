@@ -36,10 +36,12 @@
     display: flex;
 }
 .res_icon, .cafe_icon {
-    margin-left: 5px;
     display: flex;
     cursor: pointer;
     font-weight: 600;
+}
+.cafe_icon {
+    margin-left: 5px;
 }
 .res_icon:hover, .cafe_icon:hover {
     color: blue;
@@ -53,7 +55,6 @@
 }
 .res_box > div {
     display: flex;
-    margin-left: 5px;
 }
 .res_box > div:hover {
     color: blue;

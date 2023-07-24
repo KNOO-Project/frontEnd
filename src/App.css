@@ -12,7 +12,9 @@ div{
 /* head */
 .nav-bar{
   height: 100px;
-  background-color: #b7f3ff;
+  background-color: #17469e;
+  color: white;
+  font-family: 'Noto Light',sans-serif;;
 }
 
 .nav-box{
