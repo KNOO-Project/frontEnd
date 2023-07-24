@@ -40,7 +40,7 @@
     display: flex;
     cursor: pointer;
 }
-.map_navbar > div:hover {
+.res_icon:hover, .cafe_icon:hover {
     color: blue;
 }
 .map_navbar > div > span {

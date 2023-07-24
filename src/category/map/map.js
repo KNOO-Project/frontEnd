@@ -366,7 +366,7 @@ function Map(props){
             <div className="map_navbar">
                 <div className="map_icon_box">
                     <div className="res_icon" onClick={e => {
-                        resIconClick(prev => !prev);
+                        setResIconClick(prev => !prev);
                     /* if(params['*'].includes('천안')){
                         if(params['*'] === '천안/res'){
                             navigate('천안');
