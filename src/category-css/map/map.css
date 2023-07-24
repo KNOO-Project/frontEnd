@@ -35,10 +35,11 @@
 .map_icon_box {
     display: flex;
 }
-.map_icon_box > .res_icon, .map_icon_box > .cafe_icon {
+.res_icon, .cafe_icon {
     margin-left: 5px;
     display: flex;
     cursor: pointer;
+    font-weight: 600;
 }
 .res_icon:hover, .cafe_icon:hover {
     color: blue;
@@ -48,12 +49,19 @@
 }
 .map_navbar li {
     list-style: none;
-    cursor: ;
+    cursor: pointer;
 }
-.map_navbar > .res_box > div{
+.res_box > div {
     display: flex;
     margin-left: 5px;
 }
+.res_box > div:hover {
+    color: blue;
+}
+.res_box > div > li {
+    font-weight: 600;
+}
+
 .iw_inner {
     display: flex;
     height: 20px;
