@@ -19,7 +19,6 @@ function Map(props){
     //console.log('currentUrl', currentUrl);
     console.log(params['*']);
     let [resIconClick, setResIconClick] = useState(false);
-    let [detailIconClick, setDetailIconClick] = useState(true);
     //let campus1 = params['*'].split('/')[0];
     //console.log(params['*'] === '' || params['*'] === '신관');
     //console.log(params['*'] === '신관');
@@ -71,7 +70,13 @@ function Map(props){
             })
             .then(() => {
 
-                function createMarker(cafeMarker, i, iconImg, detailIconClick) {
+                function createMarker(cafeMarker, i, iconImg) {
+                    let name = null;
+                    if(cafeMarker[i].restaurant_name.length > 8){
+                        name = cafeMarker[i].restaurant_name.substring(0, 7) + '...';
+                    }else {
+                        name = cafeMarker[i].restaurant_name;
+                    }
                     console.log('iconImg', iconImg);
                     var marker = new naver.maps.Marker({
                         position: new naver.maps.LatLng(cafeMarker[i].coordinate.latitude, cafeMarker[i].coordinate.longitude),
@@ -81,7 +86,7 @@ function Map(props){
                             content: [
                                 '<div class="iw_inner">',
                                 `<img src="/img/${iconImg}.png" alt="" />`,
-                                `   <h3>${cafeMarker[i].restaurant_name}</h3>`,
+                                `   <h3>${name}</h3>`,
                                 '</div>'
                             ].join(''),
                             size: new naver.maps.Size(38, 58),
@@ -154,7 +159,12 @@ function Map(props){
             .then(() => {
 
                 function createMarker(cafeMarker, i, iconImg) {
-                    console.log('iconImg', iconImg);
+                    let name = null;
+                    if(cafeMarker[i].restaurant_name.length > 9){
+                        name = cafeMarker[i].restaurant_name.substring(0, 8) + '...';
+                    }else {
+                        name = cafeMarker[i].restaurant_name;
+                    }
                     var marker = new naver.maps.Marker({
                         position: new naver.maps.LatLng(cafeMarker[i].coordinate.latitude, cafeMarker[i].coordinate.longitude),
                         map: map,
@@ -163,7 +173,7 @@ function Map(props){
                             content: [
                                 '<div class="iw_inner">',
                                 `<img src="/img/${iconImg}.png" alt="" />`,
-                                `   <h3>${cafeMarker[i].restaurant_name}</h3>`,
+                                `   <h3>${name}</h3>`,
                                 '</div>'
                             ].join(''),
                             size: new naver.maps.Size(38, 58),
@@ -494,12 +504,6 @@ function Map(props){
     
     return(
         <div className="map_body">
-        {detailIconClick ? 
-            <div className="info_box">
-            <li>스타벅스 공주신관점</li>
-            <li>영업시간: 9시 ~ 18시</li>
-            <li>주소: </li>
-            </div> : null}    
         
         <div className="map_box">
             <div className="campus_btn">
