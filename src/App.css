@@ -44,8 +44,25 @@ div{
 .nav-box .text-center{
   text-align: center;
 }
+.text-center h3 {
+  font-size: 20px;
+}
 .nav-box .text-right{
-  text-align: right;
+  text-align: center;
+}
+.text-right h3 {
+  font-size: 20px;
+}
+.text_right_login {
+  display: flex;
+}
+.text_right_login h3 {
+  font-size: 20px;
+}
+.text_right_login svg {
+  margin: auto 0;
+  margin-left: 20px;
+  font-size: 25px;
 }
 
 /* body */

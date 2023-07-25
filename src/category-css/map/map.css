@@ -1,3 +1,13 @@
+.map_body {
+    position: relative;
+}
+.info_box {
+    position: absolute;
+    left: 100px;
+    border: 3px solid cornflowerblue;
+    border-radius: 3px;
+    padding: 10px;
+}
 .map_box {
     width: 700px;
     height: 600px;
@@ -65,18 +75,12 @@
 
 .iw_inner {
     display: flex;
-    /* height: 20px;
-    background-color: #eef3fd;
-    border: blueviolet solid 1px;
-    border-radius: 3px;
-    background: white;
-    position: relative; */
     background: white;
     border: blueviolet solid 1px;
     border-radius: 5px;
+    height: 20px;
     font-size: 12px;
     font-weight: 500;
-    height: 20px;
     letter-spacing: -0.25px;
     position: relative;
     width: fit-content;

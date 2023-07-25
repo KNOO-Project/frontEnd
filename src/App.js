@@ -14,6 +14,7 @@ import MyScrap from './category/myInfo/myScrap';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import BoardDetail from './category/board/boardDetail';
+import { AiOutlineBell } from 'react-icons/ai';
 
 function App() {
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
@@ -122,10 +123,13 @@ function App() {
           </>}
           {/*로그인 성공시 회원정보 조회 버튼 생성 */}
           {localStorage.getItem('isLogin') ? <>
-          <div className='text-right' onClick={()=>{
+          <div className='text_right_login' style={{textAlign: 'left'}} >
+            <h3 onClick={()=>{
             moveMyInfo();
             //localStorage.removeItem('writtenClick', false)                    //마이페이지 클릭하면 myInfo의 false 값만 보여주기
-            }} ><h4>내 정보</h4></div>
+            }} >내 정보</h3>
+            <AiOutlineBell />
+            </div>
           </> : null}
         </div>
       </div>
