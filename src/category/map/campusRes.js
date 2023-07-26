@@ -12,9 +12,7 @@ function CampusRes() {
         <div onClick={e => {
         }}>campus Res</div>
         
-        <Routes>
-            <Route path="cafe" element={<Cafe />} />
-        </Routes>
+        
         </>
     )
 }
