@@ -7,23 +7,30 @@ import {BiRestaurant} from 'react-icons/bi';
 import {IoIosCafe} from 'react-icons/io'
 import Cafe from "./cafe";
 import Res from "./res";
-import { NavItem } from "react-bootstrap";
 
 const {naver} = window;
 
 function Map(props){
 
+    let testUrl = null;
     let navigate = useNavigate();
     let params = useParams();
     //let currentUrl = window.location.href;
     //console.log('currentUrl', currentUrl);
-    console.log(params['*']);
+    console.log('params', params['*']);
     let [resIconClick, setResIconClick] = useState(false);
+    let [url, setUrl] = useState(null);
+    
     //let campus1 = params['*'].split('/')[0];
     //console.log(params['*'] === '' || params['*'] === '신관');
     //console.log(params['*'] === '신관');
     useEffect(() => {
         
+        /* 맛집 클릭하면 옆에 창 닫기 */
+        if(!params['*']){
+            setUrl(null);   
+            setResIconClick(false);
+        }
         //공주캠퍼스 마커
         var kongjuKoreanResMarker = [];
         var kongjuChineseResMarker = [];
@@ -31,7 +38,7 @@ function Map(props){
         var kongjuWesternResMarker = [];
         var kongjuCafeMarker = [];
         var kongjuFastFoodMarker = [];
-
+        var markerData = null;
         //천안캠퍼스 마커
         var cheonanKoreanResMarker = [];
         var cheonanChineseResMarker = [];
@@ -50,6 +57,7 @@ function Map(props){
             })
             .then((res) => {
                 console.log('공주', res);
+                console.log(res.data[0].url);
                 /* 반복문 돌리면서 필터링 해주기 */
                 for(var i=0; i<res.data.length; i++){
                     if(res.data[i].cuisine_type === '카페'){
@@ -67,6 +75,7 @@ function Map(props){
                     }
                     
                 }
+                
             })
             .then(() => {
 
@@ -84,7 +93,7 @@ function Map(props){
                         title: 'Green',
                         icon: {
                             content: [
-                                '<div class="iw_inner">',
+                                `<div id=${i} class="iw_inner" >`,
                                 `<img src="/img/${iconImg}.png" alt="" />`,
                                 `   <h3>${name}</h3>`,
                                 '</div>'
@@ -98,32 +107,72 @@ function Map(props){
                     return marker;
                 }
                 let markerArray = [];
+                let markerHtmlArray = [];
                 if(params['*'] === '공주/cafe'){
                     for(var i=0; i<kongjuCafeMarker.length; i++){
                         markerArray.push(createMarker(kongjuCafeMarker, i, 'cafe'));
                     }
+                    markerData = kongjuCafeMarker;
                 }else if(params['*'] === '공주/한식'){
                     for(var i=0; i<kongjuKoreanResMarker.length; i++){
                         markerArray.push(createMarker(kongjuKoreanResMarker, i, 'res'));
                     }
+                    markerData = kongjuKoreanResMarker;
                 }else if(params['*'] === '공주/일식'){
                     for(var i=0; i<kongjuJapaneseResMarker.length; i++){
                         markerArray.push(createMarker(kongjuJapaneseResMarker, i, 'res'));
                     }
+                    markerData = kongjuJapaneseResMarker;
                 }else if(params['*'] === '공주/양식'){
                     for(var i=0; i<kongjuWesternResMarker.length; i++){
                         markerArray.push(createMarker(kongjuWesternResMarker, i, 'res'));
                     }
+                    markerData = kongjuWesternResMarker;
                 }else if(params['*'] === '공주/중식'){
                     for(var i=0; i<kongjuChineseResMarker.length; i++){
                         markerArray.push(createMarker(kongjuChineseResMarker, i, 'res'));
                     }
+                    markerData = kongjuChineseResMarker;
                 }else if(params['*'] === '공주/패스트푸드'){
                     for(var i=0 ;kongjuFastFoodMarker.length; i++){
                         markerArray.push(createMarker(kongjuFastFoodMarker, i, 'res'));
                     }
+                    markerData = kongjuFastFoodMarker;
                 }
                 console.log('markerArray', markerArray);
+                console.log('markerData', markerData);
+                for(var j=0; j<markerArray.length; j++){
+                    var markerHtml = document.getElementById(j);
+                    markerHtmlArray.push(markerHtml);
+                }
+                console.log(markerHtmlArray);
+                /* let a = document.getElementById(0);
+                naver.maps.Event.addDOMListener( a , 'click', function() {
+                    console.log(a);
+                }) */
+                function getResUrlData(markerData) {
+                    for(var i=0; i<markerHtmlArray.length; i++){ 
+                        let num = i;   
+                        naver.maps.Event.addDOMListener( markerHtmlArray[i] , 'click', function() {
+                            console.log(markerData[num].url);
+                            setUrl(markerData[num].url);
+                        })
+                    }
+                }
+
+                getResUrlData(markerData);
+                
+                
+                /* for(var j=0; j<markerArray.length; j++){
+                    naver.maps.Event.addListener('click' ,
+                        function(e) {
+                            console.log(e);
+                        },
+                        markerHtmlArray[j])
+                } */
+                
+                /* j 확인하고  markerArray[k].restaurant_name === title 제대로 맞추기 */
+                
             })
             .catch(() => {
                 console.log('err');
@@ -171,7 +220,7 @@ function Map(props){
                         title: 'Green',
                         icon: {
                             content: [
-                                '<div class="iw_inner">',
+                                `<div id=${i} class="iw_inner">`,
                                 `<img src="/img/${iconImg}.png" alt="" />`,
                                 `   <h3>${name}</h3>`,
                                 '</div>'
@@ -181,70 +230,70 @@ function Map(props){
                         },
                         draggable: false
                     });
-        
                     return marker;
                 }
 
                 let markerArray = [];
+                let markerHtmlArray = [];
                 if(params['*'] === '천안/cafe'){
                     for(var i=0; i<cheonanCafeMarker.length; i++){
                         markerArray.push(createMarker(cheonanCafeMarker, i, 'cafe'));
                     }
+                    markerData = cheonanCafeMarker;
                 }else if(params['*'] === '천안/한식'){
                     for(var i=0; i<cheonanKoreanResMarker.length; i++){
                         markerArray.push(createMarker(cheonanKoreanResMarker, i, 'res'));
                     }
+                    markerData = cheonanKoreanResMarker;
                 }else if(params['*'] === '천안/일식'){
                     for(var i=0; i<cheonanJapaneseResMarker.length; i++){
                         markerArray.push(createMarker(cheonanJapaneseResMarker, i, 'res'));
                     }
+                    markerData = cheonanJapaneseResMarker;
                 }else if(params['*'] === '천안/양식'){
                     for(var i=0; i<cheonanWesternResMarker.length; i++){
                         markerArray.push(createMarker(cheonanWesternResMarker, i, 'res'));
                     }
+                    markerData = cheonanWesternResMarker;
                 }else if(params['*'] === '천안/중식'){
                     for(var i=0; i<cheonanChineseResMarker.length; i++){
                         markerArray.push(createMarker(cheonanChineseResMarker, i, 'res'));
                     }
+                    markerData = cheonanChineseResMarker;
                 }else if(params['*'] === '천안/패스트푸드') {
-                    for(var i=0; i<cheonanFastFoodMarker.length; i++)
-                    markerArray.push(createMarker(cheonanFastFoodMarker, i, 'res'));
+                    for(var i=0; i<cheonanFastFoodMarker.length; i++){
+                        markerArray.push(createMarker(cheonanFastFoodMarker, i, 'res'));
+                    }
+                    markerData = cheonanFastFoodMarker;
                 }
                 console.log('markerArray', markerArray);
+                console.log('markerData', markerData);
+                for(var j=0; j<markerArray.length; j++){
+                    var markerHtml = document.getElementById(j);
+                    markerHtmlArray.push(markerHtml);
+                }
+                console.log(markerHtmlArray);
+                /* let a = document.getElementById(0);
+                naver.maps.Event.addDOMListener( a , 'click', function() {
+                    console.log(a);
+                }) */
+                function getResUrlData(markerData) {
+                    for(var i=0; i<markerHtmlArray.length; i++){ 
+                        let num = i;   
+                        naver.maps.Event.addDOMListener( markerHtmlArray[i] , 'click', function() {
+                            console.log(markerData[num].url);
+                            setUrl(markerData[num].url);
+                        })
+                    }
+                }
+
+                getResUrlData(markerData);
             })
             .catch(() => {
                 console.log('err');
             })
         }
-        /* axios.get('/api/restaurants', {
-            headers: { Authorization: props.cookies.token }
-        })
-        .then((res) => {
-            console.log(res.data);
-            
-            
-            for(var i=0; i<res.data.length; i++){
-                if(res.data[i].cuisine_type === '카페'){
-                    kongjuCafeMarker.push(res.data[i]);
-                }else if(res.data[i].cuisine_type === '한식'){
-                    kongjuKoreanResMarker.push(res.data[i]);
-                }else if(res.data.cuisine_type === '일식'){
-                    kongjuJapaneseResMarker.push(res.data[i]);
-                }else if(res.data.cuisine_type === '중식'){
-                    kongjuChineseResMarker.push(res.data[i]);
-                }else if(res.data[i].cuisine_type === '양식'){
-                    kongjuWesternResMarker.push(res.data[i]);
-                }
-            }
-
-            console.log("kongjKoreanResMarker", kongjuKoreanResMarker);
-            console.log('kongjuCafeMarker', kongjuCafeMarker);
-            console.log('kongjuChineseResMarker', kongjuChineseResMarker);
-            console.log('kongjuJapaneseResMarker', kongjuJapaneseResMarker);
-            console.log('kongjuWesternResMarker', kongjuWesternResMarker);
-            
-        }) */
-        
+                
         
 
         var mapDiv = document.getElementById('map');
@@ -285,19 +334,25 @@ function Map(props){
             map.destroy();
         }
 
-    }, [params['*']]);
+    }, [params['*']] );
     
     
     return(
         <div className="map_body">
-        
+            {url === null ? null : 
+            <div className="test_box">
+                <iframe className="modal_page" src={url} title="explain" />
+            </div>    
+            }
         <div className="map_box">
             <div className="campus_btn">
                 <Link to='공주' onClick={e => {
+                    setUrl(null);
                     setResIconClick(false);
                 }}>신관캠퍼스</Link>
-                <Link to='천안' id="cheonanCampus" onClick={e => {
-                    //setResIconClick(false);
+                <Link to='천안' onClick={e => {
+                    setUrl(null);
+                    setResIconClick(false);
                 }}>천안캠퍼스</Link>
             </div>
             <div id="map" ></div>
@@ -309,6 +364,7 @@ function Map(props){
                     </div>
                     <div className="cafe_icon" onClick={e => {
                         setResIconClick(false);
+                        setUrl(null);
                         if(params['*'].includes('천안')){
                             if(params['*'] === '천안/cafe'){
                                 navigate('천안');
@@ -329,46 +385,56 @@ function Map(props){
                 <>
                 <div className="res_box">
                     <div onClick={e => {
+                        setUrl(null);
                         if(params['*'].includes('천안')){
                             navigate('천안/한식');
-                        }else if(params['*'].includes('공주')){
+                        }else{
                             navigate('공주/한식');
+                            setResIconClick(false);
                         }
                     }}>
                         <span><BiRestaurant style={{color: 'orange'}} /></span><li>한식</li>
                     </div>
                     <div onClick={e => {
+                        setUrl(null);
                         if(params['*'].includes('천안')){
                             navigate('천안/양식');
-                        }else if(params['*'].includes('공주')){
+                        }else{
                             navigate('공주/양식');
+                            setResIconClick(false);
                         }
                     }}>
                         <span><BiRestaurant style={{color: 'orange'}} /></span><li>양식</li>
                     </div>
                     <div onClick={e => {
+                        setUrl(null);
                         if(params['*'].includes('천안')){
                             navigate('천안/일식');
-                        }else if(params['*'].includes('공주')){
+                        }else{
                             navigate('공주/일식');
+                            setResIconClick(false);
                         }
                     }}>
                         <span><BiRestaurant style={{color: 'orange'}} /></span><li>일식</li>
                     </div>
                     <div onClick={e => {
+                        setUrl(null);
                         if(params['*'].includes('천안')){
                             navigate('천안/중식');
-                        }else if(params['*'].includes('공주')){
+                        }else{
                             navigate('공주/중식');
+                            setResIconClick(false);
                         }
                     }}>
                         <span><BiRestaurant style={{color: 'orange'}} /></span><li>중식</li>
                     </div>
                     <div onClick={e => {
+                        setUrl(null);
                         if(params['*'].includes('천안')){
                             navigate('천안/패스트푸드');
-                        }else if(params['*'].includes('공주')){
+                        }else{
                             navigate('공주/패스트푸드');
+                            setResIconClick(false);
                         }
                     }}>
                         <span><BiRestaurant style={{color: 'orange'}} /></span><li>패스트푸드</li>

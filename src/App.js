@@ -22,7 +22,6 @@ function App() {
   
   let navigate = useNavigate();
   let [onMouse, setOnMouse] = useState(false)
-  
   function moveBoard(pathBoardTitle, boardTitle){                       // categoryBoard 로 넘어가는 함수
     if(localStorage.isLogin === 'true'){
       localStorage.setItem('categoryBoardClick', true);         //각 카테고리 게시판으로 링크타고 이동하면 true 값 보여주기(각 카테고리별 게시판 글쓰기는 따로)
