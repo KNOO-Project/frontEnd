@@ -20,7 +20,7 @@ function Map(props){
     console.log('params', params['*']);
     let [resIconClick, setResIconClick] = useState(false);
     let [url, setUrl] = useState(null);
-    
+    //let [onLoading, setOnLoading] = useState(false);
     //let campus1 = params['*'].split('/')[0];
     //console.log(params['*'] === '' || params['*'] === '신관');
     //console.log(params['*'] === '신관');
@@ -334,14 +334,16 @@ function Map(props){
             map.destroy();
         }
 
-    }, [params['*']] );
+    }, [params, props.cookies.token] );
     
-    
+    console.log(onLoading);
+
     return(
         <div className="map_body">
             {url === null ? null : 
-            <div className="test_box">
-                <iframe className="modal_page" src={url} title="explain" />
+            <div className="modal_box">
+                {/* setTimeOut 함수 써서 로딩 전에 로딩 화면 띄우기 */}
+                <iframe className="modal_page" src={url} /* srcDoc={onLoading ? null : 'loading...'} */ loading="lazy"  title="explain" /* onLoad={() => {setOnLoading(true)}} */ />
             </div>    
             }
         <div className="map_box">
