@@ -393,6 +393,7 @@ function Map(props){
                         setUrl(null);
                         if(params['*'].includes('천안')){
                             navigate('천안/한식');
+                            setResIconClick(false);
                         }else{
                             navigate('공주/한식');
                             setResIconClick(false);
@@ -404,6 +405,7 @@ function Map(props){
                         setUrl(null);
                         if(params['*'].includes('천안')){
                             navigate('천안/양식');
+                            setResIconClick(false);
                         }else{
                             navigate('공주/양식');
                             setResIconClick(false);
@@ -415,6 +417,7 @@ function Map(props){
                         setUrl(null);
                         if(params['*'].includes('천안')){
                             navigate('천안/일식');
+                            setResIconClick(false);
                         }else{
                             navigate('공주/일식');
                             setResIconClick(false);
@@ -426,6 +429,7 @@ function Map(props){
                         setUrl(null);
                         if(params['*'].includes('천안')){
                             navigate('천안/중식');
+                            setResIconClick(false);
                         }else{
                             navigate('공주/중식');
                             setResIconClick(false);
@@ -437,6 +441,7 @@ function Map(props){
                         setUrl(null);
                         if(params['*'].includes('천안')){
                             navigate('천안/패스트푸드');
+                            setResIconClick(false);
                         }else{
                             navigate('공주/패스트푸드');
                             setResIconClick(false);
