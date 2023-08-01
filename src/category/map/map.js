@@ -7,12 +7,15 @@ import {BiRestaurant} from 'react-icons/bi';
 import {IoIosCafe} from 'react-icons/io'
 import Cafe from "./cafe";
 import Res from "./res";
+import { useRef } from 'react';
+import { TailSpin } from 'react-loader-spinner';
 
 const {naver} = window;
 
 function Map(props){
 
     let testUrl = null;
+    const frame = useRef();
     let navigate = useNavigate();
     let params = useParams();
     //let currentUrl = window.location.href;
@@ -20,7 +23,7 @@ function Map(props){
     console.log('params', params['*']);
     let [resIconClick, setResIconClick] = useState(false);
     let [url, setUrl] = useState(null);
-    //let [onLoading, setOnLoading] = useState(false);
+    let [onLoading, setOnLoading] = useState(false);
     //let campus1 = params['*'].split('/')[0];
     //console.log(params['*'] === '' || params['*'] === '신관');
     //console.log(params['*'] === '신관');
@@ -336,14 +339,14 @@ function Map(props){
 
     }, [params, props.cookies.token] );
     
-    console.log(onLoading);
-
     return(
         <div className="map_body">
             {url === null ? null : 
             <div className="modal_box">
                 {/* setTimeOut 함수 써서 로딩 전에 로딩 화면 띄우기 */}
-                <iframe className="modal_page" src={url} /* srcDoc={onLoading ? null : 'loading...'} */ loading="lazy"  title="explain" /* onLoad={() => {setOnLoading(true)}} */ />
+                <TailSpin />
+                <iframe className="modal_page" id='frame' src={url} loading="lazy"  title="explain" 
+                onLoad={() => {}} />
             </div>    
             }
         <div className="map_box">
