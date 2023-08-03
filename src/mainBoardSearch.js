@@ -6,6 +6,7 @@ import {TbCircleChevronLeft, TbCircleChevronRight} from 'react-icons/tb';
 
 function MainBoardSearch(props) {
 
+    var token = props.token;
     let params = useParams();
     console.log(params);
     let navigate = useNavigate();
@@ -18,8 +19,8 @@ function MainBoardSearch(props) {
     console.log(pageNum, keyword);
 
     useEffect(() => {
-        axios.get('/api/v1/posts/search', {
-            headers: {Authorization: props.cookies.token},
+        axios.get('/api/posts/search', {
+            headers: {Authorization: token},
             params: {
                 condition: props.searchTypeSelected,
                 keyword: keyword,

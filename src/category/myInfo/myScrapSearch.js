@@ -6,6 +6,7 @@ import {AiOutlineLike, AiOutlineComment, AiOutlineStar, AiFillStar} from 'react-
 import '../../category-css/scrap/myScrapSearch.css';
 
 function MyScrapSearch(props) {
+    var token = props.token;
     let params = useParams();
     console.log(params['keyword_pageNum']);
     let navigate = useNavigate();
@@ -17,7 +18,7 @@ function MyScrapSearch(props) {
 
     useEffect(() => {
         axios.get('/api/users/scraps/search', {
-            headers: {Authorization: props.token},
+            headers: {Authorization: token},
             params: {
                 condition: props.searchTypeSelected,
                 'keyword': keyword,

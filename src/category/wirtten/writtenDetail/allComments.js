@@ -5,7 +5,7 @@ import '../../../category-css/written/allComments.css';
 import {TbCircleChevronLeft, TbCircleChevronRight} from 'react-icons/tb';
 
 function AllComments(props) {
-    let cookies = props.cookies;
+    var token = props.token;
     let navigate = useNavigate();
     let [commentData, setCommentData] = useState([]);
     let [totalPages, setTotalPages] = useState();
@@ -20,7 +20,7 @@ function AllComments(props) {
 
     useEffect(() => {
         axios.get('/api/users/more', {
-            headers: {Authorization: cookies.token},
+            headers: {Authorization: token},
             params: {
                 kind: 'comment',
                 page: pageNum

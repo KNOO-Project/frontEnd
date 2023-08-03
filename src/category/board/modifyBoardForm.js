@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 function ModifyBoardForm(props) {
     let navigate = useNavigate();
-    let token = props.cookies.token;
+    let token = props.token;
     let [data, setData] = useState({
         post_title: props.title,
         post_content: props.content,
@@ -46,7 +46,6 @@ function ModifyBoardForm(props) {
             }} /><label for="anonymous">익명으로 올리기</label>
             <button onClick={() => {
                 console.log(data)
-                console.log('post', token)
                 axios.put('/api/posts', data,            // 게시글 데이터 형식에 맞게 보내기
                 {
                     headers: { Authorization : token},      /* 인증 위해 헤더에 토큰 담아서 보내기 */

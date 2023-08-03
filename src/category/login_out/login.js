@@ -17,11 +17,12 @@ function Login({setIsLogin, setCookie}){
     let [idData, setIdData] = useState({
         email : ''
     })
-    let [pwData, setPwData] = useState({
+    let [pwData, setPwData] = useState({    
         id : '',
         email : ''
     })
-    //console.log(check)
+
+    console.log(data.auto_sign_in)
     return(
         <div className='login-form'>
             <form className='form-box'>
@@ -37,19 +38,28 @@ function Login({setIsLogin, setCookie}){
                     }))}} />
                 <div className='btn'>
                     <Button className='btn-login' variant="info" onClick={(e)=>{
-                        e.preventDefault();
+                        //e.preventDefault();
                         axios.post('/api/auth/sign-in', data)
                         .then((res) => {
                             //console.log(res.data)
-                            if(res.status === 200){
+                            let token = res.data;
+                            if(data.auto_sign_in){
+                                /* 자동 로그인 클릭시 */
+                                localStorage.setItem('token', token);
+                                localStorage.setItem('isLogin', true);
+                            }else {
+                                /* 자동 로그인 클릭 X */
+                                sessionStorage.setItem('token', token);
+                                sessionStorage.setItem('isLogin', true);
+                            }
+                            navigate('/');
+                            /* if(res.status === 200){
                                 let token = res.data;
                                 setCookie('token', token);                       // 쿠키 파라미터로 쿠키에 토큰 담기
                                 //console.log('login', token)
                                 localStorage.setItem('isLogin', true)            // 새로고침해도 로그아웃되지 않게 localStoarge에 변수 담아놓기
-                                //setIsLogin(true)
                                 navigate('/');
-                                //console.log(token)
-                            }
+                            } */
                             
                         })
                         .catch((res) => {
@@ -60,13 +70,13 @@ function Login({setIsLogin, setCookie}){
                     <Button className='btn-id' variant="light"
                     onClick={() => {setSearchId((prev) => !prev);
                     if(searchPw){
-                        setSearchPw((prev) => !prev)
+                        setSearchPw((prev) => !prev);
                     }
                     }} >아이디 찾기</Button>
                     <Button className='btn-pw' variant="light" 
                     onClick={() => {setSearchPw((prev) => !prev)
                     if(searchId){
-                        setSearchId(false)
+                        setSearchId(false);
                     }
                     }}
                      >비밀번호 찾기</Button>

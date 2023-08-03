@@ -5,7 +5,7 @@ import '../../../category-css/written/allContents.css';
 import {TbCircleChevronLeft, TbCircleChevronRight} from 'react-icons/tb';
 
 function AllContent(props) {
-    let cookies = props.cookies;
+    var token = props.token;
     let navigate = useNavigate();
     let [commentData, setCommentData] = useState([]);
     let [pageLength, setPageLength] = useState([]);
@@ -21,7 +21,7 @@ function AllContent(props) {
 
     useEffect(() => {
         axios.get('/api/users/more', {
-            headers: {Authorization: cookies.token},
+            headers: {Authorization: token},
             params: {
                 kind: 'write',
                 page: pageNum
@@ -136,7 +136,7 @@ function AllContent(props) {
                 </div>
 
                 <Routes>
-                    <Route path="../contents/:pageNum" element={<AllContent cookies={cookies} />} />
+                    <Route path="../contents/:pageNum" element={<AllContent token={token} />} />
                 </Routes>
         </>
         

@@ -7,7 +7,7 @@ import {TbCircleChevronRight, TbCircleChevronLeft} from 'react-icons/tb';
 
 function Search(props) {
     let navigate = useNavigate();
-    let token = props.cookies.token;
+    let token = props.token;
     let params = useParams();
     let category = props.category;
     let condition = props.searchTypeSelected;
@@ -24,7 +24,7 @@ function Search(props) {
     //let [page, setPage] = useState();
 
     useEffect(() => {
-        axios.get('/api/v1/posts/search', {
+        axios.get('/api/posts/search', {
             headers: {Authorization: token},
             params: {
                 'category': category,
@@ -158,8 +158,8 @@ function Search(props) {
                 </div>        
             <Routes>
                 <Route path={`../search/:searchContent_page/*`} element={<Search category={category} searchTypeSelected={condition} 
-                     cookies={props.cookies}   />} />
-                <Route path='../detail/:postId/*' element={<BoardDetail  cookies={props.cookies} />} />
+                     token={token}   />} />
+                <Route path='../detail/:postId/*' element={<BoardDetail  token={token} />} />
             </Routes>
         </>
         

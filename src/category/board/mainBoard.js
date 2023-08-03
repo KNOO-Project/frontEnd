@@ -11,7 +11,8 @@ import { useSelector } from 'react-redux';
 function MainBoard(props){
     //let a = useSelector((state) => state.user );
     //console.log('redux', a);
-    let token = props.cookies.token;
+    var token = props.token;
+
     let navigate = useNavigate();
     let params = useParams();
     //console.log(params['*']);
@@ -89,8 +90,9 @@ function MainBoard(props){
                     <AiOutlineSearch className="search_icon" onClick={() => {
                         //navigate(`search/keyword=${searchContent}&page=1`);
                         search();
-                        console.log(searchTypeSelected);
-                        console.log(searchContent);
+                        console.log('token', token);
+                        //console.log(searchTypeSelected);
+                        //console.log(searchContent);
                     }} />
                 </form>
             </div>
@@ -137,10 +139,9 @@ function MainBoard(props){
             </div> : null}
         </div>
         <Routes>
-            <Route path={`search/:searchContent_page/*`} element={<MainBoardSearch  searchTypeSelected={searchTypeSelected} 
-                     cookies={props.cookies}   />} />
-            <Route path=':categoryBoard/detail/:postId/*' element={<BoardDetail  cookies={props.cookies} />} />
-            <Route path=":cateoryBoard" element={<CategoryBoard cookies={props.cookies} />} />
+            <Route path={`search/:searchContent_page/*`} element={<MainBoardSearch  searchTypeSelected={searchTypeSelected}  token={token} />} />
+            <Route path=':categoryBoard/detail/:postId/*' element={<BoardDetail  token={token} />} />
+            <Route path=":cateoryBoard" element={<CategoryBoard token={token} />} />
         </Routes>
         </>
                     

@@ -10,12 +10,9 @@ import {AiOutlineSearch} from 'react-icons/ai';
 import {HiPencil} from 'react-icons/hi';
 
 function CategoryBoardPagenation(props){
+    var token = props.token;
     let navigate = useNavigate();
     let params = useParams();
-    console.log(params);
-    console.log(params['pageNum'])
-    //const currentUrl = window.location.href;
-    //console.log(currentUrl);
     let category = params.category_board.split('_')[0];
     //let categoryTitle = localStorage.getItem('pathBoardTitle');
     let category_path = localStorage.getItem('pathBoardTitle');
@@ -43,7 +40,7 @@ function CategoryBoardPagenation(props){
         }
         //console.log('pageNum',pageNum)
         axios.get(`/api/posts/${category}`, {
-            headers: {Authorization : props.cookies.token},
+            headers: {Authorization : props.token},
             params: {
                 page: params['pageNum']
             }
@@ -87,7 +84,7 @@ function CategoryBoardPagenation(props){
                 console.log('preBoardTitle', boardTitle)
             }
             )
-    }, [ category, props.cookies.token, pageClick, params['pageNum']]                       // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
+    }, [ category, pageClick, params['pageNum']]                       // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
     );
     /* function getNewpage(pageLength, pageClick){
         let newPage = [];
@@ -175,9 +172,9 @@ function CategoryBoardPagenation(props){
         
                 <Routes>
                     <Route path={`../search/:searchContent_page/*`} element={<CategorySearch category={category} searchTypeSelected={searchTypeSelected} 
-                     cookies={props.cookies}   />} />
-                    <Route path="writing" element={<BoardForm cookies={props.cookies}  />} />
-                    <Route path='detail/:postId/*' element={<BoardDetail cookies={props.cookies} />} />
+                     token={token}   />} />
+                    <Route path="writing" element={<BoardForm token={token}  />} />
+                    <Route path='detail/:postId/*' element={<BoardDetail token={token} />} />
                 </Routes>
         </>
         

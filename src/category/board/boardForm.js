@@ -5,7 +5,7 @@ import '../../category-css/board/boardForm.css'
 
 function BoardForm(props){
     let navigate = useNavigate();
-    let token = props.cookies.token;
+    let token = props.token;
     let [data, setData] = useState({
         post_title: "",
         post_content: "",
@@ -57,7 +57,6 @@ function BoardForm(props){
             
             console.log(data)
             e.preventDefault();
-            console.log('post', token)
             axios.post('/api/posts', data,            // 게시글 데이터 형식에 맞게 보내기
             {
                 headers: { Authorization : token}        /* 인증 위해 헤더에 토큰 담아서 보내기 */

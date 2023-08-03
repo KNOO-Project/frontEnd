@@ -28,7 +28,8 @@ function Map(props){
     //console.log(params['*'] === '' || params['*'] === '신관');
     //console.log(params['*'] === '신관');
     useEffect(() => {
-        
+        const markerClustering = document.createElement("markerClustering");
+        markerClustering.src = "/MarkerClustering.js";
         /* 맛집 클릭하면 옆에 창 닫기 */
         if(!params['*']){
             setUrl(null);   
@@ -291,6 +292,8 @@ function Map(props){
                 }
 
                 getResUrlData(markerData);
+
+                
             })
             .catch(() => {
                 console.log('err');
@@ -337,7 +340,7 @@ function Map(props){
             map.destroy();
         }
 
-    }, [params, props.cookies.token] );
+    }, [params['*'], props.cookies.token] );
     
     return(
         <div className="map_body">

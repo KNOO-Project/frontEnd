@@ -13,7 +13,7 @@ import {HiPencil} from 'react-icons/hi';
 function CategoryBoard(props){
     let navigate = useNavigate();
     let params = useParams();
-    let token = props.cookies.token;
+    let token = props.token;
     console.log('params', params);
     let category = params.category_board.split('_')[0];
     const currentUrl = window.location.href;
@@ -75,13 +75,13 @@ function CategoryBoard(props){
                 setSearchContent('');
             }
             )
-    }, [ pageNum, category, currentUrl, props.cookies.token ]                                          // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
+    }, [ pageNum, category, currentUrl ]                                          // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
     );
 
     //검색 기능
-    const search = () => {
+    /* const search = () => {
         axios.get('/api/posts/search', {
-            headers: {Authorization: props.cookies.token},
+            headers: {Authorization: token},
             params: {
                 'category': category,
                 condition: searchTypeSelected,
@@ -97,7 +97,7 @@ function CategoryBoard(props){
         .catch(() => {
             console.log('err');
         })
-    }
+    } */
     //console.log(pageNum)
     //console.log(searchTypeSelected);
     //console.log('searchContent', searchContent);
@@ -122,7 +122,7 @@ function CategoryBoard(props){
                         }} />
                         <AiOutlineSearch className="search_icon" onClick={() => {
                             axios.get('/api/posts/search', {
-                                headers: {Authorization: props.cookies.token},
+                                headers: {Authorization: token},
                                 params: {
                                     'category': category,
                                     condition: searchTypeSelected,
@@ -195,10 +195,10 @@ function CategoryBoard(props){
         
                 <Routes>
                     <Route path={`search/:searchContent_page/*`} element={<Search category={category} searchTypeSelected={searchTypeSelected} 
-                     cookies={props.cookies}   />} />
-                    <Route path="page/:pageNum/*" element={<CategoryBoardPagenation cookies={props.cookies} pageNum={pageNum} />} />
-                    <Route path="writing" element={<BoardForm cookies={props.cookies} category={category} />} />
-                    <Route path='detail/:postId/*' element={<BoardDetail  cookies={props.cookies} />} />
+                     token={token} />} />
+                    <Route path="page/:pageNum/*" element={<CategoryBoardPagenation token={token} pageNum={pageNum} />} />
+                    <Route path="writing" element={<BoardForm token={token} category={category} />} />
+                    <Route path='detail/:postId/*' element={<BoardDetail  token={token} />} />
                 </Routes>
         </>
         

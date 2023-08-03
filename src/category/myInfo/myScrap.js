@@ -7,7 +7,7 @@ import { Route, Routes, Link, useParams, useNavigate } from "react-router-dom";
 import MyScrapSearch from "./myScrapSearch";
 
 function MyScrap(props) {
-    const token = props.cookies.token;
+    const token = props.token;
     let params = useParams();
     console.log(params)
     let navigate = useNavigate();

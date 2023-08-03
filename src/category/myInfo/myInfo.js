@@ -9,7 +9,7 @@ import AllComments from '../wirtten/writtenDetail/allComments';
 import AllContent from '../wirtten/writtenDetail/allContent';
 
 function MyInfo(props) {
-    let cookies = props.cookies;
+    var token = props.token;
     let params = useParams();
     console.log(params['*']);
     let [userData, setUserData] = useState({
@@ -20,7 +20,7 @@ function MyInfo(props) {
 
     useEffect(() => {
         axios.get('/api/users', {
-            headers: {Authorization: props.cookies.token} /* 헤더에 토큰 담아서 보내기 */
+            headers: {Authorization: token} /* 헤더에 토큰 담아서 보내기 */
           })
           .then(res => {
                 setUserData((data) => ({
@@ -46,11 +46,11 @@ function MyInfo(props) {
             <div className='my_writing'>
                 <div className='my_content_writing'>
                 <h3>내가 쓴 글</h3>
-                <Content cookies={props.cookies} />
+                <Content token={token} />
                 </div>
                 <div className='my_comment_writing'>
                 <h3>댓글 단 글</h3>
-                <Comment cookies={props.cookies} />
+                <Comment token={token} />
                 </div>
             </div>
             
@@ -59,9 +59,9 @@ function MyInfo(props) {
         </>    : null}
         
         <Routes>
-            <Route path='../my_scrap' element={<MyScrap cookies={props.cookies} />} />
-            <Route path="comments/*" element={<AllComments cookies={cookies} />} />
-            <Route path='contents/*' element={<AllContent cookies={cookies} />} />
+            <Route path='../my_scrap' element={<MyScrap token={token} />} />
+            <Route path="comments/*" element={<AllComments token={token} />} />
+            <Route path='contents/*' element={<AllContent token={token} />} />
         </Routes>
         </>
     )

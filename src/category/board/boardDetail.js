@@ -8,7 +8,7 @@ import {BiPencil} from 'react-icons/bi';
 import {MdOutlineSubdirectoryArrowRight} from 'react-icons/md';
 
 function BoardDetail(props) {
-    let token = props.cookies.token;
+    let token = props.token;
     //console.log(token);
     let params = useParams();
     let post_id = params.postId, category = params.category_board.split('_')[0];        //axios 전송 주소 값
@@ -467,7 +467,7 @@ function BoardDetail(props) {
         </> : null}
         
         <Routes>
-            <Route path="content_modify" element={<ModifyBoardForm cookies={props.cookies} post_id={post_id} title={postData.post_title} content={postData.post_content} 
+            <Route path="content_modify" element={<ModifyBoardForm token={token} post_id={post_id} title={postData.post_title} content={postData.post_content} 
             category = {category}
             />} />
         </Routes>
