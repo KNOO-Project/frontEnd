@@ -20,10 +20,9 @@ function Map(props){
     let params = useParams();
     //let currentUrl = window.location.href;
     //console.log('currentUrl', currentUrl);
-    console.log('params', params['*'].split('/'));
+    console.log('params', params);
     let [resIconClick, setResIconClick] = useState(false);
     let [url, setUrl] = useState(null);
-    let [campus, setCampus] = useState('공주');
     //let campus1 = params['*'].split('/')[0];
     //console.log(params['*'] === '' || params['*'] === '신관');
     //console.log(params['*'] === '신관');
@@ -37,6 +36,7 @@ function Map(props){
             setResIconClick(false);
         }
         //공주캠퍼스 마커
+        var allKongjuMarker = [];
         var kongjuKoreanResMarker = [];
         var kongjuChineseResMarker = [];
         var kongjuJapaneseResMarker = [];
@@ -45,6 +45,7 @@ function Map(props){
         var kongjuFastFoodMarker = [];
         var markerData = null;
         //천안캠퍼스 마커
+        var allCheonanMarker = [];
         var cheonanKoreanResMarker = [];
         var cheonanChineseResMarker = [];
         var cheonanJapaneseResMarker = [];
@@ -80,6 +81,13 @@ function Map(props){
             return marker;
         }
 
+        function showAllMarker(markerArray, marker) {
+            for(var i=0; i<marker.length; i++){
+                markerArray.push(createMarker(marker, i, 'cafe'));
+            }
+            markerData = marker;
+        }
+        
         function showcafeMarker(markerArray, marker) {
             for(var i=0; i<marker.length; i++){
                 markerArray.push(createMarker(marker, i, 'cafe'));
@@ -93,9 +101,19 @@ function Map(props){
             }
             markerData = marker;
         }
+
+        function getResUrlData(markerData, markerHtmlArray) {
+            for(var i=0; i<markerHtmlArray.length; i++){ 
+                let num = i;   
+                naver.maps.Event.addDOMListener( markerHtmlArray[i] , 'click', function() {
+                    //console.log(markerData[num].url);
+                    setUrl(markerData[num].url);
+                })
+            }
+        }
         
         //공주 캠퍼스
-        if(params['*'].includes('공주')){
+        if(params['*'].includes('공주') || params['*'] === ''){
             axios.get('/api/restaurants', {
                 headers: { Authorization:token },
                 params: {
@@ -105,15 +123,19 @@ function Map(props){
             .then((res) => {
                 console.log('공주', res);
                 //console.log(res.data[0].url);
+                //전체 데이터 넣어주기
+                for(var i=0; i<res.data.length; i++){
+                    allKongjuMarker.push(res.data[i]);
+                }
                 /* 반복문 돌리면서 필터링 해주기 */
                 for(var i=0; i<res.data.length; i++){
                     if(res.data[i].cuisine_type === '카페'){
                         kongjuCafeMarker.push(res.data[i]);
                     }else if(res.data[i].cuisine_type === '한식'){
                         kongjuKoreanResMarker.push(res.data[i]);
-                    }else if(res.data.cuisine_type === '일식'){
+                    }else if(res.data[i].cuisine_type === '일식'){
                         kongjuJapaneseResMarker.push(res.data[i]);
-                    }else if(res.data.cuisine_type === '중식'){
+                    }else if(res.data[i].cuisine_type === '중식'){
                         kongjuChineseResMarker.push(res.data[i]);
                     }else if(res.data[i].cuisine_type === '양식'){
                         kongjuWesternResMarker.push(res.data[i]);
@@ -122,13 +144,16 @@ function Map(props){
                     }
                     
                 }
-                
+                console.log('allKongjuMarker', allKongjuMarker);
             })
-            .then(() => {
-
+            .then((res) => {
+                console.log('res2', res);
                 
                 let markerArray = [];
                 let markerHtmlArray = [];
+                if(params['*'] === '' || params['*'] === '공주'){
+                    showAllMarker(markerArray, allKongjuMarker);
+                }
                 if(params['*'] === '공주/cafe'){
                     showcafeMarker(markerArray, kongjuCafeMarker);
                 }else if(params['*'] === '공주/한식'){
@@ -149,21 +174,9 @@ function Map(props){
                     markerHtmlArray.push(markerHtml);
                 }
                 //console.log(markerHtmlArray);
-                /* let a = document.getElementById(0);
-                naver.maps.Event.addDOMListener( a , 'click', function() {
-                    console.log(a);
-                }) */
-                function getResUrlData(markerData) {
-                    for(var i=0; i<markerHtmlArray.length; i++){ 
-                        let num = i;   
-                        naver.maps.Event.addDOMListener( markerHtmlArray[i] , 'click', function() {
-                            //console.log(markerData[num].url);
-                            setUrl(markerData[num].url);
-                        })
-                    }
-                }
+                
 
-                getResUrlData(markerData);
+                getResUrlData(markerData, markerHtmlArray);
                 
             })
             .catch(() => {
@@ -180,15 +193,19 @@ function Map(props){
             })
             .then((res) => {
                 console.log('cheonan', res);
+                //전체 데이터 넣어주기
+                for(var i=0; i<res.data.length; i++){
+                    allCheonanMarker.push(res.data[i]);
+                }
                 /* 반복문 돌리면서 필터링 해주기 */
                 for(var i=0; i<res.data.length; i++){
                     if(res.data[i].cuisine_type === '카페'){
                         cheonanCafeMarker.push(res.data[i]);
                     }else if(res.data[i].cuisine_type === '한식'){
                         cheonanKoreanResMarker.push(res.data[i]);
-                    }else if(res.data.cuisine_type === '일식'){
+                    }else if(res.data[i].cuisine_type === '일식'){
                         cheonanJapaneseResMarker.push(res.data[i]);
-                    }else if(res.data.cuisine_type === '중식'){
+                    }else if(res.data[i].cuisine_type === '중식'){
                         cheonanChineseResMarker.push(res.data[i]);
                     }else if(res.data[i].cuisine_type === '양식'){
                         cheonanWesternResMarker.push(res.data[i]);
@@ -196,12 +213,15 @@ function Map(props){
                         cheonanFastFoodMarker.push(res.data[i]);
                     }
                 }
+                console.log('cheonanKoreanResMarker', cheonanKoreanResMarker);
             })
             .then(() => {
                 
                 let markerArray = [];
                 let markerHtmlArray = [];
-                if(params['*'] === '천안/cafe'){
+                if(params['*'] === '천안'){
+                    showAllMarker(markerArray, allCheonanMarker);
+                }else if(params['*'] === '천안/cafe'){
                     showcafeMarker(markerArray, cheonanCafeMarker);
                 }else if(params['*'] === '천안/한식'){
                     showResMarker(markerArray, cheonanKoreanResMarker);
@@ -221,22 +241,8 @@ function Map(props){
                     markerHtmlArray.push(markerHtml);
                 }
                 //console.log(markerHtmlArray);
-                /* let a = document.getElementById(0);
-                naver.maps.Event.addDOMListener( a , 'click', function() {
-                    console.log(a);
-                }) */
-                function getResUrlData(markerData) {
-                    for(var i=0; i<markerHtmlArray.length; i++){ 
-                        let num = i;   
-                        naver.maps.Event.addDOMListener( markerHtmlArray[i] , 'click', function() {
-                            console.log(markerData[num].url);
-                            setUrl(markerData[num].url);
-                        })
-                    }
-                }
-
-                getResUrlData(markerData);
-
+                
+                getResUrlData(markerData, markerHtmlArray);
                 
             })
             .catch(() => {
@@ -244,8 +250,6 @@ function Map(props){
             })
         }
                 
-        
-
         var mapDiv = document.getElementById('map');
         
         let campus = new naver.maps.LatLng(36.469421, 127.1406507);
@@ -291,8 +295,7 @@ function Map(props){
             {url === null ? null : 
             <div className="modal_box">
                 <TailSpin />
-                <iframe className="modal_page" id='frame' src={url} loading="lazy"  title="explain" 
-                onLoad={() => {}} />
+                <iframe className="modal_page" id='frame' src={url} loading="lazy"  title="explain" />
             </div>    
             }
         <div className="map_box">
@@ -300,12 +303,10 @@ function Map(props){
                 <Link to='공주' onClick={e => {
                     setUrl(null);
                     setResIconClick(false);
-                    setCampus('공주');
                 }}>신관캠퍼스</Link>
                 <Link to='천안' onClick={e => {
                     setUrl(null);
                     setResIconClick(false);
-                    setCampus('천안')
                 }}>천안캠퍼스</Link>
             </div>
             <div id="map" ></div>

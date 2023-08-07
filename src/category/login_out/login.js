@@ -22,7 +22,6 @@ function Login({setIsLogin, setCookie}){
         email : ''
     })
 
-    console.log(data.auto_sign_in)
     return(
         <div className='login-form'>
             <form className='form-box'>
