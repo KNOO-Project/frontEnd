@@ -9,24 +9,25 @@ import Cafe from "./cafe";
 import Res from "./res";
 import { useRef } from 'react';
 import { TailSpin } from 'react-loader-spinner';
-
+import * as test from './test.js';
 const {naver} = window;
 
 function Map(props){
-
-    let testUrl = null;
-    const frame = useRef();
+    
+    var token = props.token;
+    //console.log('token', token);
     let navigate = useNavigate();
     let params = useParams();
     //let currentUrl = window.location.href;
     //console.log('currentUrl', currentUrl);
-    console.log('params', params['*']);
+    console.log('params', params['*'].split('/'));
     let [resIconClick, setResIconClick] = useState(false);
     let [url, setUrl] = useState(null);
-    let [onLoading, setOnLoading] = useState(false);
+    let [campus, setCampus] = useState('공주');
     //let campus1 = params['*'].split('/')[0];
     //console.log(params['*'] === '' || params['*'] === '신관');
     //console.log(params['*'] === '신관');
+    //test.f1();
     useEffect(() => {
         const markerClustering = document.createElement("markerClustering");
         markerClustering.src = "/MarkerClustering.js";
@@ -51,17 +52,59 @@ function Map(props){
         var cheonanCafeMarker = [];
         var cheonanFastFoodMarker = [];
 
+        function createMarker(cafeMarker, i, iconImg) {
+            let name = null;
+            if(cafeMarker[i].restaurant_name.length > 8){
+                name = cafeMarker[i].restaurant_name.substring(0, 7) + '...';
+            }else {
+                name = cafeMarker[i].restaurant_name;
+            }
+            console.log('iconImg', iconImg);
+            var marker = new naver.maps.Marker({
+                position: new naver.maps.LatLng(cafeMarker[i].coordinate.latitude, cafeMarker[i].coordinate.longitude),
+                map: map,
+                title: 'Green',
+                icon: {
+                    content: [
+                        `<div id=${i} class="iw_inner" >`,
+                        `<img src="/img/${iconImg}.png" alt="" />`,
+                        `   <h3>${name}</h3>`,
+                        '</div>'
+                    ].join(''),
+                    size: new naver.maps.Size(38, 58),
+                    anchor: new naver.maps.Point(19, 58),
+                },
+                draggable: false
+            });
+
+            return marker;
+        }
+
+        function showcafeMarker(markerArray, marker) {
+            for(var i=0; i<marker.length; i++){
+                markerArray.push(createMarker(marker, i, 'cafe'));
+            }
+            markerData = marker;
+        }
+
+        function showResMarker(markerArray, marker) {
+            for(var i=0; i<marker.length; i++){
+                markerArray.push(createMarker(marker, i, 'res'));
+            }
+            markerData = marker;
+        }
+        
         //공주 캠퍼스
         if(params['*'].includes('공주')){
             axios.get('/api/restaurants', {
-                headers: { Authorization: props.cookies.token },
+                headers: { Authorization:token },
                 params: {
                     campus: '공주'
                 }
             })
             .then((res) => {
                 console.log('공주', res);
-                console.log(res.data[0].url);
+                //console.log(res.data[0].url);
                 /* 반복문 돌리면서 필터링 해주기 */
                 for(var i=0; i<res.data.length; i++){
                     if(res.data[i].cuisine_type === '카페'){
@@ -83,65 +126,21 @@ function Map(props){
             })
             .then(() => {
 
-                function createMarker(cafeMarker, i, iconImg) {
-                    let name = null;
-                    if(cafeMarker[i].restaurant_name.length > 8){
-                        name = cafeMarker[i].restaurant_name.substring(0, 7) + '...';
-                    }else {
-                        name = cafeMarker[i].restaurant_name;
-                    }
-                    console.log('iconImg', iconImg);
-                    var marker = new naver.maps.Marker({
-                        position: new naver.maps.LatLng(cafeMarker[i].coordinate.latitude, cafeMarker[i].coordinate.longitude),
-                        map: map,
-                        title: 'Green',
-                        icon: {
-                            content: [
-                                `<div id=${i} class="iw_inner" >`,
-                                `<img src="/img/${iconImg}.png" alt="" />`,
-                                `   <h3>${name}</h3>`,
-                                '</div>'
-                            ].join(''),
-                            size: new naver.maps.Size(38, 58),
-                            anchor: new naver.maps.Point(19, 58),
-                        },
-                        draggable: false
-                    });
-        
-                    return marker;
-                }
+                
                 let markerArray = [];
                 let markerHtmlArray = [];
                 if(params['*'] === '공주/cafe'){
-                    for(var i=0; i<kongjuCafeMarker.length; i++){
-                        markerArray.push(createMarker(kongjuCafeMarker, i, 'cafe'));
-                    }
-                    markerData = kongjuCafeMarker;
+                    showcafeMarker(markerArray, kongjuCafeMarker);
                 }else if(params['*'] === '공주/한식'){
-                    for(var i=0; i<kongjuKoreanResMarker.length; i++){
-                        markerArray.push(createMarker(kongjuKoreanResMarker, i, 'res'));
-                    }
-                    markerData = kongjuKoreanResMarker;
+                    showResMarker(markerArray, kongjuKoreanResMarker);
                 }else if(params['*'] === '공주/일식'){
-                    for(var i=0; i<kongjuJapaneseResMarker.length; i++){
-                        markerArray.push(createMarker(kongjuJapaneseResMarker, i, 'res'));
-                    }
-                    markerData = kongjuJapaneseResMarker;
+                    showResMarker(markerArray, kongjuJapaneseResMarker);
                 }else if(params['*'] === '공주/양식'){
-                    for(var i=0; i<kongjuWesternResMarker.length; i++){
-                        markerArray.push(createMarker(kongjuWesternResMarker, i, 'res'));
-                    }
-                    markerData = kongjuWesternResMarker;
+                    showResMarker(markerArray, kongjuWesternResMarker);
                 }else if(params['*'] === '공주/중식'){
-                    for(var i=0; i<kongjuChineseResMarker.length; i++){
-                        markerArray.push(createMarker(kongjuChineseResMarker, i, 'res'));
-                    }
-                    markerData = kongjuChineseResMarker;
+                    showResMarker(markerArray, kongjuChineseResMarker);
                 }else if(params['*'] === '공주/패스트푸드'){
-                    for(var i=0 ;kongjuFastFoodMarker.length; i++){
-                        markerArray.push(createMarker(kongjuFastFoodMarker, i, 'res'));
-                    }
-                    markerData = kongjuFastFoodMarker;
+                    showResMarker(markerArray, kongjuFastFoodMarker);
                 }
                 console.log('markerArray', markerArray);
                 console.log('markerData', markerData);
@@ -149,7 +148,7 @@ function Map(props){
                     var markerHtml = document.getElementById(j);
                     markerHtmlArray.push(markerHtml);
                 }
-                console.log(markerHtmlArray);
+                //console.log(markerHtmlArray);
                 /* let a = document.getElementById(0);
                 naver.maps.Event.addDOMListener( a , 'click', function() {
                     console.log(a);
@@ -158,24 +157,13 @@ function Map(props){
                     for(var i=0; i<markerHtmlArray.length; i++){ 
                         let num = i;   
                         naver.maps.Event.addDOMListener( markerHtmlArray[i] , 'click', function() {
-                            console.log(markerData[num].url);
+                            //console.log(markerData[num].url);
                             setUrl(markerData[num].url);
                         })
                     }
                 }
 
                 getResUrlData(markerData);
-                
-                
-                /* for(var j=0; j<markerArray.length; j++){
-                    naver.maps.Event.addListener('click' ,
-                        function(e) {
-                            console.log(e);
-                        },
-                        markerHtmlArray[j])
-                } */
-                
-                /* j 확인하고  markerArray[k].restaurant_name === title 제대로 맞추기 */
                 
             })
             .catch(() => {
@@ -185,7 +173,7 @@ function Map(props){
         //천안 캠퍼스
         if(params['*'].includes('천안')){
             axios.get('/api/restaurants', {
-                headers: { Authorization: props.cookies.token },
+                headers: { Authorization: token },
                 params: {
                     campus: '천안'
                 }
@@ -210,65 +198,21 @@ function Map(props){
                 }
             })
             .then(() => {
-
-                function createMarker(cafeMarker, i, iconImg) {
-                    let name = null;
-                    if(cafeMarker[i].restaurant_name.length > 9){
-                        name = cafeMarker[i].restaurant_name.substring(0, 8) + '...';
-                    }else {
-                        name = cafeMarker[i].restaurant_name;
-                    }
-                    var marker = new naver.maps.Marker({
-                        position: new naver.maps.LatLng(cafeMarker[i].coordinate.latitude, cafeMarker[i].coordinate.longitude),
-                        map: map,
-                        title: 'Green',
-                        icon: {
-                            content: [
-                                `<div id=${i} class="iw_inner">`,
-                                `<img src="/img/${iconImg}.png" alt="" />`,
-                                `   <h3>${name}</h3>`,
-                                '</div>'
-                            ].join(''),
-                            size: new naver.maps.Size(38, 58),
-                            anchor: new naver.maps.Point(19, 58),
-                        },
-                        draggable: false
-                    });
-                    return marker;
-                }
-
+                
                 let markerArray = [];
                 let markerHtmlArray = [];
                 if(params['*'] === '천안/cafe'){
-                    for(var i=0; i<cheonanCafeMarker.length; i++){
-                        markerArray.push(createMarker(cheonanCafeMarker, i, 'cafe'));
-                    }
-                    markerData = cheonanCafeMarker;
+                    showcafeMarker(markerArray, cheonanCafeMarker);
                 }else if(params['*'] === '천안/한식'){
-                    for(var i=0; i<cheonanKoreanResMarker.length; i++){
-                        markerArray.push(createMarker(cheonanKoreanResMarker, i, 'res'));
-                    }
-                    markerData = cheonanKoreanResMarker;
+                    showResMarker(markerArray, cheonanKoreanResMarker);
                 }else if(params['*'] === '천안/일식'){
-                    for(var i=0; i<cheonanJapaneseResMarker.length; i++){
-                        markerArray.push(createMarker(cheonanJapaneseResMarker, i, 'res'));
-                    }
-                    markerData = cheonanJapaneseResMarker;
+                    showResMarker(markerArray, cheonanJapaneseResMarker);
                 }else if(params['*'] === '천안/양식'){
-                    for(var i=0; i<cheonanWesternResMarker.length; i++){
-                        markerArray.push(createMarker(cheonanWesternResMarker, i, 'res'));
-                    }
-                    markerData = cheonanWesternResMarker;
+                    showResMarker(markerArray, cheonanWesternResMarker);
                 }else if(params['*'] === '천안/중식'){
-                    for(var i=0; i<cheonanChineseResMarker.length; i++){
-                        markerArray.push(createMarker(cheonanChineseResMarker, i, 'res'));
-                    }
-                    markerData = cheonanChineseResMarker;
+                    showResMarker(markerArray, cheonanChineseResMarker);
                 }else if(params['*'] === '천안/패스트푸드') {
-                    for(var i=0; i<cheonanFastFoodMarker.length; i++){
-                        markerArray.push(createMarker(cheonanFastFoodMarker, i, 'res'));
-                    }
-                    markerData = cheonanFastFoodMarker;
+                    showResMarker(markerArray, cheonanFastFoodMarker);
                 }
                 console.log('markerArray', markerArray);
                 console.log('markerData', markerData);
@@ -276,7 +220,7 @@ function Map(props){
                     var markerHtml = document.getElementById(j);
                     markerHtmlArray.push(markerHtml);
                 }
-                console.log(markerHtmlArray);
+                //console.log(markerHtmlArray);
                 /* let a = document.getElementById(0);
                 naver.maps.Event.addDOMListener( a , 'click', function() {
                     console.log(a);
@@ -340,13 +284,12 @@ function Map(props){
             map.destroy();
         }
 
-    }, [params['*'], props.cookies.token] );
+    }, [params , token] );
     
     return(
         <div className="map_body">
             {url === null ? null : 
             <div className="modal_box">
-                {/* setTimeOut 함수 써서 로딩 전에 로딩 화면 띄우기 */}
                 <TailSpin />
                 <iframe className="modal_page" id='frame' src={url} loading="lazy"  title="explain" 
                 onLoad={() => {}} />
@@ -357,10 +300,12 @@ function Map(props){
                 <Link to='공주' onClick={e => {
                     setUrl(null);
                     setResIconClick(false);
+                    setCampus('공주');
                 }}>신관캠퍼스</Link>
                 <Link to='천안' onClick={e => {
                     setUrl(null);
                     setResIconClick(false);
+                    setCampus('천안')
                 }}>천안캠퍼스</Link>
             </div>
             <div id="map" ></div>

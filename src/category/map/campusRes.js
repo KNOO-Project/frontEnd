@@ -7,6 +7,10 @@ function CampusRes() {
     //console.log(params);
     let navigate = useNavigate();
 
+    function test(value) {
+        console.log(value);
+    }
+
     return(
         <>
         <div onClick={e => {

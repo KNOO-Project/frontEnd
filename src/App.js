@@ -162,7 +162,7 @@ function App() {
           <Home />
         } />
         <Route path='/community' element={<Community token={token} />} />
-        <Route path='/맛집/*' element={<Map  />} />
+        <Route path='/맛집/*' element={<Map token={token} />} />
         <Route path='/진로&취업' element={<Future />} />
         <Route path='/main_board/*' element={<MainBoard token={token} />} />
         <Route path='/:category_board/*' element={<CategoryBoard token={token} />} />
