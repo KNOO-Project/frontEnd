@@ -9,7 +9,7 @@ import Cafe from "./cafe";
 import Res from "./res";
 import { useRef } from 'react';
 import { TailSpin } from 'react-loader-spinner';
-import * as test from './test.js';
+import * as makeCluster from './markerClusterFunction.js';
 const {naver} = window;
 
 function Map(props){
@@ -27,9 +27,8 @@ function Map(props){
     //console.log(params['*'] === '' || params['*'] === '신관');
     //console.log(params['*'] === '신관');
     //test.testFunc();
+    const MarkerClustering = makeCluster.makeMarkerClustering(window.naver);
     useEffect(() => {
-        const markerClustering = document.createElement("markerClustering");
-        markerClustering.src = "/MarkerClustering.js";
         /* 맛집 클릭하면 옆에 창 닫기 */
         if(!params['*']){
             setUrl(null);   
@@ -52,6 +51,9 @@ function Map(props){
         var cheonanWesternResMarker = [];
         var cheonanCafeMarker = [];
         var cheonanFastFoodMarker = [];
+        //cafe or res 마커 담을 배열
+        let markerArray = [];
+        let markerHtmlArray = [];
 
         function createMarker(cafeMarker, i, iconImg) {
             let name = null;
@@ -111,6 +113,32 @@ function Map(props){
                 })
             }
         }
+
+        var htmlMarker1 = {
+            content: '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-1.png);background-size:contain;"></div>',
+            size: new naver.maps.Size(40, 40),
+            anchor: new naver.maps.Point(20, 20)
+        },
+        htmlMarker2 = {
+            content: '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-2.png);background-size:contain;"></div>',
+            size: new naver.maps.Size(40, 40),
+            anchor: new naver.maps.Point(20, 20)
+        },
+        htmlMarker3 = {
+            content: '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-3.png);background-size:contain;"></div>',
+            size: new naver.maps.Size(40, 40),
+            anchor: new naver.maps.Point(20, 20)
+        },
+        htmlMarker4 = {
+            content: '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-4.png);background-size:contain;"></div>',
+            size: new naver.maps.Size(40, 40),
+            anchor: new naver.maps.Point(20, 20)
+        },
+        htmlMarker5 = {
+            content: '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-5.png);background-size:contain;"></div>',
+            size: new naver.maps.Size(40, 40),
+            anchor: new naver.maps.Point(20, 20)
+        };
         
         //공주 캠퍼스
         if(params['*'].includes('공주') || params['*'] === ''){
@@ -149,8 +177,7 @@ function Map(props){
             .then((res) => {
                 console.log('res2', res);
                 
-                let markerArray = [];
-                let markerHtmlArray = [];
+                
                 if(params['*'] === '' || params['*'] === '공주'){
                     showAllMarker(markerArray, allKongjuMarker);
                 }
@@ -177,6 +204,7 @@ function Map(props){
                 
 
                 getResUrlData(markerData, markerHtmlArray);
+                
                 
             })
             .catch(() => {
@@ -217,8 +245,7 @@ function Map(props){
             })
             .then(() => {
                 
-                let markerArray = [];
-                let markerHtmlArray = [];
+                
                 if(params['*'] === '천안'){
                     showAllMarker(markerArray, allCheonanMarker);
                 }else if(params['*'] === '천안/cafe'){
@@ -265,6 +292,31 @@ function Map(props){
                 position: naver.maps.Position.TOP_RIGHT
             }
         });
+
+        const cluster = new MarkerClustering({
+            minClusterSize: 2,
+            maxZoom: 17,
+            map: map,
+            markers: markerArray,
+            disableClickZoom: false,
+            gridSize: 120,
+            icons: [
+              htmlMarker1,
+              htmlMarker2,
+              htmlMarker3,
+              htmlMarker4,
+              htmlMarker5,
+            ],
+            indexGenerator: [10, 100, 200, 500, 1000],
+            stylingFunction: function (clusterMarker, count) {
+              // without jquery $(clusterMarker.getElement()).find('div:first-child').text(count)
+              clusterMarker
+                .getElement()
+                .querySelector('div:first-child').innerText = count
+            },
+          })
+
+        
 
         /* var cheonanCampus = document.getElementById('cheonanCampus');
 
