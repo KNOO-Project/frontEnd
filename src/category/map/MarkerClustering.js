@@ -18,10 +18,10 @@
  * 마커 클러스터링을 정의합니다.
  * @param {Object} options 마커 클러스터링 옵션
  */
-
-const { naver } = window;
+const {naver} = window;
 
 var MarkerClustering = function(options) {
+	console.log('sucess');
 	// 기본 값입니다.
 	this.DEFAULT_OPTIONS = {
 		// 클러스터 마커를 올릴 지도입니다.

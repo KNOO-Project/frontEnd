@@ -26,7 +26,7 @@ function Map(props){
     //let campus1 = params['*'].split('/')[0];
     //console.log(params['*'] === '' || params['*'] === '신관');
     //console.log(params['*'] === '신관');
-    //test.f1();
+    //test.testFunc();
     useEffect(() => {
         const markerClustering = document.createElement("markerClustering");
         markerClustering.src = "/MarkerClustering.js";
