@@ -4,7 +4,8 @@ import { useParams, Link, Route, Routes, useNavigate } from "react-router-dom";
 import CampusRes from "./campusRes";
 import '../../category-css/map/map.css';
 import {BiRestaurant} from 'react-icons/bi';
-import {IoIosCafe} from 'react-icons/io'
+import {IoIosCafe} from 'react-icons/io';
+import {IoCloseOutline} from 'react-icons/io5';
 import Cafe from "./cafe";
 import Res from "./res";
 import { useRef } from 'react';
@@ -295,7 +296,7 @@ function Map(props){
 
         const cluster = new MarkerClustering({
             minClusterSize: 2,
-            maxZoom: 17,
+            maxZoom: 18,
             map: map,
             markers: markerArray,
             disableClickZoom: false,
@@ -315,6 +316,8 @@ function Map(props){
                 .querySelector('div:first-child').innerText = count
             },
           })
+
+          //console.log(map.getMaxZoom());
 
         
 
@@ -346,9 +349,16 @@ function Map(props){
         <div className="map_body">
             {url === null ? null : 
             <div className="modal_box">
-                <TailSpin />
-                <iframe className="modal_page" id='frame' src={url} loading="lazy"  title="explain" />
-            </div>    
+                <div className="modal_url">
+                    <TailSpin className="loading_icon" />
+                    <iframe className="modal_page" id='frame' src={url} loading="lazy"  title="explain" />
+                </div>    
+                <div className="close_icon" onClick={e => {
+                    setUrl(null);
+                }} >
+                    <IoCloseOutline />
+                </div>
+            </div>
             }
         <div className="map_box">
             <div className="campus_btn">
