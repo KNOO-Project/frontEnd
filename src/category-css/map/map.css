@@ -117,8 +117,8 @@
     display: flex;
     background: white;
     border: blueviolet solid 1px;
-    border-radius: 5px;
-    height: 20px;
+    border-radius: 30px;
+    height: 25px;
     font-size: 12px;
     font-weight: 500;
     letter-spacing: -0.25px;
@@ -132,7 +132,7 @@
 }
 .iw_inner > h3 {
     font-size: 15px;
-    padding: 0 5px;
+    padding: 3px 5px;
     font-weight: 600;
 }
 .iw_inner > h3:hover {
@@ -144,9 +144,9 @@
     border-width: 8px 6px 0 6.5px;
     content: '';
     display: block;
-    left: 7px;
+    left: 15px;
     position: absolute;
-    top: 18px;
+    top: 23px;
     z-index: 1;
   }
   
@@ -156,9 +156,9 @@
     border-width: 8px 6px 0 6.5px;
     content: '';
     display: block;
-    left: 7px;
+    left: 15px;
     position: absolute;
-    top: 19px;
+    top: 24px;
     z-index: 0;
   }
   

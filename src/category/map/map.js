@@ -16,6 +16,8 @@ const {naver} = window;
 function Map(props){
     
     var token = props.token;
+    const cafeIconUrl = 'https://map.pstatic.net/resource/api/v2/image/maps/around-category/cafe_category_pc@2x.png?version=3';
+    const resIconUrl = 'https://map.pstatic.net/resource/api/v2/image/maps/around-category/dining_category_pc@2x.png?version=3';
     //console.log('token', token);
     let navigate = useNavigate();
     let params = useParams();
@@ -24,10 +26,7 @@ function Map(props){
     console.log('params', params);
     let [resIconClick, setResIconClick] = useState(false);
     let [url, setUrl] = useState(null);
-    //let campus1 = params['*'].split('/')[0];
-    //console.log(params['*'] === '' || params['*'] === '신관');
-    //console.log(params['*'] === '신관');
-    //test.testFunc();
+    /* markerClustering 함수 가져오기 */
     const MarkerClustering = makeCluster.makeMarkerClustering(window.naver);
     useEffect(() => {
         /* 맛집 클릭하면 옆에 창 닫기 */
@@ -56,22 +55,22 @@ function Map(props){
         let markerArray = [];
         let markerHtmlArray = [];
 
-        function createMarker(cafeMarker, i, iconImg) {
+
+        function createMarker(placeMarker, i, iconUrl) {
             let name = null;
-            if(cafeMarker[i].restaurant_name.length > 8){
-                name = cafeMarker[i].restaurant_name.substring(0, 7) + '...';
+            if(placeMarker[i].restaurant_name.length > 8){
+                name = placeMarker[i].restaurant_name.substring(0, 7) + '...';
             }else {
-                name = cafeMarker[i].restaurant_name;
+                name = placeMarker[i].restaurant_name;
             }
-            console.log('iconImg', iconImg);
             var marker = new naver.maps.Marker({
-                position: new naver.maps.LatLng(cafeMarker[i].coordinate.latitude, cafeMarker[i].coordinate.longitude),
+                position: new naver.maps.LatLng(placeMarker[i].coordinate.latitude, placeMarker[i].coordinate.longitude),
                 map: map,
                 title: 'Green',
                 icon: {
                     content: [
                         `<div id=${i} class="iw_inner" >`,
-                        `<img src="/img/${iconImg}.png" alt="" />`,
+                        `<img src="${iconUrl}" alt="" />`,
                         `   <h3>${name}</h3>`,
                         '</div>'
                     ].join(''),
@@ -86,21 +85,26 @@ function Map(props){
 
         function showAllMarker(markerArray, marker) {
             for(var i=0; i<marker.length; i++){
-                markerArray.push(createMarker(marker, i, 'cafe'));
+                if(marker[i].cuisine_type === '카페'){
+                    markerArray.push(createMarker(marker, i, cafeIconUrl));
+                }else {
+                    markerArray.push(createMarker(marker, i, resIconUrl));
+                }
+                
             }
             markerData = marker;
         }
         
         function showcafeMarker(markerArray, marker) {
             for(var i=0; i<marker.length; i++){
-                markerArray.push(createMarker(marker, i, 'cafe'));
+                markerArray.push(createMarker(marker, i, cafeIconUrl));
             }
             markerData = marker;
         }
 
         function showResMarker(markerArray, marker) {
             for(var i=0; i<marker.length; i++){
-                markerArray.push(createMarker(marker, i, 'res'));
+                markerArray.push(createMarker(marker, i, resIconUrl));
             }
             markerData = marker;
         }
@@ -142,7 +146,7 @@ function Map(props){
         };
 
         var mapDiv = document.getElementById('map');
-        
+        /* 36.4732522!4d127.1415602 */
         let campus = new naver.maps.LatLng(36.469421, 127.1406507);
         if(params['*'].includes('천안')) {
             campus = new naver.maps.LatLng(36.8511811, 127.1511352);
@@ -216,7 +220,7 @@ function Map(props){
             })
             .then((res) => {
                 console.log('res2', res);
-                
+                console.log('allKongjuMarker', allKongjuMarker);
                 
                 if(params['*'] === '' || params['*'] === '공주'){
                     showAllMarker(markerArray, allKongjuMarker);
