@@ -43,7 +43,6 @@ function App() {
   let category = ['free', 'newcomer', 'graduate', 'employment', 'student-club', 'info'];
   
   let navigate = useNavigate();
-  let [onMouse, setOnMouse] = useState(false)
   function moveBoard(pathBoardTitle, boardTitle){                       // categoryBoard 로 넘어가는 함수
     if(isLogin === 'true'){
       localStorage.setItem('categoryBoardClick', true);         //각 카테고리 게시판으로 링크타고 이동하면 true 값 보여주기(각 카테고리별 게시판 글쓰기는 따로)
@@ -85,14 +84,7 @@ function App() {
             moveCategory('진로&취업');
           }
           }><h3>진로.취업</h3></div>
-          <div className='text-center' 
-          onMouseOver={(e) => {
-            e.stopPropagation();
-            setOnMouse((prev) => !prev)}}
-          onMouseOut={(e) => {
-            e.stopPropagation();
-            setOnMouse((prev) => !prev)}}
-          >
+          <div className='text-center' >
             <h3 onClick={(e)=>{
               if(isLogin === 'true'){
                 //localStorage.removeItem('categoryBoard_click');
@@ -102,12 +94,9 @@ function App() {
                 alert('로그인을 해 주세요!');
               }
               }} >게시판</h3>
-              {/* 게시판 카테고리 */}
-          {onMouse ? 
-                    <>
-                    <div className='board-box'>
-                    <ul>
-                        <li onClick={(e)=>{
+              {/* 게시판 hover 시 나타남 */}
+              <div className='boardList'>
+              <li onClick={(e)=>{
                           moveBoard('free', '자유');
                           }} ><Link to={`free_board`}>자유게시판</Link></li>
                         <li onClick={(e)=>{
@@ -125,10 +114,8 @@ function App() {
                         <li onClick={(e)=>{
                           moveBoard('student-club', '동아리&학회');
                           }} ><Link to={`student-club_board`}>동아리.학회</Link></li>
-                    </ul>
-                    </div>
-                    </> 
-                    : null}
+              </div>
+              {/* 게시판 카테고리 */}
           </div>
           {/* 로그인 성공시 창 변경 logout 버튼 생성 */}
           {isLogin ? <>

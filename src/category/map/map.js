@@ -140,6 +140,45 @@ function Map(props){
             size: new naver.maps.Size(40, 40),
             anchor: new naver.maps.Point(20, 20)
         };
+
+        var mapDiv = document.getElementById('map');
+        
+        let campus = new naver.maps.LatLng(36.469421, 127.1406507);
+        if(params['*'].includes('천안')) {
+            campus = new naver.maps.LatLng(36.8511811, 127.1511352);
+        }
+
+        var map = new naver.maps.Map(mapDiv, {
+            center:  campus,
+            zoomControl: true,
+            zoomControlOptions: { //줌 컨트롤의 옵션
+                style: naver.maps.ZoomControlStyle.SMALL,
+                position: naver.maps.Position.TOP_RIGHT
+            }
+        });
+
+        const cluster = new MarkerClustering({
+            minClusterSize: 2,
+            maxZoom: 18,
+            map: map,
+            markers: markerArray,
+            disableClickZoom: false,
+            gridSize: 120,
+            icons: [
+              htmlMarker1,
+              htmlMarker2,
+              htmlMarker3,
+              htmlMarker4,
+              htmlMarker5,
+            ],
+            indexGenerator: [10, 100, 200, 500, 1000],
+            stylingFunction: function (clusterMarker, count) {
+              // without jquery $(clusterMarker.getElement()).find('div:first-child').text(count)
+              clusterMarker
+                .getElement()
+                .querySelector('div:first-child').innerText = count
+            },
+          })
         
         //공주 캠퍼스
         if(params['*'].includes('공주') || params['*'] === ''){
@@ -278,44 +317,7 @@ function Map(props){
             })
         }
                 
-        var mapDiv = document.getElementById('map');
         
-        let campus = new naver.maps.LatLng(36.469421, 127.1406507);
-        if(params['*'].includes('천안')) {
-            campus = new naver.maps.LatLng(36.8511811, 127.1511352);
-        }
-
-        var map = new naver.maps.Map(mapDiv, {
-            center:  campus,
-            zoomControl: true,
-            zoomControlOptions: { //줌 컨트롤의 옵션
-                style: naver.maps.ZoomControlStyle.SMALL,
-                position: naver.maps.Position.TOP_RIGHT
-            }
-        });
-
-        const cluster = new MarkerClustering({
-            minClusterSize: 2,
-            maxZoom: 18,
-            map: map,
-            markers: markerArray,
-            disableClickZoom: false,
-            gridSize: 120,
-            icons: [
-              htmlMarker1,
-              htmlMarker2,
-              htmlMarker3,
-              htmlMarker4,
-              htmlMarker5,
-            ],
-            indexGenerator: [10, 100, 200, 500, 1000],
-            stylingFunction: function (clusterMarker, count) {
-              // without jquery $(clusterMarker.getElement()).find('div:first-child').text(count)
-              clusterMarker
-                .getElement()
-                .querySelector('div:first-child').innerText = count
-            },
-          })
 
           //console.log(map.getMaxZoom());
 

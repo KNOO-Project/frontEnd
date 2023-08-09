@@ -14,7 +14,7 @@
     transform: translateX(0);
     text-align: center;
 }
-.menu:hover p, .menu:hover .writing{
+.menu:hover p {
     animation-name: slide;
     animation-duration: 1s;
 }
