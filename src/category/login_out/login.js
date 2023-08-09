@@ -22,6 +22,33 @@ function Login({setIsLogin, setCookie}){
         email : ''
     })
 
+    const login = () => {
+        axios.post('/api/auth/sign-in', data)
+        .then((res) => {
+            //console.log(res.data)
+            let token = res.data;
+            if(data.auto_sign_in){
+                /* 자동 로그인 클릭시 */
+                localStorage.setItem('token', token);
+                localStorage.setItem('isLogin', true);
+            }else {
+                /* 자동 로그인 클릭 X */
+                sessionStorage.setItem('token', token);
+                sessionStorage.setItem('isLogin', true);
+            }
+            navigate('/');
+            
+        })
+        .catch((res) => {
+            alert('아이디 또는 비밀번호가 올바르지 않습니다.')
+        })
+    }
+
+    const enterKey = (e) => {
+        if(e.key === 'Enter')
+        login();
+    }
+
     return(
         <div className='login-form'>
             <form className='form-box'>
@@ -30,7 +57,7 @@ function Login({setIsLogin, setCookie}){
                         ...data,
                         username : e.target.value
                     }))}} />
-                    <input type="password" placeholder="Password" value={data.password} 
+                    <input type="password" placeholder="Password" onKeyDown={enterKey} value={data.password} 
                     onChange={e => {setData((data) => ({
                         ...data,
                         password : e.target.value
@@ -38,33 +65,7 @@ function Login({setIsLogin, setCookie}){
                 <div className='btn'>
                     <Button className='btn-login' variant="info" onClick={(e)=>{
                         //e.preventDefault();
-                        axios.post('/api/auth/sign-in', data)
-                        .then((res) => {
-                            //console.log(res.data)
-                            let token = res.data;
-                            if(data.auto_sign_in){
-                                /* 자동 로그인 클릭시 */
-                                localStorage.setItem('token', token);
-                                localStorage.setItem('isLogin', true);
-                            }else {
-                                /* 자동 로그인 클릭 X */
-                                sessionStorage.setItem('token', token);
-                                sessionStorage.setItem('isLogin', true);
-                            }
-                            navigate('/');
-                            /* if(res.status === 200){
-                                let token = res.data;
-                                setCookie('token', token);                       // 쿠키 파라미터로 쿠키에 토큰 담기
-                                //console.log('login', token)
-                                localStorage.setItem('isLogin', true)            // 새로고침해도 로그아웃되지 않게 localStoarge에 변수 담아놓기
-                                navigate('/');
-                            } */
-                            
-                        })
-                        .catch((res) => {
-                            alert('아이디 또는 비밀번호가 올바르지 않습니다.')
-                        }
-                        )
+                        login();
                         }}>Login</Button>
                     <Button className='btn-id' variant="light"
                     onClick={() => {setSearchId((prev) => !prev);

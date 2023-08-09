@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import '../category-css/search.css';
-import BoardDetail from './board/boardDetail';
+import '../../../category-css/search.css';
+import BoardDetail from '../boardDetail';
 import { Link, Navigate, Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import {TbCircleChevronRight, TbCircleChevronLeft} from 'react-icons/tb';

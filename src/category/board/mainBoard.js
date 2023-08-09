@@ -3,7 +3,7 @@ import { Routes, useNavigate, useParams, Route, Link } from "react-router-dom";
 import { AiOutlineSearch, AiOutlinePlus } from 'react-icons/ai';
 import '../../category-css/board/mainBoard.css';
 import axios from "axios";
-import MainBoardSearch from "../../mainBoardSearch";
+import MainBoardSearch from "./boardSearch/mainBoardSearch";
 import BoardDetail from "./boardDetail";
 import CategoryBoard from "./categoryBoard";
 import { useSelector } from 'react-redux';
@@ -42,6 +42,15 @@ function MainBoard(props){
         .catch((res) => {
             alert(res.response.data.message);
         })
+    }
+
+    const enterkey = (e) => {
+        if (e.key === 'Enter') {
+            // 엔터키가 눌렸을 때
+            console.log('enter');
+            search();
+            e.preventDefault();
+        }
     }
 
     useEffect(() => {
@@ -84,8 +93,8 @@ function MainBoard(props){
                         <option value='title' >제목</option>
                         <option value='content' >본문</option>
                     </select>
-                    <input type="text" value={searchContent} onChange={e => {
-                        setSearchContent(e.target.value)
+                    <input type="text" value={searchContent} onKeyDown={enterkey} onChange={e => {
+                        setSearchContent(e.target.value);
                     }} />
                     <AiOutlineSearch className="search_icon" onClick={() => {
                         //navigate(`search/keyword=${searchContent}&page=1`);

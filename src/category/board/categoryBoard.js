@@ -4,7 +4,7 @@ import '../../category-css/board/categoryBoard.css'
 import {useEffect, useState} from 'react';
 import BoardDetail from "./boardDetail";
 import CategoryBoardPagenation from "./categoryBoardPagenation";
-import Search from "../search";
+import Search from "./boardSearch/search";
 import axios from "axios";
 import {TbCircleChevronRight, TbCircleChevronLeft} from 'react-icons/tb';
 import {AiOutlineSearch} from 'react-icons/ai';
@@ -14,7 +14,7 @@ function CategoryBoard(props){
     let navigate = useNavigate();
     let params = useParams();
     let token = props.token;
-    console.log('params', params);
+    console.log('params', params['*']);
     let category = params.category_board.split('_')[0];
     const currentUrl = window.location.href;
     //console.log(currentUrl);
@@ -29,6 +29,31 @@ function CategoryBoard(props){
     let [searchContent, setSearchContent] = useState(null);
     let [searchTypeSelected, setSearchTypeSelected] = useState('all');
     
+    const search = () => {
+        axios.get('/api/posts/search', {
+            headers: {Authorization: token},
+            params: {
+                'category': category,
+                condition: searchTypeSelected,
+                keyword: searchContent,
+                page: 1
+            }
+        })
+        .then(() => {
+            navigate(`search/keyword=${searchContent}&page=1`);
+        })
+        .catch((res) => {
+            alert(res.response.data.message);
+        })
+    }
+
+    const enterKey = (e) => {
+        if(e.key === 'Enter'){
+            search();
+            e.preventDefault();
+        }
+    }
+
     useEffect(() => {
         if(category.includes('free')){
             setBoardTitle('자유')
@@ -117,34 +142,11 @@ function CategoryBoard(props){
                             <option value='title' >제목</option>
                             <option value='content' >본문</option>
                         </select>
-                        <input type="text" value={searchContent} onChange={e => {
+                        <input type="text" value={searchContent} onKeyDown={enterKey} onChange={e => {
                             setSearchContent(e.target.value)
                         }} />
                         <AiOutlineSearch className="search_icon" onClick={() => {
-                            axios.get('/api/posts/search', {
-                                headers: {Authorization: token},
-                                params: {
-                                    'category': category,
-                                    condition: searchTypeSelected,
-                                    keyword: searchContent,
-                                    page: 1
-                                }
-                            })
-                            .then(() => {
-                                navigate(`search/keyword=${searchContent}&page=1`);
-                            })
-                            .catch((res) => {
-                                alert(res.response.data.message);
-                            })
-                            /* if(params['*'] === ''){
-                                navigate(`search/keyword=${searchContent}&page=1`);
-                            }else {
-                                navigate(`search/keyword=${searchContent}&page=1`);
-                            } */
-                            
-                            //search();
-                            //console.log(searchTypeSelected);
-                            //console.log(searchContent);
+                            search();
                         }} />
                     </form>
                 </div>

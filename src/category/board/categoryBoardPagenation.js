@@ -1,5 +1,5 @@
 import BoardForm from "./boardForm";
-import CategorySearch from "../search";
+import CategorySearch from "./boardSearch/search";
 import { Link, Outlet, Route, Routes, useNavigate, useParams } from "react-router-dom";
 import '../../category-css/board/categoryBoard.css'
 import {useEffect, useState} from 'react';
@@ -13,6 +13,7 @@ function CategoryBoardPagenation(props){
     var token = props.token;
     let navigate = useNavigate();
     let params = useParams();
+    console.log('params', params['*']);
     let category = params.category_board.split('_')[0];
     //let categoryTitle = localStorage.getItem('pathBoardTitle');
     let category_path = localStorage.getItem('pathBoardTitle');
@@ -101,7 +102,7 @@ function CategoryBoardPagenation(props){
         <>
         {params['*'] === ''  ? <>
             <div className="category_board">
-            <div className="head">
+            {/* <div className="head">
                 <button className="writing_btn" onClick={() => {
                         localStorage.removeItem('categoryBoardClick');
                     }} ><Link to='writing' ><HiPencil className="write_icon" /><span>작성하기</span></Link></button>
@@ -124,7 +125,7 @@ function CategoryBoardPagenation(props){
                             //console.log(searchContent);
                         }} />
                     </form>
-                </div>
+                </div> */}
                 <div className="board_list">
                     {boardData.map((a, i) => {
                         while(i < 20){
