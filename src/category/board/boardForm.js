@@ -2,59 +2,37 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../category-css/board/boardForm.css'
+import {HiPlus} from 'react-icons/hi';
 
 function BoardForm(props){
     let navigate = useNavigate();
     let token = props.token;
+    let [imgFile, setImgFile] = useState("");
+    let [imgBtnCLick, setImgBtnClick] = useState(false);
     let [data, setData] = useState({
         post_title: "",
         post_content: "",
         post_category: props.category,
         anonymous: false
     });
+    const setPreviewImg = (event) => {
+
+        var reader = new FileReader();
+
+        reader.onload = function(event) {
+            setImgFile(event.target.result);
+        };
+
+        reader.readAsDataURL(event.target.files[0]);
+
+    }
+
+    console.log('imgFile', imgFile);
 
     return(
         <div>
         <h2>{localStorage.getItem('boardTitle')} 게시판</h2>
         <form className='boardForm' onSubmit={(e) => {
-            /* let postData = data.post_content.split('\n');
-            let convertData = [];
-            for(var i=0; i<postData.length; i++){
-                if(postData[i].length > 48){
-                    let count = Math.floor(postData[i].length / 48);
-                    for(var j=0; j<count; j++){
-                        if((j+1)*48 > postData[i].length){
-                            convertData.push(postData[i].slice(j*48, postData[i].length));
-                        } else {
-                            convertData.push(postData[i].slice(j*48, (j+1)*48));
-                        }                        
-                    }
-                }else {
-                    convertData.push(postData[i]);
-                }
-            }
-            setData({
-                ...data,
-                post_content : convertData
-            })
-            console.log('postData', postData);
-            console.log('convertData', convertData); */
-            /* let k = 0;
-            while(k === data.post_content.length){
-                let array = '';
-                for(var i=k; i<k+48; i++){
-                    if(data.post_content[k] === '\n'){
-                        k = i;
-                        break;
-                    }
-                    array = array + data.post_content[k];
-                }
-                if(!array.includes('\n')){
-                    data.post_content = data.post_content.slice(0, k+48) + '\n' + data.post_content.slice(k+48, data.post_content.length);
-                    k += 48;
-                }
-            } */
-            
             console.log(data)
             e.preventDefault();
             axios.post('/api/posts', data,            // 게시글 데이터 형식에 맞게 보내기
@@ -76,6 +54,18 @@ function BoardForm(props){
                 ...data,
                 post_title: e.target.value
             })}} />
+            <br/>
+            {imgBtnCLick ? 
+            <>
+            <label className='img_box' htmlFor='imgFile'>
+                {imgFile === "" ? <HiPlus /> : 
+                <img src={imgFile} alt=''  />
+                }
+                
+            </label>
+            <input type='file' id='imgFile' accept='image/*' onChange={setPreviewImg} />
+            </> : null }
+            
             <br/>
             <textarea placeholder="내용을 입력해주세요."  value={data.post_content}  onChange={e => {
                 setData({
@@ -100,6 +90,10 @@ function BoardForm(props){
                 }
             }} /><label for="anonymous">익명으로 올리기</label>
             <button type='submit'>완료</button>
+            <button type='button' id='imgFile' onClick={e => {
+                setImgBtnClick(prev => !prev);
+            }} >사진첨부</button>
+            <div style={{clear: 'both'}}></div>
             </div>
             
         </form>

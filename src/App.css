@@ -16,7 +16,12 @@ div{
   color: white;
   font-family: 'Noto Light',sans-serif;
 }
-
+.logo {
+  display: flex;
+}
+.logo > h6 {
+  margin-top: 20px;
+}
 .nav-box{
   width: 90%;
   height: 100%;
@@ -84,32 +89,37 @@ div{
 
 /* body */
 .App > .body{
-  width: 90%;
+  width: 100%;
   margin: auto;
   height: 500px;
   display: flex;
+  background-color: #F8F8F8;
 }
 .body-left{
   width: 40%;
   height: 90%;
-  margin: 5% auto;
+  margin: auto;
 }
 .free {
   width: 90%;
   height: 90%;
-  background-color: aqua;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px 2px;
 }
 .body-right{
-  width: 60%;
+  width: 40%;
   height: 90%;
-  margin: 5% auto;
+  margin: auto;
 }
 .popular{
   width: 90%;
-  height: 30%;
+  height: 90%;
   margin: auto;
-  background-color: beige;
+  background-color: white;
+  border-radius: 5px;
   margin-bottom: 5%;
+  box-shadow: 2px 2px 2px 2px;
 }
 .info-box{
   width: 90%;
@@ -130,5 +140,7 @@ div{
   margin-top: 50px;
   width: 100%;
   height: 80px;
-  background-color: cadetblue;
+}
+.footer p {
+  font-size: 10px;
 }

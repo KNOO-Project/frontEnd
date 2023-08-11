@@ -72,7 +72,7 @@ function App() {
     <div className="App">
       <div className='nav-bar'>
         <div className='nav-box'>
-          <div onClick={()=>{navigate('/')}}><h1>KNoo</h1></div>
+          <div onClick={()=>{navigate('/')}} className='logo' ><h1 style={{color: '#01A756'}}>KNoo</h1><h6>-beta</h6></div>
           <div className='text-center' onClick={(e)=>{
             moveCategory('community');
             }}><h3>커뮤니티</h3></div>
@@ -124,9 +124,9 @@ function App() {
             localStorage.clear();
             sessionStorage.clear();
             navigate('/')
-          }} ><h3>Logout</h3></div>
+          }} ><h3>로그아웃</h3></div>
           </> : <>
-          <div className='text-right' onClick={()=>navigate('/login')}><h3>login</h3></div>
+          <div className='text-right' onClick={()=>navigate('/login')}><h3>로그인</h3></div>
           <div className='text-right' onClick={()=>navigate('/회원가입')}><h3>회원가입</h3></div>
           </>}
           {/*로그인 성공시 회원정보 조회 버튼 생성 */}

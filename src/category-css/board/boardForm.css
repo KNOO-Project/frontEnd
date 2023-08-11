@@ -18,6 +18,38 @@ input {
     margin-bottom: 20px;
     width: 50%;
 }
+.boardForm .img_box {
+    /* padding-top: 105px; */
+    width: 250px;
+    height: 250px;
+    border: 1px solid #ffc107;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    position: relative;
+}
+.boardForm .img_box:hover {
+    cursor: pointer;
+    background-color: #f8f9fa;
+}
+.boardForm .img_box > svg {
+    font-size: 40px;
+    color: #adb5bd;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.img_box > img {
+    max-width: 240px;
+    max-height: 240px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.boardForm input[type='file'] {
+    display: none;
+}
 .boardForm > textarea {
     border: 1px solid #ced4da;
 }
@@ -44,6 +76,12 @@ input {
 .boardForm-btn{
     width: 50%;
     margin: auto;
+}
+.boardForm-btn > button[type='button'] {
+    border: none;
+    font-weight: bold;
+    margin-top: 5px;
+    float: right;
 }
 /* .boardForm textarea {
     word-wrap: break-word;
