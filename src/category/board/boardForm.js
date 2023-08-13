@@ -7,7 +7,10 @@ import {HiPlus} from 'react-icons/hi';
 function BoardForm(props){
     let navigate = useNavigate();
     let token = props.token;
-    let [imgFile, setImgFile] = useState("");
+    let [imgFile, setImgFile] = useState({
+        image_file: '',
+        preview_image: ''
+    });
     let [imgBtnCLick, setImgBtnClick] = useState(false);
     let [data, setData] = useState({
         post_title: "",
@@ -15,19 +18,39 @@ function BoardForm(props){
         post_category: props.category,
         anonymous: false
     });
-    const setPreviewImg = (event) => {
+    const formData = new FormData();
+    const postIdFormData = new FormData();
+    
+    const saveImage = (e) => {
+        const fileReader = new FileReader();
+        //console.log(e.target.files);
+        fileReader.readAsDataURL(e.target.files[0]);
+        let file = e.target.files[0];
+        console.log('file', file);
+        fileReader.onload = () => {
+            setImgFile((imgFile) => ({
+                ...imgFile,
+                image_file: file,
+                preview_image: fileReader.result
+            }))
+        }
+        formData.append('post_images', file);
 
-        var reader = new FileReader();
-
-        reader.onload = function(event) {
-            setImgFile(event.target.result);
-        };
-
-        reader.readAsDataURL(event.target.files[0]);
+        /* for (let key of formData.keys()) {
+            console.log('key', key);
+          }
+          
+        // FormData의 value 확인
+        for (let value of formData.values()) {
+            console.log('value', value);
+        } */
+        
 
     }
+        
+    //console.log(imgFile.preview_image);
 
-    console.log('imgFile', imgFile);
+    //console.log('imgFile', imgFile);
 
     return(
         <div>
@@ -41,6 +64,33 @@ function BoardForm(props){
             }
             )
             .then((res)=>{
+                let postId = res.data;
+                postIdFormData.append('post_id', postId);
+                console.log('postId', postId);
+                if(imgFile.preview_image !== ''){
+                    console.log('preImage', imgFile.preview_image);
+                    
+                    axios.post(`/api/posts/images`, {
+                        post_images: imgFile.image_file
+                    },
+                    {
+                        headers: { 
+                            Authorization: token,
+                            'Content-Type': 'multipart/form-data'
+                        },
+                        params: {
+                            post_id: postId
+                        }
+                    })
+                    .then((res) => {
+                        console.log('res2', res);
+                    })
+                    .catch(() => {
+                        console.log('error');
+                    })
+                }
+
+                console.log('res1', res);
                 navigate(`/${props.category}_board`);
                 //window.location.reload();                                   // 나중에 바꾸기 강제 리로드 말고 다른걸로
             }).catch(res => {
@@ -57,13 +107,13 @@ function BoardForm(props){
             <br/>
             {imgBtnCLick ? 
             <>
-            <label className='img_box' htmlFor='imgFile'>
-                {imgFile === "" ? <HiPlus /> : 
-                <img src={imgFile} alt=''  />
+            <label className='img_box' for='imgFile'>
+                {imgFile.preview_image === "" ? <HiPlus /> : 
+                <img src={imgFile.preview_image} alt=''  />
                 }
                 
             </label>
-            <input type='file' id='imgFile' accept='image/*' onChange={setPreviewImg} />
+            <input type='file' id='imgFile' accept='image/*' onChange={saveImage} multiple />
             </> : null }
             
             <br/>

@@ -20,7 +20,7 @@ input {
 }
 .boardForm .img_box {
     /* padding-top: 105px; */
-    width: 250px;
+    width: 350px;
     height: 250px;
     border: 1px solid #ffc107;
     border-radius: 5px;
@@ -40,7 +40,7 @@ input {
     transform: translate(-50%, -50%);
 }
 .img_box > img {
-    max-width: 240px;
+    max-width: 340px;
     max-height: 240px;
     position: absolute;
     top: 50%;
