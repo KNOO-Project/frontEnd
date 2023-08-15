@@ -3,14 +3,14 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../category-css/board/boardForm.css'
 import {HiPlus} from 'react-icons/hi';
+import {GrNext, GrPrevious} from 'react-icons/gr';
 
 function BoardForm(props){
     let navigate = useNavigate();
     let token = props.token;
-    let [imgFile, setImgFile] = useState({
-        image_file: '',
-        preview_image: ''
-    });
+    let [imgFile, setImgFile] = useState(null);
+    let [previewImages, setPreviewImages] = useState([]);
+    let [previewImageNum, setPreviewImageNum] = useState(0);
     let [imgBtnCLick, setImgBtnClick] = useState(false);
     let [data, setData] = useState({
         post_title: "",
@@ -18,23 +18,22 @@ function BoardForm(props){
         post_category: props.category,
         anonymous: false
     });
-    const formData = new FormData();
+    //const formData = new FormData();
     const postIdFormData = new FormData();
     
     const saveImage = (e) => {
-        const fileReader = new FileReader();
-        //console.log(e.target.files);
-        fileReader.readAsDataURL(e.target.files[0]);
-        let file = e.target.files[0];
-        console.log('file', file);
-        fileReader.onload = () => {
-            setImgFile((imgFile) => ({
-                ...imgFile,
-                image_file: file,
-                preview_image: fileReader.result
-            }))
+        const imageList = e.target.files;
+
+        let imgUrlList = [...previewImages];
+
+        for(var i=0; i<imageList.length; i++){
+            const currentImageUrl = URL.createObjectURL(imageList[i]);
+            imgUrlList.push(currentImageUrl);
         }
-        formData.append('post_images', file);
+
+        setImgFile(imageList);
+        setPreviewImages(imgUrlList);
+        //formData.append('post_images', file);
 
         /* for (let key of formData.keys()) {
             console.log('key', key);
@@ -47,11 +46,11 @@ function BoardForm(props){
         
 
     }
-        
-    //console.log(imgFile.preview_image);
 
-    //console.log('imgFile', imgFile);
-
+    //console.log(previewImages);
+    //console.log(imgFile);
+    console.log('preImgNum', previewImageNum);  
+    
     return(
         <div>
         <h2>{localStorage.getItem('boardTitle')} 게시판</h2>
@@ -71,7 +70,7 @@ function BoardForm(props){
                     console.log('preImage', imgFile.preview_image);
                     
                     axios.post(`/api/posts/images`, {
-                        post_images: imgFile.image_file
+                        post_images: imgFile[0]
                     },
                     {
                         headers: { 
@@ -106,16 +105,29 @@ function BoardForm(props){
             })}} />
             <br/>
             {imgBtnCLick ? 
-            <>
-            <label className='img_box' for='imgFile'>
-                {imgFile.preview_image === "" ? <HiPlus /> : 
-                <img src={imgFile.preview_image} alt=''  />
-                }
-                
-            </label>
-            <input type='file' id='imgFile' accept='image/*' onChange={saveImage} multiple />
-            </> : null }
-            
+            <div className='img_box'>
+                {previewImageNum !== 0 ? 
+                <div className='previous_icon' onClick={e => {
+                    setPreviewImageNum(prev => prev - 1);
+                }}><GrPrevious /></div> : null }
+                   
+                <label className='pre_img' for='imgFile'>
+                    {imgFile === null ? <HiPlus /> : 
+                    previewImages.map((a, i) => {
+                        if(previewImageNum === i){
+                            return(
+                                <img src={a} alt=''  />
+                            )
+                        }
+                    })
+                    }
+                </label>
+                <input type='file' id='imgFile' accept='image/*' onChange={saveImage} multiple />
+                {previewImages.length - 1 === previewImageNum ? null : 
+                <div className='next_icon' onClick={e => {
+                    setPreviewImageNum(prev => prev + 1);
+                }}><GrNext /></div>}
+            </div> : null }
             <br/>
             <textarea placeholder="내용을 입력해주세요."  value={data.post_content}  onChange={e => {
                 setData({

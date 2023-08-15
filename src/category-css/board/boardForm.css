@@ -19,19 +19,34 @@ input {
     width: 50%;
 }
 .boardForm .img_box {
+    display: flex;
+    margin: 0 auto;
+    width: 500px;
+}
+.img_box .previous_icon, .img_box .next_icon {
+    margin: auto 0;
+}
+.previous_icon > svg, .next_icon > svg {
+    font-size: 30px;
+}
+.previous_icon > svg:hover, .next_icon > svg:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}
+.img_box .pre_img {
     /* padding-top: 105px; */
+    margin: 0 auto;
     width: 350px;
-    height: 250px;
+    height: 270px;
     border: 1px solid #ffc107;
     border-radius: 5px;
-    margin-bottom: 20px;
     position: relative;
 }
-.boardForm .img_box:hover {
+.img_box .pre_img:hover {
     cursor: pointer;
     background-color: #f8f9fa;
 }
-.boardForm .img_box > svg {
+.img_box .pre_img > svg {
     font-size: 40px;
     color: #adb5bd;
     position: absolute;
@@ -39,7 +54,7 @@ input {
     left: 50%;
     transform: translate(-50%, -50%);
 }
-.img_box > img {
+.pre_img > img {
     max-width: 340px;
     max-height: 240px;
     position: absolute;
