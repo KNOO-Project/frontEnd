@@ -48,7 +48,7 @@ function BoardForm(props){
     }
 
     //console.log(previewImages);
-    //console.log(imgFile);
+    console.log(imgFile);
     console.log('preImgNum', previewImageNum);  
     
     return(
