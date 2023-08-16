@@ -25,7 +25,7 @@ function BoardDetail(props) {
         likes_count: '',
         is_written_by_user : '' 
     });
-    let [imgUrl, setImgUrl] = useState(null);
+    let [imgUrl, setImgUrl] = useState([]);
     let [contentData, setContentData] = useState([]);           //줄바꿈 적용해서 contentData에 담기
 
     let [dateData, setDateData] = useState({
@@ -196,7 +196,7 @@ function BoardDetail(props) {
         ))
         .then((res) => {
             console.log(res);
-            setImgUrl(res.data.post.images[0]);
+            setImgUrl(res.data.post.images);
             setLikeCount(res.data.post.likes_count);
             setIsScrap(res.data.post.scrapped);
             setScrapCount(res.data.post.scraps_count);
@@ -292,7 +292,7 @@ function BoardDetail(props) {
         }
         setInitialCommentData(moreCommentsData)
     }
-    
+    console.log('imgUrl', imgUrl.length);
     //console.log('commentData', commentData)
     //console.log('recommentData', recommentData)
     //console.log('initialCommentData', initialCommentData)
@@ -323,7 +323,14 @@ function BoardDetail(props) {
             : null}
             <div style={{clear: 'both'}}></div>
             <p className="title">{postData.post_title}</p>
-            <img src={imgUrl} alt="" />
+            {imgUrl.map((a, i) => {
+                return(
+                    <>
+                    <img src={a} style={{marginBottom: '10px'}} alt="" />
+                    <br />
+                    </>
+                )
+            })}
             <p className="content">{contentData.map((a, i) => {
                 return(
                     <span>

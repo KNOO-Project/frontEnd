@@ -18,37 +18,45 @@ function BoardForm(props){
         post_category: props.category,
         anonymous: false
     });
-    //const formData = new FormData();
-    const postIdFormData = new FormData();
+    
+    //const postIdFormData = new FormData();
     
     const saveImage = (e) => {
         const imageList = e.target.files;
-
+        if(imageList.length > 3){
+            alert('이미지는 최대 3장까지 업로드 가능합니다!');
+            return
+        }
+        let emptyImgList = [];
         let imgUrlList = [...previewImages];
 
         for(var i=0; i<imageList.length; i++){
             const currentImageUrl = URL.createObjectURL(imageList[i]);
             imgUrlList.push(currentImageUrl);
         }
-
-        setImgFile(imageList);
+        console.log('imageList', imageList[0]);
+        for(var i=0; i<imageList.length; i++){
+            emptyImgList.push(imageList[i]);
+        }
+        
+        setImgFile(emptyImgList);
         setPreviewImages(imgUrlList);
         //formData.append('post_images', file);
 
-        /* for (let key of formData.keys()) {
+        /* for (let key of imgData.keys()) {
             console.log('key', key);
           }
           
         // FormData의 value 확인
-        for (let value of formData.values()) {
+        for (let value of imgData.values()) {
             console.log('value', value);
-        } */
-        
+        }
+        console.log(imgData.keys) */
 
     }
 
     //console.log(previewImages);
-    console.log(imgFile);
+    console.log('imgFile', imgFile);
     console.log('preImgNum', previewImageNum);  
     
     return(
@@ -63,34 +71,36 @@ function BoardForm(props){
             }
             )
             .then((res)=>{
-                let postId = res.data;
-                postIdFormData.append('post_id', postId);
-                console.log('postId', postId);
-                if(imgFile.preview_image !== ''){
-                    console.log('preImage', imgFile.preview_image);
-                    
-                    axios.post(`/api/posts/images`, {
-                        post_images: imgFile[0]
-                    },
-                    {
-                        headers: { 
-                            Authorization: token,
-                            'Content-Type': 'multipart/form-data'
-                        },
-                        params: {
-                            post_id: postId
-                        }
-                    })
-                    .then((res) => {
-                        console.log('res2', res);
-                    })
-                    .catch(() => {
-                        console.log('error');
-                    })
+                if(imgFile === null){
+                    console.log('res1', res);
+                    navigate(`/${props.category}_board`);
+                }else {
+                    const imgData = new FormData();
+                    for(var i=0; i<imgFile.length; i++){
+                        imgData.append('post_images', imgFile[i])
+                    }
+                    let postId = res.data;
+                        axios.post(`/api/posts/images`, imgData,
+                        {
+                            headers: { 
+                                Authorization: token,
+                                'Content-Type': 'multipart/form-data'           //이미지 파일 보낼 때 필수 type 지정
+                            },
+                            params: {
+                                post_id: postId
+                            }
+                        })
+                        .then((res) => {
+                            console.log('res2', res);
+                        })
+                        .catch(() => {
+                            console.log('error');
+                        })
+    
+                    console.log('res1', res);
+                    navigate(`/${props.category}_board`);
                 }
-
-                console.log('res1', res);
-                navigate(`/${props.category}_board`);
+                
                 //window.location.reload();                                   // 나중에 바꾸기 강제 리로드 말고 다른걸로
             }).catch(res => {
                 alert(res.response.data.message)                            //실패시 받아온 data에서 message 보여쥬기
@@ -154,6 +164,7 @@ function BoardForm(props){
             <button type='submit'>완료</button>
             <button type='button' id='imgFile' onClick={e => {
                 setImgBtnClick(prev => !prev);
+                alert('이미지는 최대 3장까지 업로드 가능합니다.');
             }} >사진첨부</button>
             <div style={{clear: 'both'}}></div>
             </div>
