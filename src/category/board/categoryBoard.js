@@ -29,6 +29,7 @@ function CategoryBoard(props){
     let [searchContent, setSearchContent] = useState(null);
     let [searchTypeSelected, setSearchTypeSelected] = useState('all');
     
+    
     const search = () => {
         axios.get('/api/posts/search', {
             headers: {Authorization: token},
@@ -77,7 +78,7 @@ function CategoryBoard(props){
           })
           .then((res)=>{
             //console.log('boardTitle', boardTitle)
-            //console.log(res)
+            console.log(res)
             setTotalPages(res.data.total_pages);
             setBoardData(res.data.posts);
             let dataLength = [];
@@ -161,8 +162,9 @@ function CategoryBoard(props){
                                     <div className="content">{a.post_content.substring(0, 20)
                                     //본문내용 20자만 보여주기
                                     }</div>
-                                    <div className="name">{a.writer_name}</div>
                                     <div className="date">{a.post_date}</div>
+                                    <div className="name">{a.writer_name}</div>
+                                    <hr></hr>
                                 </Link>    
                                 
                             )

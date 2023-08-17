@@ -5,11 +5,13 @@ function Home(){
           <div className='body-left'>
             <div className='free'>
               <h2>최신글</h2>
+              <hr></hr>
             </div>
           </div>
           <div className='body-right'>
             <div className='popular'>
               <h2>인기글</h2>
+              <hr></hr>
             </div>
             {/* <div className='info-box'>
             <div className='info'>

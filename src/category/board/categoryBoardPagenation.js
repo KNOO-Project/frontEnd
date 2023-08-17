@@ -132,9 +132,10 @@ function CategoryBoardPagenation(props){
                             return(
                                 <Link to={`../detail/${a.post_id}`} key={i}>   
                                     <div className="title">{a.post_title}</div>
-                                    <div className="content">{a.post_content.substring(0, 20)
-                                    //본문내용 20자만 보여주기
-                                    }</div><div className="name">{a.writer_name}</div><div className="date">{a.post_date}</div>
+                                    <div className="content">{a.post_content.substring(0, 20)}</div> {/* 본문내용 20자만 보여주기 */}
+                                    <div className="date">{a.post_date}</div>
+                                    <div className="name">{a.writer_name}</div>
+                                    <hr></hr>
                                 </Link>
                             )
                         }

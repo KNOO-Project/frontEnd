@@ -22,6 +22,9 @@
     float: left;
     margin-left: 10px;
 }
+.detail-post img {
+    max-width: 850px;
+}
 .detail-post > .content_modify, .detail-post > .content_delete {
     float: right;
     font-size: 15px;

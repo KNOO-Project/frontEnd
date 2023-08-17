@@ -107,6 +107,15 @@ div{
   border-radius: 5px;
   box-shadow: 0 0 3px;
 }
+.free h2, .popular h2 {
+  padding-top: 10px;
+}
+.body hr {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 20px;
+  border: solid 1px black;
+}
 .body-right{
   width: 40%;
   height: 90%;
