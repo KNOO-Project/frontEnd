@@ -1,8 +1,10 @@
-import axios, { formToJSON } from "axios";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import {TbCircleChevronLeft, TbCircleChevronRight} from 'react-icons/tb';
+import {AiOutlineSearch, AiOutlineLike, AiOutlineStar, AiOutlineComment} from 'react-icons/ai';
+import '../../../category-css/search.css';
 
 function MainBoardSearch(props) {
 
@@ -80,15 +82,22 @@ function MainBoardSearch(props) {
     return(
         <>
         <div className="search_list">
-                {searchData.map((a, i) => {
+                {searchData.map((data, i) => {
                         return(
-                            <Link to={`../detail/${a.post_id}`} >
-                                <div className="title">{a.post_title}</div>
-                                <div className="content">{a.post_content.substring(0, 20)
+                            <Link to={`../detail/${data.post_id}`} >
+                                <div className="title">{data.post_title}</div>
+                                <div className="content">{data.post_content.substring(0, 20)
                                 //본문내용 20자만 보여주기
                                 }</div>
-                                <div className="name">{a.writer_name}</div>
-                                <div className="date">{a.post_date}</div>
+                                <div className="date">{data.post_date}</div>
+                                <div className="name">{data.writer_name}</div>
+                                <div style={{clear: 'both'}}></div>
+                                <div className="counts">
+                                    <li><AiOutlineLike />{data.likes_count}</li>
+                                    <li><AiOutlineComment />{data.comments_count}</li>
+                                    <li><AiOutlineStar />{data.scraps_count}</li>
+                                </div>
+                                {data.thumbnail ? <img src={data.thumbnail} alt="" /> : null}
                             </Link>
                         )
                 })}

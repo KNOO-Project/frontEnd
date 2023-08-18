@@ -120,12 +120,9 @@ div{
     height: 100px;
     right: 5px;
     bottom: 5px;
+    border-radius: 3px;
 }
 
-.board_list hr {
-    clear: both;
-    border: none;
-}
 /* pageNum */
 .categoryBoard_pageNum{
     display: flex;
