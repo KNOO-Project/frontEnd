@@ -70,6 +70,7 @@ div{
     margin-bottom: 10px;
     border: 1px solid cyan;
     border-radius: 3px;
+    position: relative;
 }
 .board_list a:hover {
     background-color:cyan;
@@ -101,6 +102,25 @@ div{
     font-weight: bold;
     color: #AEAEC6;
     float: left;
+}
+.board_list a > .counts {
+    display: flex;
+    list-style: none;
+}
+.board_list a > .counts li {
+    margin-right: 10px;    
+    font-weight: bold;
+}
+.board_list a > .counts li svg {
+    margin-bottom: 2px;
+    margin-right: 5px;
+}
+.board_list a > img {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    right: 5px;
+    bottom: 5px;
 }
 
 .board_list hr {

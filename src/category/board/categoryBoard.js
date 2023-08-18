@@ -7,7 +7,7 @@ import CategoryBoardPagenation from "./categoryBoardPagenation";
 import Search from "./boardSearch/search";
 import axios from "axios";
 import {TbCircleChevronRight, TbCircleChevronLeft} from 'react-icons/tb';
-import {AiOutlineSearch} from 'react-icons/ai';
+import {AiOutlineSearch, AiOutlineLike, AiOutlineStar, AiOutlineComment} from 'react-icons/ai';
 import {HiPencil} from 'react-icons/hi';
 
 function CategoryBoard(props){
@@ -154,17 +154,23 @@ function CategoryBoard(props){
                 {params['*'] === '' ?  
                 <>
                 <div className="board_list">
-                    {boardData.map((a, i) => {
+                    {boardData.map((data, i) => {
                         while(i < 20){
                             return(
-                                <Link to={`detail/${a.post_id}`} key={i}>   
-                                    <div className="title">{a.post_title}</div>
-                                    <div className="content">{a.post_content.substring(0, 20)
+                                <Link to={`detail/${data.post_id}`} key={i}>   
+                                    <div className="title">{data.post_title}</div>
+                                    <div className="content">{data.post_content.substring(0, 20)
                                     //본문내용 20자만 보여주기
                                     }</div>
-                                    <div className="date">{a.post_date}</div>
-                                    <div className="name">{a.writer_name}</div>
-                                    <hr></hr>
+                                    <div className="date">{data.post_date}</div>
+                                    <div className="name">{data.writer_name}</div>
+                                    <div style={{clear: 'both'}}></div>
+                                    <div className="counts">
+                                        <li><AiOutlineLike />{data.likes_count}</li>
+                                        <li><AiOutlineComment />{data.comments_count}</li>
+                                        <li><AiOutlineStar />{data.scraps_count}</li>
+                                    </div>
+                                    {data.thumbnail ? <img src={data.thumbnail} alt="" /> : null}
                                 </Link>    
                                 
                             )
