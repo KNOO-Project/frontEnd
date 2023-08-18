@@ -59,7 +59,7 @@ function Membership(){
                         else if(data.name.length < 2 || data.name.length > 10){
                             alert('닉네임을 글자수에 맞게 다시 입력해주세요.')
                         }
-                        axios.post('/api/v1/auth/sign-up', {
+                        axios.post('/api/auth/sign-up', {
                             username: data.username,
                             password: data.password,
                             password_check: data.password_check,
