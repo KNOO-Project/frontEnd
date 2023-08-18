@@ -58,14 +58,13 @@ div{
 }
 /* board_list */
 .board_list {
-    width: 70%;
+    width: 60%;
     margin: 0 auto;
 }
 .board_list > a {
     padding: 10px;
     display: block;
     text-decoration: none;
-    width: 70%;
     margin: 0 auto;
     margin-bottom: 10px;
     border: 1px solid cyan;
