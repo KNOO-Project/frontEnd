@@ -48,9 +48,11 @@ function App() {
       localStorage.setItem('categoryBoardClick', true);         //각 카테고리 게시판으로 링크타고 이동하면 true 값 보여주기(각 카테고리별 게시판 글쓰기는 따로)
       localStorage.setItem('pathBoardTitle', pathBoardTitle);    // 페이지 이동시 마다 path가 바뀌어야하기 때문에 각 카테고리로 이동시마다 값 바꿔주기
       localStorage.setItem('boardTitle', boardTitle);             // 카테고리별 게시판 들어가면 title값을 맞게 추가해서 "{title}게시판" 보여주기
+      navigate(`${pathBoardTitle}_board`);
       //window.location.reload();         
     } else {
       alert('로그인을 해 주세요!');
+      window.location = '/login';
     }
   }
 
@@ -59,6 +61,7 @@ function App() {
       navigate(`/${path}`)
     } else {
       alert('로그인을 해 주세요!');
+      window.location = '/login';
     }
   }
 
@@ -92,28 +95,29 @@ function App() {
                 navigate(`/main_board`);
               } else {
                 alert('로그인을 해 주세요!');
+                window.location = '/login';
               }
               }} >게시판</h3>
               {/* 게시판 hover 시 나타남 */}
               <div className='boardList'>
-              <li onClick={(e)=>{
-                          moveBoard('free', '자유');
-                          }} ><Link to={`free_board`}>자유게시판</Link></li>
-                        <li onClick={(e)=>{
-                          moveBoard('graduate', '졸업생');
-                          }} ><Link to={`graduate_board`}>졸업생게시판</Link></li>
-                        <li onClick={(e)=>{
-                          moveBoard('newcomer', '새내기');
-                          }} ><Link to={`newcomer_board`}>새내기게시판</Link></li>
-                        <li onClick={(e)=>{
-                          moveBoard('info', '정보');
-                          }} ><Link to={`info_board`}>정보게시판</Link></li>
-                        <li onClick={(e)=>{
-                          moveBoard('employment', '취업&진로');
-                          }} ><Link to={`employment_board`}>취업.진로</Link></li>
-                        <li onClick={(e)=>{
-                          moveBoard('student-club', '동아리&학회');
-                          }} ><Link to={`student-club_board`}>동아리.학회</Link></li>
+                <li onClick={(e)=>{
+                  moveBoard('free', '자유');
+                  }} >자유게시판</li>
+                <li onClick={(e)=>{
+                  moveBoard('graduate', '졸업생');
+                  }} >졸업생게시판</li>
+                <li onClick={(e)=>{
+                  moveBoard('newcomer', '새내기');
+                  }} >새내기게시판</li>
+                <li onClick={(e)=>{
+                  moveBoard('info', '정보');
+                  }} >정보게시판</li>
+                <li onClick={(e)=>{
+                  moveBoard('employment', '취업&진로');
+                  }} >취업.진로</li>
+                <li onClick={(e)=>{
+                  moveBoard('student-club', '동아리&학회');
+                  }} >동아리.학회</li>
               </div>
               {/* 게시판 카테고리 */}
           </div>

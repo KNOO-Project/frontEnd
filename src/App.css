@@ -68,6 +68,10 @@ div{
 }
 .boardList li{
   list-style: none;
+  color: white;
+}
+.boardList li:hover {
+  color: black;
 }
 .nav-box .text-right{
   text-align: center;
