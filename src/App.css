@@ -100,21 +100,55 @@ div{
   height: 90%;
   margin: auto;
 }
-.free {
+.recent {
   width: 90%;
   height: 90%;
   background-color: white;
   border-radius: 5px;
   box-shadow: 0 0 3px;
+  position: relative;
 }
-.free h2, .popular h2 {
+.recent > svg {
+  position: absolute;
+  top: 20px;
+  left: 50px;
+  font-size: 30px;
+}
+.recent h2, .popular h2 {
   padding-top: 10px;
 }
 .body hr {
   width: 80%;
   margin: 0 auto;
   margin-top: 20px;
+  margin-bottom: 20px;
   border: solid 1px black;
+}
+.recentList  {
+  margin-bottom: 10px;
+  text-align: left;
+  margin-left: 45px;
+  width: 80%;
+}
+.popularList {
+  display: flex;
+  margin-bottom: 10px;
+  margin-left: 45px;
+  width: 80%;
+  position: relative;
+}
+.recentList:hover, .popularList:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+.popularList svg {
+  position: absolute;
+  right: 20px;
+}
+.popularList .like_counts {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
 }
 .body-right{
   width: 40%;
@@ -129,6 +163,13 @@ div{
   border-radius: 5px;
   margin-bottom: 5%;
   box-shadow: 0 0 3px;
+  position: relative;
+}
+.popular > svg {
+  position: absolute;
+  top: 20px;
+  left: 50px;
+  font-size: 30px;
 }
 .info-box{
   width: 90%;

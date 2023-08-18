@@ -146,7 +146,7 @@ function App() {
 
       <Routes>
         <Route path='/' exact element={
-          <Home />
+          <Home token={token} />
         } />
         <Route path='/community' element={<Community token={token} />} />
         <Route path='/맛집/*' element={<Map token={token} />} />
