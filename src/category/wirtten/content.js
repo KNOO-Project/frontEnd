@@ -5,6 +5,7 @@ import '../../category-css/written/content.css';
 import BoardDetail from "../board/boardDetail";
 import {AiOutlineLike, AiOutlineComment, AiOutlineStar, AiFillStar} from 'react-icons/ai';
 import AllContent from "./writtenDetail/allContent";
+import {BiImage} from 'react-icons/bi';
 
 function Content(props){
 
@@ -23,31 +24,24 @@ function Content(props){
     
     return(
         <div className="written_content_list">
-        {contentList.map((a,i) => {
+        {contentList.map((data,i) => {
             return(
-                <div className="written_box" key={i} >
-                    <Link to={`../${a.post_category}_board/detail/${a.post_id}`} key={i}>
-                        <div className="written_content" >
-                            <p className="title">{a.post_title}</p>
-                            <p className="content">{a.post_content}</p>
-                            <div className="footer">
-                                <div className="date_writer">
-                                    <p className="date">{a.post_date}</p>
-                                    <p className="writer">{a.writer_name}</p>
-                                </div>
-                            <div className="scrapPage_icons">
-                                <AiOutlineLike className="like_icon" />
-                                <p className="like_count">{a.likes_count}</p>
-                                <AiOutlineComment className="comment_icon" />
-                                <p className="comment_count">{a.comments_count}</p>
-                                <AiOutlineStar className="scrap_icon" />
-                                <p className="scrap_count">{a.scraps_count}</p>
-                            </div>
-                            <div style={{clear: 'both'}}></div>
-                            </div>
-                         </div>   
-                    </Link>
-                </div>
+                <Link to={`../${data.post_category}_board/detail/${data.post_id}`} key={i}>
+                    <div className="title">{data.post_title}</div>
+                    <div className="content">{data.post_content.substring(0, 15)
+                                //본문내용 20자만 보여주기
+                    }</div>
+                    <div className="date">{data.post_date}</div>
+                    <div className="name">{data.writer_name}</div>
+                    <div style={{clear: 'both'}}></div>
+                    <div className="counts">
+                        <li><AiOutlineLike style={{color: 'blue'}} />{data.likes_count}</li>
+                        <li><AiOutlineComment style={{color: '#0dcaf0'}} />{data.comments_count}</li>
+                        <li><AiOutlineStar style={{color: 'chartreuse'}} />{data.scraps_count}</li>
+                        <li><BiImage style={{color: '#adb5bd'}} /></li>
+                    </div>
+                    {data.thumbnail ? <img src={data.thumbnail} alt="" /> : null}
+                </Link>
             )
         })}
         <Link to={'contents'}>더보기</Link>

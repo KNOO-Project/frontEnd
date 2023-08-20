@@ -76,17 +76,6 @@ function App() {
       <div className='nav-bar'>
         <div className='nav-box'>
           <div onClick={()=>{navigate('/')}} className='logo' ><h1 style={{color: '#01A756'}}>KNoo</h1><h6>-beta</h6></div>
-          <div className='text-center' onClick={(e)=>{
-            moveCategory('community');
-            }}><h3>커뮤니티</h3></div>
-          <div className='text-center' onClick={(e)=>{
-            moveCategory('맛집');
-          }
-            }><h3>맛집</h3></div>
-          <div className='text-center' onClick={(e)=>{
-            moveCategory('진로&취업');
-          }
-          }><h3>진로.취업</h3></div>
           <div className='text-center' >
             <h3 onClick={(e)=>{
               if(isLogin === 'true'){
@@ -120,6 +109,19 @@ function App() {
                   }} >동아리.학회</li>
               </div>
               {/* 게시판 카테고리 */}
+          </div>
+          <div className='text-center' onClick={(e)=>{
+            moveCategory('맛집');
+          }}><h3>맛집</h3>
+          </div>
+          <div className='text-center' onClick={(e)=>{
+            moveCategory('community');
+            }}><h3>준비중</h3>
+          </div>
+          <div className='text-center' onClick={(e)=>{
+            moveCategory('진로&취업');
+          }
+          }><h3>준비중</h3>
           </div>
           {/* 로그인 성공시 창 변경 logout 버튼 생성 */}
           {isLogin ? <>

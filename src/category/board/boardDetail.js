@@ -4,7 +4,7 @@ import axios from "axios";
 import '../../category-css/board/boardDetail.css';
 import ModifyBoardForm from "./modifyBoardForm";
 import {AiOutlineLike, AiOutlineComment, AiOutlineStar, AiFillStar} from 'react-icons/ai';
-import {BiPencil} from 'react-icons/bi';
+import {BiPencil, BiImage} from 'react-icons/bi';
 import {MdOutlineSubdirectoryArrowRight} from 'react-icons/md';
 
 function BoardDetail(props) {
@@ -368,8 +368,9 @@ function BoardDetail(props) {
                     }
                 }}><AiOutlineStar /></p>
                 }
-                
                 <p className="scrap_count">{scrapCount}</p>
+                <p className="image"><BiImage /></p>
+                <p className="image_count">{imgUrl.length}</p>
             </div>
         </div>
             {/* 댓글 놓을 자리 */}

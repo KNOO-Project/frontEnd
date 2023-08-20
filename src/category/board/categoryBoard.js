@@ -9,6 +9,7 @@ import axios from "axios";
 import {TbCircleChevronRight, TbCircleChevronLeft} from 'react-icons/tb';
 import {AiOutlineSearch, AiOutlineLike, AiOutlineStar, AiOutlineComment} from 'react-icons/ai';
 import {HiPencil} from 'react-icons/hi';
+import {BiImage} from 'react-icons/bi';
 
 function CategoryBoard(props){
     let navigate = useNavigate();
@@ -28,6 +29,7 @@ function CategoryBoard(props){
     let [pageClick, setPageClick] = useState(0);  
     let [searchContent, setSearchContent] = useState(null);
     let [searchTypeSelected, setSearchTypeSelected] = useState('all');
+    let diffTime = [];
     
     
     const search = () => {
@@ -89,7 +91,48 @@ function CategoryBoard(props){
                 }
             }
             setPageLength(dataLength);
-            
+
+            let currentDate = new Date();
+            //console.log(currentDate)
+            let currentDateValue = [
+                {min: currentDate.getMinutes()},
+                {hour: currentDate.getHours()},
+                {day: currentDate.getDate()},
+                {month: currentDate.getMonth() + 1},
+                {year: currentDate.getFullYear()}
+            ]
+            //console.log(currentDateValue)
+            //console.log(typeof(currentDate.getMinutes()))
+            for(var i=0; i<res.data.posts.length; i++){
+                let writeDate = res.data.posts[i].post_date;
+                let splitDate = writeDate.split(' ');
+                let dateValue = [
+                    {min: Number(splitDate[1].split(':')[1])},
+                    {hour: Number(splitDate[1].split(':')[0])},
+                    {day: Number(splitDate[0].split('/')[2])},
+                    {month: Number(splitDate[0].split('/')[1])},
+                    {year: Number(splitDate[0].split('/')[0])} 
+                ]
+
+                //console.log(currentDateValue[2]['day'] - dateValue[2]['day']);
+
+                /* if(currentDateValue[4]['year'] - dateValue[4]['year'] !== 0){
+                    diffTime.push(Number(currentDate[4]['year'] - dateValue[4]['year']) + '년전');
+                }
+                if(currentDateValue[3]['month'] - dateValue[3]['month'] !== 0){
+                    diffTime.push(Number(currentDate[3]['month'] - dateValue[3]['month']) + '달전');
+                }
+                if(currentDateValue[2]['day'] - dateValue[2]['day'] !== 0){
+                    diffTime.push(Number(currentDate[2]['day'] - dateValue[2]['day']) + '일전');
+                }
+                if(currentDateValue[1]['hour'] - dateValue[1]['hour'] !== 0){
+                    diffTime.push(Number(currentDate[1]['hour'] - dateValue[1]['hour']) + '시간전');
+                }
+                if(currentDateValue[0]['min'] - dateValue[0]['min'] !== 0){
+                    diffTime.push(Number(currentDate[0]['min'] - dateValue[0]['min']) + '분전');
+                } */
+
+            }
           })
           .catch((res) => {
             console.log(res)
@@ -104,29 +147,8 @@ function CategoryBoard(props){
     }, [ pageNum, category, currentUrl ]                                          // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
     );
 
-    //검색 기능
-    /* const search = () => {
-        axios.get('/api/posts/search', {
-            headers: {Authorization: token},
-            params: {
-                'category': category,
-                condition: searchTypeSelected,
-                keyword: searchContent,
-                page: 1
-            }
-        })
-        .then((res) => {
-            console.log(res);
-            //setSearchData(res.data);
-            navigate(`search/keyword=${searchContent}/page=1`);
-        })
-        .catch(() => {
-            console.log('err');
-        })
-    } */
-    //console.log(pageNum)
-    //console.log(searchTypeSelected);
-    //console.log('searchContent', searchContent);
+    //console.log('diffTime', diffTime);
+
     return(
         <>
             <div className="category_board">
@@ -166,9 +188,10 @@ function CategoryBoard(props){
                                     <div className="name">{data.writer_name}</div>
                                     <div style={{clear: 'both'}}></div>
                                     <div className="counts">
-                                        <li><AiOutlineLike />{data.likes_count}</li>
-                                        <li><AiOutlineComment />{data.comments_count}</li>
-                                        <li><AiOutlineStar />{data.scraps_count}</li>
+                                        <li><AiOutlineLike style={{color: 'blue'}} />{data.likes_count}</li>
+                                        <li><AiOutlineComment style={{color: '#0dcaf0'}} />{data.comments_count}</li>
+                                        <li><AiOutlineStar style={{color: 'chartreuse'}} />{data.scraps_count}</li>
+                                        <li><BiImage style={{color: '#adb5bd'}} /></li>
                                     </div>
                                     {data.thumbnail ? <img src={data.thumbnail} alt="" /> : null}
                                 </Link>    
