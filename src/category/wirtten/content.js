@@ -3,7 +3,7 @@ import axios from "axios"
 import { Route, Routes, Link, useParams } from "react-router-dom";
 import '../../category-css/written/content.css';
 import BoardDetail from "../board/boardDetail";
-import {AiOutlineLike, AiOutlineComment, AiOutlineStar, AiFillStar} from 'react-icons/ai';
+import {AiOutlineLike, AiOutlineComment, AiOutlineStar} from 'react-icons/ai';
 import AllContent from "./writtenDetail/allContent";
 import {BiImage} from 'react-icons/bi';
 

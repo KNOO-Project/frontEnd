@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Link, Routes, Route, useParams, useNavigate } from "react-router-dom";
 import '../../../category-css/written/allComments.css';
 import {TbCircleChevronLeft, TbCircleChevronRight} from 'react-icons/tb';
+import {AiOutlineLike, AiOutlineComment, AiOutlineStar} from 'react-icons/ai';
+import {BiImage} from 'react-icons/bi';
 
 function AllComments(props) {
     var token = props.token;
@@ -77,15 +79,23 @@ function AllComments(props) {
     return(
         <>
         <div className="user_comments">
-        {commentData.map((a, i) => {
+        {commentData.map((data, i) => {
             return(
-                <Link to={`/${a.post_category}_board/detail/${a.post_id}`}>
-                    <div className="title">{a.post_title}</div>
-                    <div className="content">{a.post_content.substring(0, 20)
-                    //본문내용 20자만 보여주기
+                <Link to={`/${data.post_category}_board/detail/${data.post_id}`}>
+                    <div className="title">{data.post_title}</div>
+                    <div className="content">{data.post_content.substring(0, 15)
+                                //본문내용 20자만 보여주기
                     }</div>
-                    <div className="name">{a.writer_name}</div>
-                    <div className="date">{a.post_date}</div>
+                    <div className="date">{data.post_date}</div>
+                    <div className="name">{data.writer_name}</div>
+                    <div style={{clear: 'both'}}></div>
+                    <div className="counts">
+                        <li><AiOutlineLike style={{color: 'blue'}} />{data.likes_count}</li>
+                        <li><AiOutlineComment style={{color: '#0dcaf0'}} />{data.comments_count}</li>
+                        <li><AiOutlineStar style={{color: 'chartreuse'}} />{data.scraps_count}</li>
+                        <li><BiImage style={{color: '#adb5bd'}} /></li>
+                    </div>
+                    {data.thumbnail ? <img src={data.thumbnail} alt="" /> : null}
                 </Link>
             )
         })}

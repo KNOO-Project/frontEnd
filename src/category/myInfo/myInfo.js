@@ -29,7 +29,9 @@ function MyInfo(props) {
                     userEmail: res.data.email
                 }))            
           })
-          .catch(/* console.log('err') */)
+          .catch(() => {
+            console.log('error');
+          })
     }, [])
     
 

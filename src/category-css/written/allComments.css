@@ -1,35 +1,70 @@
-.user_comments > a {
-    text-decoration: none;
-    display: flex;
+.user_comments {
     width: 70%;
-    margin: auto;
+    margin: 0 auto;
+    margin-top: 20px;
+ }
+ .user_comments > a {
+    padding: 10px;
+    display: block;
+    text-decoration: none;
+    margin: 0 auto;
     margin-bottom: 10px;
+    border: 1px solid cyan;
     border-radius: 3px;
+    position: relative;
     color: black;
-}
-.user_comments a:hover {
+ }
+ .user_comments a:hover {
     background-color:cyan;
-}
-.user_comments a > .title {
-    width: 30%;
+ }
+ .user_comments a > .title {
     opacity: 1;
     font-weight: bold;
     cursor: pointer;
-}
-.user_comments a > .content {
-    width: 40%;
-}
-.user_comments a > .name {
+    text-align: left;
+    margin-bottom: 5px;
+ }
+ .user_comments a > .content {
+    margin-left: 10px;
+    margin-bottom: 5px;
+    font-size: small;
+    text-align: left;
+    color: #AEAEC6;
+ }
+ .user_comments a > .date {
     opacity: 0.8;
-    width: 15%;
-    font-weight: bold;
-}
-.user_comments a > .date {
-    opacity: 0.8;
-    width: 15%;
     font-size: small;
     font-weight: bold;
-}
+    float: left;
+    margin-right: 10px;
+ }
+ .user_comments a > .name {
+    opacity: 0.8;
+    font-size: small;
+    font-weight: bold;
+    color: #AEAEC6;
+    float: left;
+ }
+ .user_comments a > .counts {
+    display: flex;
+    list-style: none;
+ }
+ .user_comments a > .counts li {
+    margin-right: 10px;    
+    font-weight: bold;
+ }
+ .user_comments a > .counts li svg {
+    margin-bottom: 2px;
+    margin-right: 5px;
+ }
+ .user_comments a > img {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    right: 5px;
+    bottom: 5px;
+    border-radius: 3px;
+ }
 
 /* pageNum */
 .allComments_pageNum{
@@ -39,7 +74,8 @@
     margin-bottom: 10px;
     margin-top: 20px;
 }
-.allComments_pageNum >a {
+.allComments_pageNum > a {
+    text-decoration: none;
     list-style: none;
     width: 22px;
     font-size: 15px;
