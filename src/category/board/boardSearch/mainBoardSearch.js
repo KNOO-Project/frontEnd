@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import {TbCircleChevronLeft, TbCircleChevronRight} from 'react-icons/tb';
 import {AiOutlineSearch, AiOutlineLike, AiOutlineStar, AiOutlineComment} from 'react-icons/ai';
 import '../../../category-css/search.css';
+import {BiImage} from 'react-icons/bi';
 
 function MainBoardSearch(props) {
 
@@ -17,8 +18,7 @@ function MainBoardSearch(props) {
     let [searchData, setSearchData] = useState([]);
     let [totalPages, setTotalPages] = useState();
     let [pageLength, setPageLength] = useState([]);
-
-    console.log(pageNum, keyword);
+    let [diffTimeValue, setDiffTimeValue] = useState([]);
 
     useEffect(() => {
         axios.get('/api/posts/search', {
@@ -69,7 +69,47 @@ function MainBoardSearch(props) {
                 }
                 
             }
-            //setSearchData(res.data);
+
+            let currentDate = new Date();
+            let currentDateValue = [
+                {min: currentDate.getMinutes()},
+                {hour: currentDate.getHours()},
+                {day: currentDate.getDate()},
+                {month: currentDate.getMonth() + 1},
+                {year: currentDate.getFullYear()}
+            ]
+            let diffTime = [];
+            for(var i=0; i<res.data.posts.length; i++){
+                let writeDate = res.data.posts[i].post_date;
+                let splitDate = writeDate.split(' ');
+                let dateValue = [
+                    {min: Number(splitDate[1].split(':')[1])},
+                    {hour: Number(splitDate[1].split(':')[0])},
+                    {day: Number(splitDate[0].split('/')[2])},
+                    {month: Number(splitDate[0].split('/')[1])},
+                    {year: Number(splitDate[0].split('/')[0])} 
+                ]
+
+
+                if(currentDateValue[4]['year'] - dateValue[4]['year'] !== 0){
+                    diffTime.push(Number(currentDateValue[4]['year'] - dateValue[4]['year']) + '년전');
+                }else if(currentDateValue[3]['month'] - dateValue[3]['month'] !== 0){
+                    diffTime.push(Number(currentDateValue[3]['month'] - dateValue[3]['month']) + '달전');
+                }else if(currentDateValue[2]['day'] - dateValue[2]['day'] !== 0){
+                    diffTime.push(Number(currentDateValue[2]['day'] - dateValue[2]['day']) + '일전');
+                }else if(currentDateValue[1]['hour'] - dateValue[1]['hour'] !== 0){
+                    if(currentDateValue[0]['min'] - dateValue[0]['min'] === 1 && (currentDateValue[0]['min'] < dateValue[0]['min'])){
+                        diffTime.push(Number(currentDateValue[0]['min'] + 60 - dateValue[0]['min']) + '분전');    
+                    }else{
+                        diffTime.push(Number(currentDateValue[1]['hour'] - dateValue[1]['hour']) + '시간전');
+                    }
+                }else if(currentDateValue[0]['min'] - dateValue[0]['min'] !== 0){
+                    diffTime.push(Number(currentDateValue[0]['min'] - dateValue[0]['min']) + '분전');
+                }
+
+            }
+
+            setDiffTimeValue(diffTime);
         })
         .catch(() => {
             console.log('err');
@@ -89,13 +129,14 @@ function MainBoardSearch(props) {
                                 <div className="content">{data.post_content.substring(0, 20)
                                 //본문내용 20자만 보여주기
                                 }</div>
-                                <div className="date">{data.post_date}</div>
+                                <div className="date">{diffTimeValue[i]}</div>
                                 <div className="name">{data.writer_name}</div>
                                 <div style={{clear: 'both'}}></div>
                                 <div className="counts">
-                                    <li><AiOutlineLike />{data.likes_count}</li>
-                                    <li><AiOutlineComment />{data.comments_count}</li>
-                                    <li><AiOutlineStar />{data.scraps_count}</li>
+                                    <li><AiOutlineLike style={{color: 'blue'}} />{data.likes_count}</li>
+                                    <li><AiOutlineComment style={{color: '#0dcaf0'}} />{data.comments_count}</li>
+                                    <li><AiOutlineStar style={{color: 'chartreuse'}} />{data.scraps_count}</li>
+                                    <li><BiImage style={{color: '#adb5bd'}} /></li>
                                 </div>
                                 {data.thumbnail ? <img src={data.thumbnail} alt="" /> : null}
                             </Link>

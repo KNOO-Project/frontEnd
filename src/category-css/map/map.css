@@ -65,6 +65,7 @@
     background-color: cornflowerblue;
     border-radius: 3px;
     cursor: pointer;
+    text-decoration: none;
 }
 .campus_btn > a:hover {
     opacity: 0.7;

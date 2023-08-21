@@ -29,7 +29,7 @@ function CategoryBoard(props){
     let [pageClick, setPageClick] = useState(0);  
     let [searchContent, setSearchContent] = useState(null);
     let [searchTypeSelected, setSearchTypeSelected] = useState('all');
-    let diffTime = [];
+    let [diffTimeValue, setDiffTimeValue] = useState([]);
     
     
     const search = () => {
@@ -103,6 +103,7 @@ function CategoryBoard(props){
             ]
             //console.log(currentDateValue)
             //console.log(typeof(currentDate.getMinutes()))
+            let diffTime = [];
             for(var i=0; i<res.data.posts.length; i++){
                 let writeDate = res.data.posts[i].post_date;
                 let splitDate = writeDate.split(' ');
@@ -114,28 +115,30 @@ function CategoryBoard(props){
                     {year: Number(splitDate[0].split('/')[0])} 
                 ]
 
-                //console.log(currentDateValue[2]['day'] - dateValue[2]['day']);
 
-                /* if(currentDateValue[4]['year'] - dateValue[4]['year'] !== 0){
-                    diffTime.push(Number(currentDate[4]['year'] - dateValue[4]['year']) + '년전');
+                if(currentDateValue[4]['year'] - dateValue[4]['year'] !== 0){
+                    diffTime.push(Number(currentDateValue[4]['year'] - dateValue[4]['year']) + '년전');
+                }else if(currentDateValue[3]['month'] - dateValue[3]['month'] !== 0){
+                    diffTime.push(Number(currentDateValue[3]['month'] - dateValue[3]['month']) + '달전');
+                }else if(currentDateValue[2]['day'] - dateValue[2]['day'] !== 0){
+                    diffTime.push(Number(currentDateValue[2]['day'] - dateValue[2]['day']) + '일전');
+                }else if(currentDateValue[1]['hour'] - dateValue[1]['hour'] !== 0){
+                    if(currentDateValue[0]['min'] - dateValue[0]['min'] === 1 && (currentDateValue[0]['min'] < dateValue[0]['min'])){
+                        diffTime.push(Number(currentDateValue[0]['min'] + 60 - dateValue[0]['min']) + '분전');    
+                    }else{
+                        diffTime.push(Number(currentDateValue[1]['hour'] - dateValue[1]['hour']) + '시간전');
+                    }
+                }else if(currentDateValue[0]['min'] - dateValue[0]['min'] !== 0){
+                    diffTime.push(Number(currentDateValue[0]['min'] - dateValue[0]['min']) + '분전');
                 }
-                if(currentDateValue[3]['month'] - dateValue[3]['month'] !== 0){
-                    diffTime.push(Number(currentDate[3]['month'] - dateValue[3]['month']) + '달전');
-                }
-                if(currentDateValue[2]['day'] - dateValue[2]['day'] !== 0){
-                    diffTime.push(Number(currentDate[2]['day'] - dateValue[2]['day']) + '일전');
-                }
-                if(currentDateValue[1]['hour'] - dateValue[1]['hour'] !== 0){
-                    diffTime.push(Number(currentDate[1]['hour'] - dateValue[1]['hour']) + '시간전');
-                }
-                if(currentDateValue[0]['min'] - dateValue[0]['min'] !== 0){
-                    diffTime.push(Number(currentDate[0]['min'] - dateValue[0]['min']) + '분전');
-                } */
 
             }
+
+            setDiffTimeValue(diffTime);
+            
           })
-          .catch((res) => {
-            console.log(res)
+          .catch(() => {
+            console.log('error');
           })
           return(
             () => {
@@ -146,8 +149,6 @@ function CategoryBoard(props){
             )
     }, [ pageNum, category, currentUrl ]                                          // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
     );
-
-    //console.log('diffTime', diffTime);
 
     return(
         <>
@@ -184,7 +185,7 @@ function CategoryBoard(props){
                                     <div className="content">{data.post_content.substring(0, 20)
                                     //본문내용 20자만 보여주기
                                     }</div>
-                                    <div className="date">{data.post_date}</div>
+                                    <div className="date">{diffTimeValue[i]}</div>
                                     <div className="name">{data.writer_name}</div>
                                     <div style={{clear: 'both'}}></div>
                                     <div className="counts">

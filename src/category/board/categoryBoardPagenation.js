@@ -7,6 +7,7 @@ import BoardDetail from "./boardDetail";
 import axios from "axios";
 import {TbCircleChevronLeft, TbCircleChevronRight} from 'react-icons/tb';
 import {AiOutlineLike, AiOutlineStar, AiOutlineComment} from 'react-icons/ai';
+import {BiImage} from 'react-icons/bi';
 
 function CategoryBoardPagenation(props){
     var token = props.token;
@@ -23,6 +24,7 @@ function CategoryBoardPagenation(props){
     let [pageClick, setPageClick] = useState(Number(params['pageNum'] <= 10 ? 0 : 1));  //Number(params['pageNum'] <= 10 이면 pageLength를 1~10까지 유지
     let [searchContent, setSearchContent] = useState(null);
     let [searchTypeSelected, setSearchTypeSelected] = useState('all');
+    let [diffTimeValue, setDiffTimeValue] = useState([]);
     
     useEffect(() => {
         if(category.includes('free')){
@@ -60,19 +62,50 @@ function CategoryBoardPagenation(props){
                 }
             }
             setPageLength(dataLength);
-            /* if(res.data.total_pages % 20 === 0){
-                let num = res.data.total_pages / 20;
-                for(var i=1; i<=num; i++){
-                    dataLength.push(i);
+            
+            let currentDate = new Date();
+            //console.log(currentDate)
+            let currentDateValue = [
+                {min: currentDate.getMinutes()},
+                {hour: currentDate.getHours()},
+                {day: currentDate.getDate()},
+                {month: currentDate.getMonth() + 1},
+                {year: currentDate.getFullYear()}
+            ]
+            //console.log(currentDateValue)
+            //console.log(typeof(currentDate.getMinutes()))
+            let diffTime = [];
+            for(var i=0; i<res.data.posts.length; i++){
+                let writeDate = res.data.posts[i].post_date;
+                let splitDate = writeDate.split(' ');
+                let dateValue = [
+                    {min: Number(splitDate[1].split(':')[1])},
+                    {hour: Number(splitDate[1].split(':')[0])},
+                    {day: Number(splitDate[0].split('/')[2])},
+                    {month: Number(splitDate[0].split('/')[1])},
+                    {year: Number(splitDate[0].split('/')[0])} 
+                ]
+
+
+                if(currentDateValue[4]['year'] - dateValue[4]['year'] !== 0){
+                    diffTime.push(Number(currentDateValue[4]['year'] - dateValue[4]['year']) + '년전');
+                }else if(currentDateValue[3]['month'] - dateValue[3]['month'] !== 0){
+                    diffTime.push(Number(currentDateValue[3]['month'] - dateValue[3]['month']) + '달전');
+                }else if(currentDateValue[2]['day'] - dateValue[2]['day'] !== 0){
+                    diffTime.push(Number(currentDateValue[2]['day'] - dateValue[2]['day']) + '일전');
+                }else if(currentDateValue[1]['hour'] - dateValue[1]['hour'] !== 0){
+                    if(currentDateValue[0]['min'] - dateValue[0]['min'] === 1 && (currentDateValue[0]['min'] < dateValue[0]['min'])){
+                        diffTime.push(Number(currentDateValue[0]['min'] + 60 - dateValue[0]['min']) + '분전');    
+                    }else{
+                        diffTime.push(Number(currentDateValue[1]['hour'] - dateValue[1]['hour']) + '시간전');
+                    }
+                }else if(currentDateValue[0]['min'] - dateValue[0]['min'] !== 0){
+                    diffTime.push(Number(currentDateValue[0]['min'] - dateValue[0]['min']) + '분전');
                 }
-                setPageLength(dataLength);
-            }else{
-                let num = Math.floor(res.data.total_pages / 20) + 1;
-                for(var j=1; j<=num; j++){
-                    dataLength.push(j);
-                }
-                setPageLength(dataLength);
-            } */
+
+            }
+
+            setDiffTimeValue(diffTime);
           })
           .catch((res) => {
             console.log(res)
@@ -132,13 +165,14 @@ function CategoryBoardPagenation(props){
                                 <Link to={`../detail/${data.post_id}`} key={i}>   
                                     <div className="title">{data.post_title}</div>
                                     <div className="content">{data.post_content.substring(0, 20)}</div> {/* 본문내용 20자만 보여주기 */}
-                                    <div className="date">{data.post_date}</div>
+                                    <div className="date">{diffTimeValue[i]}</div>
                                     <div className="name">{data.writer_name}</div>
                                     <div style={{clear: 'both'}}></div>
                                     <div className="counts">
-                                        <li><AiOutlineLike />{data.likes_count}</li>
-                                        <li><AiOutlineComment />{data.comments_count}</li>
-                                        <li><AiOutlineStar />{data.scraps_count}</li>
+                                        <li><AiOutlineLike style={{color: 'blue'}} />{data.likes_count}</li>
+                                        <li><AiOutlineComment style={{color: '#0dcaf0'}} />{data.comments_count}</li>
+                                        <li><AiOutlineStar style={{color: 'chartreuse'}} />{data.scraps_count}</li>
+                                        <li><BiImage style={{color: '#adb5bd'}} /></li>
                                     </div>
                                     {data.thumbnail ? <img src={data.thumbnail} alt="" /> : null}
                                 </Link>

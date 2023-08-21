@@ -72,7 +72,7 @@ div{
     position: relative;
 }
 .board_list a:hover {
-    background-color:cyan;
+    opacity: 0.7;
 }
 .board_list a > .title {
     opacity: 1;
