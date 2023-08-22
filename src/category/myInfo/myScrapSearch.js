@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import {AiOutlineLike, AiOutlineComment, AiOutlineStar, AiFillStar} from 'react-icons/ai';
+import {AiOutlineLike, AiOutlineComment, AiOutlineStar} from 'react-icons/ai';
 import '../../category-css/scrap/myScrapSearch.css';
 
 function MyScrapSearch(props) {
