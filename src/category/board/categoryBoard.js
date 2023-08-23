@@ -192,7 +192,7 @@ function CategoryBoard(props){
                                         <li><AiOutlineLike style={{color: 'blue'}} />{data.likes_count}</li>
                                         <li><AiOutlineComment style={{color: '#0dcaf0'}} />{data.comments_count}</li>
                                         <li><AiOutlineStar style={{color: 'chartreuse'}} />{data.scraps_count}</li>
-                                        <li><BiImage style={{color: '#adb5bd'}} /></li>
+                                        <li><BiImage style={{color: '#adb5bd'}} />{data.images_count}</li>
                                     </div>
                                     {data.thumbnail ? <img src={data.thumbnail} alt="" /> : null}
                                 </Link>    

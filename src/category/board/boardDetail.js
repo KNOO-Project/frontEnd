@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Routes, useNavigate, useParams, Route, Link } from "react-router-dom";
 import axios from "axios";
 import '../../category-css/board/boardDetail.css';
@@ -9,6 +9,7 @@ import {MdOutlineSubdirectoryArrowRight} from 'react-icons/md';
 
 function BoardDetail(props) {
     let token = props.token;
+    let submitForm = useRef();
     //console.log(token);
     let params = useParams();
     let post_id = params.postId, category = params.category_board.split('_')[0];        //axios 전송 주소 값
@@ -155,13 +156,13 @@ function BoardDetail(props) {
     }
 
     /* 게시글 줄바꿈 함수 */
-    const lineBreak = (data, lineLength) => {
+    const contentLineBreak = (data, lineLength) => {
         let postData = data.post.post_content.split('\n');
-            console.log(postData[0]);
+            //console.log(postData[0]);
             let convertData = [];
             for(var i=0; i<postData.length; i++){
                 if(postData[i].length > lineLength){
-                    console.log('postData[i].length', postData[i].length);
+                    //console.log('postData[i].length', postData[i].length);
                     let count = 0;
                     if(postData[i] % lineLength === 0){
                         count = Math.floor(postData[i].length / lineLength);
@@ -172,18 +173,24 @@ function BoardDetail(props) {
                     for(var j=0; j<count; j++){
                         if((j+1)*lineLength > postData[i].length){                                  
                             convertData.push(postData[i].slice(j*lineLength, postData[i].length));
-                            console.log(convertData);
+                            //console.log(convertData);
                         } else {
                             convertData.push(postData[i].slice(j*lineLength, (j+1)*lineLength));
-                            console.log(convertData);
+                            //console.log(convertData);
                         }                        
                     }
-                    console.log('convertData', convertData);
+                    //console.log('convertData', convertData);
                 }else {
                     convertData.push(postData[i]);
                 }
             }
             setContentData(convertData);
+    }
+
+    /* 댓글 줄바꿈 함수 */
+    const commentLineBreak = (data) => {
+        let comments = data.map((a, i) => a.comment_content.split('\n'));
+        console.log(comments);
     }
 
     useEffect(() => {
@@ -213,7 +220,8 @@ function BoardDetail(props) {
             }))
             setPostData(res.data.post);
             console.log(res.data.post.post_content.length);
-            lineBreak(res.data, 89);
+            contentLineBreak(res.data, 89);
+            //commentLineBreak(res.data);
             
             for(var i in res.data.comments){
                 //console.log(res.data.comments[i])
@@ -226,10 +234,11 @@ function BoardDetail(props) {
             setCommentData(comment);
             //console.log(comment);
             setRecommentData(recomment);
+
             let initialData = [];
             if(res.data.comments.length > 10){
                 for(var i=0; i<10; i++){
-                    initialData.push(res.data.comments[i]);
+                    initialData.push(res.data.comments[i].split('\n'));
                 }
                 setInitialCommentData(initialData);
             } else {
@@ -238,14 +247,16 @@ function BoardDetail(props) {
                 }
                 setInitialCommentData(initialData);
             }
+
             
         })
         .catch((res) => {console.log(res)})
     },[post_id, likePostClick, likeCommentClick]);
 
+    
     //console.log('contentData', contentData[0].length, contentData[1].length);
     //console.log(commentData)
-    console.log(postData);
+    //console.log(postData);
     let diffTime = {
         year: currentDateData.year - dateData.year,
         month: currentDateData.month - dateData.month,
@@ -292,15 +303,17 @@ function BoardDetail(props) {
         }
         setInitialCommentData(moreCommentsData)
     }
-    console.log('imgUrl', imgUrl.length);
-    //console.log('commentData', commentData)
-    //console.log('recommentData', recommentData)
-    //console.log('initialCommentData', initialCommentData)
-    //console.log('likeCountClick', likePostClick);
-    //console.log('moreCommentsClick', moreCommentsClick)
-    //console.log(isScrap);
-    //console.log(scrapCount);
-    //console.log('postData', postData);
+    
+    const onEnterPress = (e) => {
+        if(e.keyCode === 13 && e.shiftKey === false) {
+            if(comment.length === 0){
+                alert('댓글을 입력해주세요!')
+            }else {
+                postComment();
+            }
+        }
+      }
+
     return(
         <>
         {params['*'] === '' ?                                   // params['*'] 여부에 따라 삼항연산자로 
@@ -407,8 +420,16 @@ function BoardDetail(props) {
                                 }
                             }} >대댓글작성</button>
                             <br style={{clear: 'both'}}></br>                   {/* float 속성 없애주기 */}
+                            {a.comment_content.split('\n').map((comment, i) => {
+                                console.log('comment', comment)
+                                return(
+                                    <span>
+                                        {comment}
+                                        <br/>
+                                    </span>
+                                )
+                            })}
                             
-                            <p className="comment">{a.comment_content}</p>
                             <p className="comment_like"><AiOutlineLike onClick={() => {
                                 let commentId = a.comment_id;
                                 console.log(commentId);
@@ -462,8 +483,8 @@ function BoardDetail(props) {
             </>
             }
        
-         <div className="write-comment">
-            <textarea placeholder="댓글을 입력하세요" value={comment} onChange={(e) => {setComment(e.target.value)}} />
+         <form className="write-comment" ref={submitForm} >
+            <textarea placeholder="댓글을 입력하세요(줄바꿈은 shift + enter)" value={comment} onKeyDown={onEnterPress} onChange={(e) => {setComment(e.target.value)}} />
             <div className="write_comment_btn">
             <BiPencil className="write_comment_icon" onClick={e => {
                 if(comment.length === 0){
@@ -473,7 +494,7 @@ function BoardDetail(props) {
                 }
             }} />
             </div>
-        </div>
+        </form>
         </> : null}
         
         <Routes>
