@@ -43,7 +43,7 @@ function BoardDetail(props) {
     let [recommentData, setRecommentData] = useState([]);       //대댓글 리스트 담을 변수
     let [comment, setComment] = useState('');                     //댓글 value 값
     let [clickId, setClickId] = useState(null);                 //대댓글 해당 Id 판별
-    let [recomment, setRecomment] = useState();                 //대댓글 value 값
+    let [recomment, setRecomment] = useState('');                 //대댓글 value 값
     let [likeCount, setLikeCount] = useState();                 //좋아요 갯수 담을 변수
     let [likePostClick, setLikePostClick] = useState(false);        //likePostClick 값 변경시 likeCount 값 업데이트되고 useEffect 다시 실행
     let [likeCommentClick, setLikeCommentClick] = useState(false);  //likeCommentClick 값 변경시 likeComment 값 업데이트되고 useEffect 다시 실행
@@ -77,7 +77,7 @@ function BoardDetail(props) {
     }
     
     //대댓글 작성 함수
-    const writeRecomment = (commentId) => {                 
+    const postRecomment = (commentId) => {                 
         axios.post('/api/comments/reply', {
             comment_content: recomment
         }, 
@@ -304,12 +304,22 @@ function BoardDetail(props) {
         setInitialCommentData(moreCommentsData)
     }
     
-    const onEnterPress = (e) => {
+    const commentOnEnterPress = (e) => {
         if(e.keyCode === 13 && e.shiftKey === false) {
             if(comment.length === 0){
                 alert('댓글을 입력해주세요!')
             }else {
                 postComment();
+            }
+        }
+      }
+
+      const recommentOnEnterPress = (e) => {
+        if(e.keyCode === 13 && e.shiftKey === false) {
+            if(recomment.length === 0){
+                alert('댓글을 입력해주세요!');
+            }else {
+                postRecomment(e.target.id);
             }
         }
       }
@@ -421,7 +431,6 @@ function BoardDetail(props) {
                             }} >대댓글작성</button>
                             <br style={{clear: 'both'}}></br>                   {/* float 속성 없애주기 */}
                             {a.comment_content.split('\n').map((comment, i) => {
-                                console.log('comment', comment)
                                 return(
                                     <span>
                                         {comment}
@@ -434,28 +443,40 @@ function BoardDetail(props) {
                                 let commentId = a.comment_id;
                                 console.log(commentId);
                                 likeComment(commentId);
-                            }}  /><span className="like_count">{a.likes_count}</span></p>
+                            }}  /><span className="like_count">{a.likes_count}</span>
+                            </p>
                             <div style={{clear: 'both'}}></div>
                             {/* 대댓글 화면 표시 */}
                             {a.comment_id === clickId ?                     //클릭한 댓글의 아이디와 일치하는 댓글에만 대댓글 작성화면 보여주기
                             <div className="write-recomment">
-                                <textarea placeholder="대댓글을 입력해주세요." value={recomment} onChange={(e) => {setRecomment(e.target.value)}} />
+                                <textarea id={a.comment_id} placeholder="대댓글을 입력해주세요(줄바꿈은 shift + enter)" value={recomment} onKeyDown={recommentOnEnterPress} onChange={(e) => {setRecomment(e.target.value)}} />
                                 <div className="write_recomment_btn">
                                     <BiPencil className="write_recomment_icon" onClick={e => {
-                                        writeRecomment(a.comment_id);          //대댓글 작성 함수
+                                        if(recomment.length === 0){
+                                            alert('대댓글을 입력해주세요!');
+                                        }else{
+                                            postRecomment(a.comment_id);          //대댓글 작성 함수
+                                        }
                                     }} />
                                 </div>
                             </div> : null}
                             <div className="recomment-list" >
-                                {recommentData.map((b, i) => {
-                                    if(a.comment_id === b.parent_comment_id){
+                                {recommentData.map((recomment, i) => {
+                                    if(a.comment_id === recomment.parent_comment_id){
                                         return(
                                             <>
                                             <MdOutlineSubdirectoryArrowRight className="recomment_arrow_icon" />
                                             <div className="content" key={i} >
-                                                <p className="date">{b.comment_date}</p>
-                                                <p className="content">{b.comment_content}</p>
-                                                <p className="name">{b.writer_name}</p>
+                                                <p className="date">{recomment.comment_date}</p>
+                                                <p className="content">{recomment.comment_content.split('\n').map((comment, i) => {
+                                                    return(
+                                                        <span>
+                                                            {comment}
+                                                            <br/>
+                                                        </span>
+                                                    )
+                                                })}</p>
+                                                <p className="name">{recomment.writer_name}</p>
                                             </div>
                                             <div style={{clear: 'both'}}></div>
                                             </>
@@ -463,7 +484,6 @@ function BoardDetail(props) {
                                     }
                                 })}
                             </div>
-                            
                         </div>
                         
                         </>
@@ -484,7 +504,7 @@ function BoardDetail(props) {
             }
        
          <form className="write-comment" ref={submitForm} >
-            <textarea placeholder="댓글을 입력하세요(줄바꿈은 shift + enter)" value={comment} onKeyDown={onEnterPress} onChange={(e) => {setComment(e.target.value)}} />
+            <textarea placeholder="댓글을 입력하세요(줄바꿈은 shift + enter)" value={comment} onKeyDown={commentOnEnterPress} onChange={(e) => {setComment(e.target.value)}} />
             <div className="write_comment_btn">
             <BiPencil className="write_comment_icon" onClick={e => {
                 if(comment.length === 0){
