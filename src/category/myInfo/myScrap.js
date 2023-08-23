@@ -86,6 +86,13 @@ function MyScrap(props) {
             console.log('err')
         })
     }, []);
+
+    const enterKey = (e) => {
+        if(e.key === 'Enter'){
+            navigate(`search/keyword=${searchContent}&page=1`);
+            e.preventDefault();
+        }
+    }
     
     console.log(scrapList);
     console.log(totalPages[0]);
@@ -101,12 +108,11 @@ function MyScrap(props) {
                         <option value='title' >제목</option>
                         <option value='content' >본문</option>
                     </select>
-                    <input type="text" value={searchContent} onChange={e => {
+                    <input type="text" value={searchContent} onKeyDown={enterKey} onChange={e => {
                         setSearchContent(e.target.value)
                     }} />
                     <AiOutlineSearch className="search_icon" onClick={() => {
                         navigate(`search/keyword=${searchContent}&page=1`);
-                        //search();
                         console.log(searchTypeSelected);
                         console.log(searchContent);
                     }} />

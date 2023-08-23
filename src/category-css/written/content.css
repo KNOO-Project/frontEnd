@@ -14,7 +14,7 @@
    color: black;
 }
 .written_content_list a:hover {
-   background-color:cyan;
+   opacity: 0.7;
 }
 .written_content_list a > .title {
    opacity: 1;
@@ -63,4 +63,7 @@
    right: 5px;
    bottom: 5px;
    border-radius: 3px;
+}
+.written_content_list .more_btn:hover {
+   background-color:cyan;
 }

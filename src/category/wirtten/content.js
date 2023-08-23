@@ -44,7 +44,7 @@ function Content(props){
                 </Link>
             )
         })}
-        <Link to={'contents'}>더보기</Link>
+        <Link className="more_btn" to={'contents'}>더보기</Link>
         </div>
     )
 }
