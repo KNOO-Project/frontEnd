@@ -13,9 +13,9 @@ function BoardDetail(props) {
     //console.log(token);
     let params = useParams();
     let post_id = params.postId, category = params.category_board.split('_')[0];        //axios 전송 주소 값
-    console.log(params);
-    console.log(post_id);
-    console.log(category);
+    //Sconsole.log(params);
+    //console.log(post_id);
+    //console.log(category);
     let navigate = useNavigate();
     let [postData, setPostData] = useState({
         post_title:'',
@@ -38,11 +38,13 @@ function BoardDetail(props) {
     });
 
     let [commentData, setCommentData] = useState([]);           //댓글 리스트 담을 변수
-    let [initialCommentData, setInitialCommentData] = useState([]);                                 // 더보기 누르기 전 보여질 댓글 데이터
-    let [moreCommentsClick, setMoreCommentsClick] = useState(2);    // useState는 비동기여서 강제로 값 1말고 2 로 설정
+    //let [initialCommentData, setInitialCommentData] = useState([]);                                 // 더보기 누르기 전 보여질 댓글 데이터
+    //let [moreCommentsClick, setMoreCommentsClick] = useState(2);    // useState는 비동기여서 강제로 값 1말고 2 로 설정
     let [recommentData, setRecommentData] = useState([]);       //대댓글 리스트 담을 변수
     let [comment, setComment] = useState('');                     //댓글 value 값
-    let [clickId, setClickId] = useState(null);                 //대댓글 해당 Id 판별
+    let [commentCount, setCommentCount] = useState(0);
+    let [showCommentCount, setShowCommentCount] = useState(0);
+    let [clickId, setClickId] = useState(10);                 //대댓글 해당 Id 판별
     let [recomment, setRecomment] = useState('');                 //대댓글 value 값
     let [likeCount, setLikeCount] = useState();                 //좋아요 갯수 담을 변수
     let [likePostClick, setLikePostClick] = useState(false);        //likePostClick 값 변경시 likeCount 값 업데이트되고 useEffect 다시 실행
@@ -187,11 +189,6 @@ function BoardDetail(props) {
             setContentData(convertData);
     }
 
-    /* 댓글 줄바꿈 함수 */
-    const commentLineBreak = (data) => {
-        let comments = data.map((a, i) => a.comment_content.split('\n'));
-        console.log(comments);
-    }
 
     useEffect(() => {
         let comment = [];
@@ -219,40 +216,34 @@ function BoardDetail(props) {
                 'min': Number(min)
             }))
             setPostData(res.data.post);
-            console.log(res.data.post.post_content.length);
+            //console.log(res.data.post.post_content.length);
             contentLineBreak(res.data, 89);
-            //commentLineBreak(res.data);
-            
+            let commentLength = 0; 
             for(var i in res.data.comments){
                 //console.log(res.data.comments[i])
                 if(res.data.comments[i].parent_comment_id === null){
-                    comment.push(res.data.comments[i])
+                    comment.push(res.data.comments[i]);
                 } else {
                     recomment.push(res.data.comments[i])
                 }
             }
-            setCommentData(comment);
-            //console.log(comment);
-            setRecommentData(recomment);
-
-            let initialData = [];
-            if(res.data.comments.length > 10){
-                for(var i=0; i<10; i++){
-                    initialData.push(res.data.comments[i].split('\n'));
-                }
-                setInitialCommentData(initialData);
-            } else {
-                for(var j=0; j<res.data.comments.length; j++){
-                    initialData.push(res.data.comments[j]);
-                }
-                setInitialCommentData(initialData);
+            if(comment.length < 10){
+                setShowCommentCount(comment.length);
+            }else {
+                setShowCommentCount(10);
             }
-
+            setCommentData(comment);
+            setRecommentData(recomment);
             
         })
-        .catch((res) => {console.log(res)})
-    },[post_id, likePostClick, likeCommentClick]);
+        .catch(() => {console.log('err')})
+    },[likeCommentClick, likePostClick]);
 
+    //console.log(showCommentCount)
+    //console.log('initialCommentData', initialCommentData);
+    console.log('commentCount', commentCount);
+    console.log('commentData', commentData);
+    console.log('recommentData', recommentData);
     
     //console.log('contentData', contentData[0].length, contentData[1].length);
     //console.log(commentData)
@@ -287,21 +278,12 @@ function BoardDetail(props) {
     }
 
     /* 더보기 클릭시 실햄 함수(댓글 더 가져와서 더 보여줌) */
-    const getMoreComments = (moreCommentsClick, initialCommentData, commentData) => { 
-        //console.log('moreCommentsClick', moreCommentsClick);
-        setMoreCommentsClick(prev => prev + 1);
-        
-        let moreCommentsData = initialCommentData;
-        //console.log('moreCommentsClick', moreCommentsClick);
-        for(var i=(10 * (moreCommentsClick-1)); i<(10 * moreCommentsClick); i++){
-            if(i+1 <= commentData.length){
-                moreCommentsData.push(commentData[i]);
-            }else {
-                break;
-            }
-            
+    const getMoreComments = (showCommentCount) => { 
+        if(commentData.length - 10 <= 10){
+            setShowCommentCount(count => count + (commentData.length - 10));
+        }else {
+            setShowCommentCount(count => count + 10);
         }
-        setInitialCommentData(moreCommentsData)
     }
     
     const commentOnEnterPress = (e) => {
@@ -397,8 +379,9 @@ function BoardDetail(props) {
             </div>
         </div>
             {/* 댓글 놓을 자리 */}
-            {initialCommentData.map((a, i) => {
-                if(a.parent_comment_id === null){
+            {commentData.map((a, i) => {
+                console.log('showCommentCount', showCommentCount);
+                while(i+1 <= showCommentCount){
                     return(
                         <>
                         <div className="detail-comment" key={i} >
@@ -489,19 +472,17 @@ function BoardDetail(props) {
                         </>
                     )
                 }
+                    
                 
             })}
-            {initialCommentData === [] ? null : 
             <>
-            {initialCommentData.length === commentData.length + recommentData.length  ? 
+            {showCommentCount === commentData.length  ? 
                 null : 
                 <button className="more_comments_btn" onClick={e => {
-                    //setMoreCommentsClick(moreCommentsClick => moreCommentsClick + 1);
-                    getMoreComments(moreCommentsClick, initialCommentData, commentData);
+                    getMoreComments(showCommentCount);
                 }}>댓글 더보기</button>
                 }
             </>
-            }
        
          <form className="write-comment" ref={submitForm} >
             <textarea placeholder="댓글을 입력하세요(줄바꿈은 shift + enter)" value={comment} onKeyDown={commentOnEnterPress} onChange={(e) => {setComment(e.target.value)}} />
