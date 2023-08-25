@@ -328,6 +328,7 @@ function BoardDetail(props) {
             : null}
             <div style={{clear: 'both'}}></div>
             <p className="title">{postData.post_title}</p>
+            <p className="post_image">
             {imgUrl.map((a, i) => {
                 return(
                     <>
@@ -336,6 +337,7 @@ function BoardDetail(props) {
                     </>
                 )
             })}
+            </p>
             <p className="content">{contentData.map((a, i) => {
                 return(
                     <span>

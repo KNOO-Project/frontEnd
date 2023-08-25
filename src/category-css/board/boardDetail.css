@@ -22,8 +22,13 @@
     float: left;
     margin-left: 10px;
 }
-.detail-post img {
+.detail-post > .post_image {
+    display: flex;
     max-width: 850px;
+}
+.detail-post > .post_image img {
+    width: 30%;
+    margin-right: 5px;
 }
 .detail-post > .content_modify, .detail-post > .content_delete {
     float: right;
