@@ -9,6 +9,7 @@ import { BiImage } from "react-icons/bi";
 function MyScrapSearch(props) {
     var token = props.token;
     let params = useParams();
+    let navigate = useNavigate();
     console.log(params['keyword_pageNum']);
     let keyword = params['keyword_pageNum'].split('&')[0].split('=')[1];
     let pageNum = params['keyword_pageNum'].split('&')[1].split('=')[1];
@@ -44,7 +45,6 @@ function MyScrapSearch(props) {
                 {hour: currentDate.getHours()},
                 {day: currentDate.getDate()},
                 {month: currentDate.getMonth() + 1},
-                {year: currentDate.getFullYear()}
             ]
             //console.log(currentDateValue)
             //console.log(typeof(currentDate.getMinutes()))
@@ -57,16 +57,18 @@ function MyScrapSearch(props) {
                     {hour: Number(splitDate[1].split(':')[0])},
                     {day: Number(splitDate[0].split('/')[2])},
                     {month: Number(splitDate[0].split('/')[1])},
-                    {year: Number(splitDate[0].split('/')[0])} 
                 ]
 
 
-                if(currentDateValue[4]['year'] - dateValue[4]['year'] !== 0){
-                    diffTime.push(Number(currentDateValue[4]['year'] - dateValue[4]['year']) + '년전');
-                }else if(currentDateValue[3]['month'] - dateValue[3]['month'] !== 0){
+                if(currentDateValue[3]['month'] - dateValue[3]['month'] !== 0){
                     diffTime.push(Number(currentDateValue[3]['month'] - dateValue[3]['month']) + '달전');
                 }else if(currentDateValue[2]['day'] - dateValue[2]['day'] !== 0){
-                    diffTime.push(Number(currentDateValue[2]['day'] - dateValue[2]['day']) + '일전');
+                    if(currentDateValue[2]['day'] - dateValue[2]['day'] < 7){
+                        diffTime.push(Number(currentDateValue[2]['day'] - dateValue[2]['day']) + '일전');
+                    }else {
+                        let week = parseInt(Number(currentDateValue[2]['day'] - dateValue[2]['day']) / 7);
+                        diffTime.push(week + '주전');
+                    }
                 }else if(currentDateValue[1]['hour'] - dateValue[1]['hour'] !== 0){
                     if(currentDateValue[0]['min'] - dateValue[0]['min'] === 1 && (currentDateValue[0]['min'] < dateValue[0]['min'])){
                         diffTime.push(Number(currentDateValue[0]['min'] + 60 - dateValue[0]['min']) + '분전');    
@@ -82,8 +84,9 @@ function MyScrapSearch(props) {
             setDiffTimeValue(diffTime);
 
         })
-        .catch(() => {
-            console.log('err');
+        .catch((res) => {
+            alert(res.response.data.message)
+            navigate('/my_scrap');
         })
     }, [params['keyword_pageNum']])
     
