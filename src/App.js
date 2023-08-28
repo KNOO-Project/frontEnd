@@ -86,14 +86,18 @@ function App() {
         })
         .then((res) => {
           console.log(res);
+          let usefulNotifications = res.data.notifications.filter((data) => data.read === false);
           let notificationData = [];
-          if(res.data.notifications.length > 5){
+          if(usefulNotifications.length >= 5){
             for(var i=0; i<5; i++){
-              notificationData.push(res.data.notifications[i]);
+              notificationData.push(usefulNotifications[i]);
             }
             setNotifications(notificationData);
           }else {
-            setNotifications(res.data.notifications);
+            for(var i=0; i<3; i++){
+              notificationData.push(res.data.notifications[i])
+            }
+            setNotifications(notificationData);
           }
           
 
@@ -143,9 +147,9 @@ function App() {
           console.log('err')
         })
       }
-    }, [currentUrl])
+    }, [])
 
-    console.log(notifications)
+    console.log('notifications', notifications);
     
   
 
@@ -222,7 +226,7 @@ function App() {
             }} >내 정보</h3>
           </div>
           <div className='alert'>
-            {notifications === [] ? null : <div className='notification_alert'></div>}
+            {notifications.length === 3 ? null : <div className='notification_alert'></div>}
             <h4><AiOutlineBell onClick={e => {setNotificationClick(prev => !prev)}} /></h4>
             {notificationClick ? 
             <div className='alert_content'>
@@ -235,6 +239,15 @@ function App() {
                   <li onClick={e => {
                     navigate(`/articles/${data.post_id}`);
                     setNotificationClick(false);
+                    axios.put(`/api/notifications/${data.notification_id}`, {/* body 자리 비워놓기 */}, {
+                      headers: {Authorization: token}
+                    })
+                    .then((res) => {
+                      console.log('notification_data', res);
+                    })
+                    .catch(() => {
+                      console.log('err');
+                    })
                   }}>
                     <p>{diffTimeValue[i]}</p>
                     {data.notification_description}
