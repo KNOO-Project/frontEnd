@@ -1,6 +1,6 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Routes, Route, useNavigate, Link } from 'react-router-dom';
+import { Routes, Route, useNavigate, Link, useParams } from 'react-router-dom';
 import Home from './category/home';
 import Community from './category/community';
 import Future from './category/future';
@@ -18,6 +18,8 @@ import axios from 'axios';
 
 function App() {
 
+  let currentUrl = window.location.href;
+  console.log('currentUrl', currentUrl);
   let isLogin;
   if(localStorage.getItem('isLogin')){
     /* localStorage 에서 isLogin 가져오기 */
@@ -141,7 +143,7 @@ function App() {
           console.log('err')
         })
       }
-    }, [])
+    }, [currentUrl])
 
     console.log(notifications)
     
@@ -231,7 +233,7 @@ function App() {
                 <div key={i}>
                   <hr></hr>
                   <li onClick={e => {
-                    navigate(`/${data.post_category}_board/detail/${data.post_id}`);
+                    navigate(`/articles/${data.post_id}`);
                     setNotificationClick(false);
                   }}>
                     <p>{diffTimeValue[i]}</p>

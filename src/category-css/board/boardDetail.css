@@ -41,6 +41,7 @@
 }
 .detail-post > .content_modify a {
     color: black;
+    text-decoration: none;
 }
 .detail-post > .content_modify a:hover {
     cursor: pointer;

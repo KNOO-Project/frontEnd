@@ -8,6 +8,7 @@ import {BiPencil, BiImage} from 'react-icons/bi';
 import {MdOutlineSubdirectoryArrowRight} from 'react-icons/md';
 
 function BoardDetail(props) {
+    let currentUrl = window.location.href;
     let token = props.token;
     let submitForm = useRef();
     //console.log(token);
@@ -238,7 +239,7 @@ function BoardDetail(props) {
             
         })
         .catch(() => {console.log('err')})
-    },[likeCommentClick, likePostClick]);
+    },[currentUrl, likeCommentClick, likePostClick]);
 
     //console.log(showCommentCount)
     //console.log('initialCommentData', initialCommentData);
