@@ -226,7 +226,7 @@ function App() {
             }} >내 정보</h3>
           </div>
           <div className='alert'>
-            {notifications.length === 3 ? null : <div className='notification_alert'></div>}
+            {notifications.filter((data) => data.read === false).length === 0 ? null : <div className='notification_alert'></div>}
             <h4><AiOutlineBell onClick={e => {setNotificationClick(prev => !prev)}} /></h4>
             {notificationClick ? 
             <div className='alert_content'>
