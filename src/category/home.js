@@ -17,7 +17,7 @@ function Home(props){
       headers: {Authorization: token} /* 헤더에 토큰 담아서 보내기 */
     })
     .then((res) => {
-      console.log(res);
+      //console.log(res);
       setRecnetList(res.data[0].posts);
       setPopularList(res.data[1].posts);
     })
@@ -26,8 +26,8 @@ function Home(props){
     })
   }, []);
 
-  console.log(recentList);
-  console.log(popularList);
+  //console.log(recentList);
+  //console.log(popularList);
 
     return(
         <>
@@ -39,8 +39,8 @@ function Home(props){
                 <hr></hr>
                 {recentList.map((data, i) => {
                   return(
-                    <div className="recentList" onClick={e => {
-                      navigate(`${data.post_category}_board/detail/${data.post_id}`)
+                    <div className="recentList" key={i} onClick={e => {
+                      navigate(`articles/${data.post_id}`)
                     }}>
                       <li>{data.post_title}</li>
                     </div>
@@ -55,8 +55,8 @@ function Home(props){
                 <hr></hr>
                 {popularList.map((data, i) => {
                   return(
-                    <div className="popularList" onClick={e => {
-                      navigate(`${data.post_category}_board/detail/${data.post_id}`)
+                    <div className="popularList" key={i} onClick={e => {
+                      navigate(`/articles/${data.post_id}`)
                     }}>
                       <li>{data.post_title}</li>
                       <AiOutlineLike />
@@ -83,7 +83,7 @@ function Home(props){
               </div>
           </div>
           <Routes>
-            <Route path=':categoryBoard/detail/:postId/*' element={<BoardDetail token={token} />} />
+            <Route path='/articles/:postId/*' element={<BoardDetail token={token} />} />
           </Routes>
       </>
     )

@@ -118,7 +118,7 @@ function MainBoard(props){
                                 {a.posts.map((b, j) => {
                                     return(
                                         <li className="post_preview" onClick={(e) => {
-                                            navigate(`/${a.category}_board/detail/${b.post_id}`);
+                                            navigate(`/articles/${b.post_id}`);
                                         }}>{b.post_content}</li>
                                     )
                                 })}
@@ -137,7 +137,7 @@ function MainBoard(props){
                                 {a.posts.map((b, j) => {
                                     return(
                                         <li className="post_preview" onClick={(e) => {
-                                            navigate(`/${a.category}_board/detail/${b.post_id}`);
+                                            navigate(`/articles/${b.post_id}`);
                                         }}>{b.post_content}</li>
                                     )
                                 })}
@@ -149,7 +149,6 @@ function MainBoard(props){
         </div>
         <Routes>
             <Route path={`search/:searchContent_page/*`} element={<MainBoardSearch  searchTypeSelected={searchTypeSelected}  token={token} />} />
-            <Route path=':categoryBoard/detail/:postId/*' element={<BoardDetail  token={token} />} />
             <Route path=":cateoryBoard" element={<CategoryBoard token={token} />} />
         </Routes>
         </>

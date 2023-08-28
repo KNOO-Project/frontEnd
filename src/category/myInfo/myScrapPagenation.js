@@ -91,7 +91,7 @@ function MyScrapPagenation(props) {
         <div className="scrap_list">
             {scrapList.map((data, i) => {
                 return(
-                    <Link to={`detail/${data.post_id}`} key={i}>   
+                    <Link to={`/articles/${data.post_id}`} key={i}>   
                         <div className="title">{data.post_title}</div>
                         <div className="content">{data.post_content.substring(0, 20)
                         //본문내용 20자만 보여주기

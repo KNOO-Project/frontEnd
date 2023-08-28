@@ -72,7 +72,7 @@ function CategoryBoard(props){
             setBoardTitle('동아리/학회')
         }
         //console.log('pageNum',pageNum)
-        axios.get(`/api/posts/${category}`, {
+        axios.get(`/api/boards/${category}`, {
             headers: {Authorization : token},
             params: {
                 page: 1                                     // 페이지 첫 로드시 pageNum은 1
@@ -180,7 +180,7 @@ function CategoryBoard(props){
                     {boardData.map((data, i) => {
                         while(i < 20){
                             return(
-                                <Link to={`detail/${data.post_id}`} key={i}>   
+                                <Link to={`/articles/${data.post_id}`} key={i}>   
                                     <div className="title">{data.post_title}</div>
                                     <div className="content">{data.post_content.substring(0, 20)
                                     //본문내용 20자만 보여주기
@@ -232,7 +232,7 @@ function CategoryBoard(props){
                      token={token} />} />
                     <Route path="page/:pageNum/*" element={<CategoryBoardPagenation token={token} pageNum={pageNum} />} />
                     <Route path="writing" element={<BoardForm token={token} category={category} />} />
-                    <Route path='detail/:postId/*' element={<BoardDetail  token={token} />} />
+                    <Route path='/articles/:postId/*' element={<BoardDetail  token={token} />} />
                 </Routes>
         </>
         

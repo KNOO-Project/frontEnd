@@ -98,7 +98,7 @@ function MyScrapSearch(props) {
         <div className="scrap_search_list">
             {searchList.map((data, i) => {
                 return(
-                    <Link to={`detail/${data.post_id}`} key={i}>   
+                    <Link to={`/articles/${data.post_id}`} key={i}>   
                         <div className="title">{data.post_title}</div>
                         <div className="content">{data.post_content.substring(0, 20)
                         //본문내용 20자만 보여주기

@@ -2,9 +2,7 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 import { Route, Routes, Link, useParams } from "react-router-dom";
 import '../../category-css/written/content.css';
-import BoardDetail from "../board/boardDetail";
 import {AiOutlineLike, AiOutlineComment, AiOutlineStar} from 'react-icons/ai';
-import AllContent from "./writtenDetail/allContent";
 import {BiImage} from 'react-icons/bi';
 
 function Content(props){
@@ -26,7 +24,7 @@ function Content(props){
         <div className="written_content_list">
         {contentList.map((data,i) => {
             return(
-                <Link to={`../${data.post_category}_board/detail/${data.post_id}`} key={i}>
+                <Link to={`/articles/${data.post_id}`} key={i}>
                     <div className="title">{data.post_title}</div>
                     <div className="content">{data.post_content.substring(0, 15)
                                 //본문내용 20자만 보여주기

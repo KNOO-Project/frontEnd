@@ -3,7 +3,6 @@ import CategorySearch from "./boardSearch/search";
 import { Link, Outlet, Route, Routes, useNavigate, useParams } from "react-router-dom";
 import '../../category-css/board/categoryBoard.css'
 import {useEffect, useState} from 'react';
-import BoardDetail from "./boardDetail";
 import axios from "axios";
 import {TbCircleChevronLeft, TbCircleChevronRight} from 'react-icons/tb';
 import {AiOutlineLike, AiOutlineStar, AiOutlineComment} from 'react-icons/ai';
@@ -41,7 +40,7 @@ function CategoryBoardPagenation(props){
             setBoardTitle('동아리/학회')
         }
         //console.log('pageNum',pageNum)
-        axios.get(`/api/posts/${category}`, {
+        axios.get(`/api/boards/${category}`, {
             headers: {Authorization : props.token},
             params: {
                 page: params['pageNum']
@@ -162,7 +161,7 @@ function CategoryBoardPagenation(props){
                     {boardData.map((data, i) => {
                         while(i < 20){
                             return(
-                                <Link to={`../detail/${data.post_id}`} key={i}>   
+                                <Link to={`../../articles/${data.post_id}`} key={i}>   
                                     <div className="title">{data.post_title}</div>
                                     <div className="content">{data.post_content.substring(0, 20)}</div> {/* 본문내용 20자만 보여주기 */}
                                     <div className="date">{diffTimeValue[i]}</div>
@@ -215,7 +214,6 @@ function CategoryBoardPagenation(props){
                     <Route path={`../search/:searchContent_page/*`} element={<CategorySearch category={category} searchTypeSelected={searchTypeSelected} 
                      token={token}   />} />
                     <Route path="writing" element={<BoardForm token={token}  />} />
-                    <Route path='detail/:postId/*' element={<BoardDetail token={token} />} />
                 </Routes>
         </>
         

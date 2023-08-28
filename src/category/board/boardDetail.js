@@ -12,7 +12,7 @@ function BoardDetail(props) {
     let submitForm = useRef();
     //console.log(token);
     let params = useParams();
-    let post_id = params.postId, category = params.category_board.split('_')[0];        //axios 전송 주소 값
+    let post_id = params.postId;        //axios 전송 주소 값
     //Sconsole.log(params);
     //console.log(post_id);
     //console.log(category);
@@ -92,7 +92,9 @@ function BoardDetail(props) {
         .then((res) => {
             window.location.reload();
         })
-        .catch((res) => {console.log(res)})
+        .catch((res) => {
+            alert(res.response.data.message);
+        })
     }
 
     //좋아요 기능
@@ -151,7 +153,7 @@ function BoardDetail(props) {
             }
         })
         .then((res) => {
-            navigate(`/${category}_board`);
+            navigate(`/main_board`);
             //window.location.reload();                   //나중에 바꾸기
         })
         .catch(console.log('err'))
@@ -193,7 +195,7 @@ function BoardDetail(props) {
     useEffect(() => {
         let comment = [];
         let recomment = []
-        axios.get(`/api/posts/${category}/${post_id}` , (
+        axios.get(`/api/posts/${post_id}` , (
             {
                 headers: {Authorization: token} /* 헤더에 토큰 담아서 보내기 */
               }
@@ -218,7 +220,6 @@ function BoardDetail(props) {
             setPostData(res.data.post);
             //console.log(res.data.post.post_content.length);
             contentLineBreak(res.data, 89);
-            let commentLength = 0; 
             for(var i in res.data.comments){
                 //console.log(res.data.comments[i])
                 if(res.data.comments[i].parent_comment_id === null){
@@ -501,9 +502,7 @@ function BoardDetail(props) {
         </> : null}
         
         <Routes>
-            <Route path="content_modify" element={<ModifyBoardForm token={token} post_id={post_id} title={postData.post_title} content={postData.post_content} 
-            category = {category}
-            />} />
+            <Route path="content_modify" element={<ModifyBoardForm token={token} post_id={post_id} title={postData.post_title} content={postData.post_content} />} />
         </Routes>
         </>
     )

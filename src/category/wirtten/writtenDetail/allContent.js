@@ -80,7 +80,7 @@ function AllContent(props) {
         <div className="user_contents">
         {commentData.map((data, i) => {
             return(
-                <Link to={`/${data.post_category}_board/detail/${data.post_id}`}>
+                <Link to={`/articles/${data.post_id}`}>
                     <div className="title">{data.post_title}</div>
                     <div className="content">{data.post_content.substring(0, 15)
                                 //본문내용 20자만 보여주기

@@ -12,9 +12,9 @@ import MyInfo from './category/myInfo/myInfo';
 import CategoryBoard from './category/board/categoryBoard';
 import MyScrap from './category/myInfo/myScrap';
 import { useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
 import BoardDetail from './category/board/boardDetail';
 import { AiOutlineBell } from 'react-icons/ai';
+import axios from 'axios';
 
 function App() {
 
@@ -67,10 +67,86 @@ function App() {
 
   function moveMyInfo(){                              //회원정보조회로 페이지 이동
     navigate('/users');
-            //console.log(cookies.token)
-            
   }
+
+  let [notifications, setNotifications] = useState([]);
+  let [diffTimeValue, setDiffTimeValue] = useState([]);
+
+  let [notificationClick, setNotificationClick] = useState(false);
+
+    useEffect(() => {
+      if(isLogin){
+        axios.get('/api/notifications', {
+          headers: {Authorization: token},
+          params: {
+            page: 1
+          }
+        })
+        .then((res) => {
+          console.log(res);
+          let notificationData = [];
+          if(res.data.notifications.length > 5){
+            for(var i=0; i<5; i++){
+              notificationData.push(res.data.notifications[i]);
+            }
+            setNotifications(notificationData);
+          }else {
+            setNotifications(res.data.notifications);
+          }
+          
+
+          let currentDate = new Date();
+            //console.log(currentDate)
+            let currentDateValue = [
+                {min: currentDate.getMinutes()},
+                {hour: currentDate.getHours()},
+                {day: currentDate.getDate()},
+                {month: currentDate.getMonth() + 1},
+            ]
+            let diffTime = [];
+            for(var i=0; i<res.data.notifications.length; i++){
+                let writeDate = res.data.notifications[i].notification_date;
+                let splitDate = writeDate.split(' ');
+                let dateValue = [
+                    {min: Number(splitDate[1].split(':')[1])},
+                    {hour: Number(splitDate[1].split(':')[0])},
+                    {day: Number(splitDate[0].split('/')[2])},
+                    {month: Number(splitDate[0].split('/')[1])},
+                ]
+
+                if(currentDateValue[3]['month'] - dateValue[3]['month'] !== 0){
+                    diffTime.push(Number(currentDateValue[3]['month'] - dateValue[3]['month']) + '달전');
+                }else if(currentDateValue[2]['day'] - dateValue[2]['day'] !== 0){
+                    if(currentDateValue[2]['day'] - dateValue[2]['day'] < 7){
+                        diffTime.push(Number(currentDateValue[2]['day'] - dateValue[2]['day']) + '일전');
+                    }else {
+                        let week = parseInt(Number(currentDateValue[2]['day'] - dateValue[2]['day']) / 7);
+                        diffTime.push(week + '주전');
+                    }
+                }else if(currentDateValue[1]['hour'] - dateValue[1]['hour'] !== 0){
+                    if(currentDateValue[0]['min'] - dateValue[0]['min'] === 1 && (currentDateValue[0]['min'] < dateValue[0]['min'])){
+                        diffTime.push(Number(currentDateValue[0]['min'] + 60 - dateValue[0]['min']) + '분전');    
+                    }else{
+                        diffTime.push(Number(currentDateValue[1]['hour'] - dateValue[1]['hour']) + '시간전');
+                    }
+                }else if(currentDateValue[0]['min'] - dateValue[0]['min'] !== 0){
+                    diffTime.push(Number(currentDateValue[0]['min'] - dateValue[0]['min']) + '분전');
+                }
+
+            }
+
+            setDiffTimeValue(diffTime);
+        })
+        .catch(() => {
+          console.log('err')
+        })
+      }
+    }, [])
+
+    console.log(notifications)
+    
   
+
   return (
     <div className="App">
       <div className='nav-bar'>
@@ -137,13 +213,35 @@ function App() {
           </>}
           {/*로그인 성공시 회원정보 조회 버튼 생성 */}
           {isLogin ? <>
-          <div className='text_right_login' style={{textAlign: 'left'}} >
+          <div className='text_right_login' style={{textAlign: 'center'}} >
             <h3 onClick={()=>{
             moveMyInfo();
             //localStorage.removeItem('writtenClick', false)                    //마이페이지 클릭하면 myInfo의 false 값만 보여주기
             }} >내 정보</h3>
-            <AiOutlineBell />
-            </div>
+          </div>
+          <div className='alert'>
+            {notifications === [] ? null : <div className='notification_alert'></div>}
+            <h4><AiOutlineBell onClick={e => {setNotificationClick(prev => !prev)}} /></h4>
+            {notificationClick ? 
+            <div className='alert_content'>
+            <h5>알림</h5>
+            {notifications.map((data, i) => {
+              console.log(data)
+              return(
+                <div key={i}>
+                  <hr></hr>
+                  <li onClick={e => {
+                    navigate(`/${data.post_category}_board/detail/${data.post_id}`);
+                    setNotificationClick(false);
+                  }}>
+                    <p>{diffTimeValue[i]}</p>
+                    {data.notification_description}
+                  </li>
+                </div>
+              )
+            })}
+          </div> : null}
+          </div>
           </> : null}
         </div>
       </div>
@@ -159,7 +257,7 @@ function App() {
         <Route path='/진로&취업' element={<Future />} />
         <Route path='/main_board/*' element={<MainBoard token={token} />} />
         <Route path='/:category_board/*' element={<CategoryBoard token={token} />} />
-        <Route path='/:category_board/detail/:postId/*' element={<BoardDetail token={token} />} />                  {/* 내가 쓴 글 or 댓글 단 글 or 내 스크랩 */}
+        <Route path='/articles/:postId/*' element={<BoardDetail token={token} />} />                  {/* 내가 쓴 글 or 댓글 단 글 or 내 스크랩 */}
         <Route path='/login' element={<Login  />} />
         <Route path='/회원가입' element={<Membership />} />
         <Route path='/users/*' exact element={<MyInfo token={token} /> } />
