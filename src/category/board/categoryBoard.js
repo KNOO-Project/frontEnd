@@ -103,7 +103,10 @@ function CategoryBoard(props){
             let diffTime = [];
             for(var i=0; i<res.data.posts.length; i++){
                 let writeDate = res.data.posts[i].post_date;
+                console.log(i)
+                console.log(writeDate)
                 let splitDate = writeDate.split(' ');
+                console.log(splitDate)
                 let dateValue = [
                     {min: Number(splitDate[1].split(':')[1])},
                     {hour: Number(splitDate[1].split(':')[0])},
@@ -121,13 +124,15 @@ function CategoryBoard(props){
                         diffTime.push(week + '주전');
                     }
                 }else if(currentDateValue[1]['hour'] - dateValue[1]['hour'] !== 0){
-                    if(currentDateValue[0]['min'] - dateValue[0]['min'] === 1 && (currentDateValue[0]['min'] < dateValue[0]['min'])){
+                    if(currentDateValue[1]['hour'] - dateValue[1]['hour'] === 1 && (currentDateValue[0]['min'] < dateValue[0]['min'])){
                         diffTime.push(Number(currentDateValue[0]['min'] + 60 - dateValue[0]['min']) + '분전');    
                     }else{
                         diffTime.push(Number(currentDateValue[1]['hour'] - dateValue[1]['hour']) + '시간전');
                     }
                 }else if(currentDateValue[0]['min'] - dateValue[0]['min'] !== 0){
                     diffTime.push(Number(currentDateValue[0]['min'] - dateValue[0]['min']) + '분전');
+                }else if(currentDateValue[0]['min'] - dateValue[0]['min'] === 0){
+                    diffTime.push('방금');
                 }
 
             }
@@ -143,9 +148,10 @@ function CategoryBoard(props){
                 setBoardData([]);
                 setPageLength([]);     //boardData를 보여준 후 pageNum을 보여줌
                 setSearchContent('');
+                setDiffTimeValue([]);
             }
             )
-    }, [ pageNum, category, currentUrl ]                                          // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
+    }, [ pageNum, category, currentUrl]                                          // currentUrl 값이 바뀔때마다(각 카테고리 게시판 클릭) useEffect 함수 실행
     );
 
     console.log(diffTimeValue);

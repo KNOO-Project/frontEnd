@@ -66,13 +66,15 @@ function MyScrapPagenation(props) {
                 }else if(currentDateValue[2]['day'] - dateValue[2]['day'] !== 0){
                     diffTime.push(Number(currentDateValue[2]['day'] - dateValue[2]['day']) + '일전');
                 }else if(currentDateValue[1]['hour'] - dateValue[1]['hour'] !== 0){
-                    if(currentDateValue[0]['min'] - dateValue[0]['min'] === 1 && (currentDateValue[0]['min'] < dateValue[0]['min'])){
+                    if(currentDateValue[1]['hour'] - dateValue[1]['hour'] === 1 && (currentDateValue[0]['min'] < dateValue[0]['min'])){
                         diffTime.push(Number(currentDateValue[0]['min'] + 60 - dateValue[0]['min']) + '분전');    
                     }else{
                         diffTime.push(Number(currentDateValue[1]['hour'] - dateValue[1]['hour']) + '시간전');
                     }
                 }else if(currentDateValue[0]['min'] - dateValue[0]['min'] !== 0){
                     diffTime.push(Number(currentDateValue[0]['min'] - dateValue[0]['min']) + '분전');
+                }else if(currentDateValue[0]['min'] - dateValue[0]['min'] === 0){
+                    diffTime.push('방금');
                 }
 
             }
