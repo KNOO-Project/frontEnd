@@ -39,8 +39,6 @@ function BoardDetail(props) {
     });
 
     let [commentData, setCommentData] = useState([]);           //댓글 리스트 담을 변수
-    //let [initialCommentData, setInitialCommentData] = useState([]);                                 // 더보기 누르기 전 보여질 댓글 데이터
-    //let [moreCommentsClick, setMoreCommentsClick] = useState(2);    // useState는 비동기여서 강제로 값 1말고 2 로 설정
     let [recommentData, setRecommentData] = useState([]);       //대댓글 리스트 담을 변수
     let [comment, setComment] = useState('');                     //댓글 value 값
     let [commentCount, setCommentCount] = useState(0);

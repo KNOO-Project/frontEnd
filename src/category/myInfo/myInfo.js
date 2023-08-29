@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import '../../category-css/login_out/myInfo.css'
 import axios from 'axios';
 import { Route, Routes, Link, useParams } from 'react-router-dom';
@@ -9,6 +9,7 @@ import AllComments from '../wirtten/writtenDetail/allComments';
 import AllContent from '../wirtten/writtenDetail/allContent';
 
 function MyInfo(props) {
+    let userInfo = useRef();
     var token = props.token;
     let params = useParams();
     console.log(params['*']);
@@ -23,6 +24,7 @@ function MyInfo(props) {
             headers: {Authorization: token} /* 헤더에 토큰 담아서 보내기 */
           })
           .then(res => {
+                userInfo(res.data.name);
                 setUserData((data) => ({
                     ...data,
                     userName: res.data.name,
@@ -34,6 +36,7 @@ function MyInfo(props) {
           })
     }, [])
     
+    console.log(userInfo)
 
     return(
         <>

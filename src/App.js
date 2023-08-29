@@ -84,12 +84,13 @@ function App() {
         })
         .then((res) => {
           console.log(res);
-          let usefulNotifications = res.data.notifications.filter((data) => data.read === false);
+          //let usefulNotifications = res.data.notifications.filter((data) => data.read === false);
           let notificationData = [];
-          for(var i=0; i<10; i++){
+          /* for(var i=0; i<10; i++){
             notificationData.push(res.data.notifications[i]);
-          }
-          setNotifications(notificationData);
+          } */
+          setNotifications(res.data.notifications);
+          console.log(notificationData.filter((data) => data.read === true));
           /* if(usefulNotifications.length >= 5){
             for(var i=0; i<5; i++){
               notificationData.push(usefulNotifications[i]);
