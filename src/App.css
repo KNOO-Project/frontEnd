@@ -155,6 +155,22 @@ div{
   margin: 0;
   border: 1px solid black;
 }
+.alert_content .notification_box {
+}
+.notification_box .notification_read {
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  float: left;
+}
+.notification_box .notification_time{
+  float: right;
+}
+.alert_content .notification_content {
+  margin-top: 5px;
+  text-align: left;
+}
 
 /* body */
 .App > .body{

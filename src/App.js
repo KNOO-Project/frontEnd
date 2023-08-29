@@ -18,8 +18,6 @@ import axios from 'axios';
 
 function App() {
 
-  let currentUrl = window.location.href;
-  console.log('currentUrl', currentUrl);
   let isLogin;
   if(localStorage.getItem('isLogin')){
     /* localStorage 에서 isLogin 가져오기 */
@@ -88,7 +86,11 @@ function App() {
           console.log(res);
           let usefulNotifications = res.data.notifications.filter((data) => data.read === false);
           let notificationData = [];
-          if(usefulNotifications.length >= 5){
+          for(var i=0; i<10; i++){
+            notificationData.push(res.data.notifications[i]);
+          }
+          setNotifications(notificationData);
+          /* if(usefulNotifications.length >= 5){
             for(var i=0; i<5; i++){
               notificationData.push(usefulNotifications[i]);
             }
@@ -98,7 +100,7 @@ function App() {
               notificationData.push(res.data.notifications[i])
             }
             setNotifications(notificationData);
-          }
+          } */
           
 
           let currentDate = new Date();
@@ -239,6 +241,7 @@ function App() {
                   <li onClick={e => {
                     navigate(`/articles/${data.post_id}`);
                     setNotificationClick(false);
+                    /* 알림 읽음으로 전송 */
                     axios.put(`/api/notifications/${data.notification_id}`, {/* body 자리 비워놓기 */}, {
                       headers: {Authorization: token}
                     })
@@ -249,8 +252,12 @@ function App() {
                       console.log('err');
                     })
                   }}>
-                    <p>{diffTimeValue[i]}</p>
-                    {data.notification_description}
+                    <div className='notification_box'>
+                      {data.read === false ? <div className='notification_read'>{/* red_circle */}</div> : null}
+                      <div className='notification_time'>{diffTimeValue[i]}</div>
+                      <div style={{clear: 'both'}}></div>
+                    </div>
+                    <div className='notification_content'>{data.notification_description}</div>
                   </li>
                 </div>
               )
