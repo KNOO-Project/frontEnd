@@ -99,7 +99,7 @@ function App() {
                         diffTime.push(week + '주전');
                     }
                 }else if(currentDateValue[1]['hour'] - dateValue[1]['hour'] !== 0){
-                    if(currentDateValue[0]['min'] - dateValue[0]['min'] === 1 && (currentDateValue[0]['min'] < dateValue[0]['min'])){
+                    if(currentDateValue[1]['hour'] - dateValue[1]['hour'] === 1 && (currentDateValue[0]['min'] < dateValue[0]['min'])){
                         diffTime.push(Number(currentDateValue[0]['min'] + 60 - dateValue[0]['min']) + '분전');    
                     }else{
                         diffTime.push(Number(currentDateValue[1]['hour'] - dateValue[1]['hour']) + '시간전');
@@ -233,7 +233,6 @@ function App() {
                     setPostNotificationPage(postNotificationPage + 1);
                     setNotifications([...notifications, ...res.data.notifications]);
                     setDiffTimeValue([...diffTimeValue, ...calculateTime(res.data.notifications)]);
-                    
                   })
                 }
               }
