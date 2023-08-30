@@ -118,11 +118,8 @@ div{
   transform: translateX(-70%);
   z-index: 10;
   position: relative;
-  /* transition: all ;
-  transform: translateY(0);
-  transform: translateX(-70%);
-  z-index: -1;
-  position: relative; */
+  overflow: scroll;
+  max-height: 600px;
 }
 .alert_content > h5 {
   text-align: left;

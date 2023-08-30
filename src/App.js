@@ -69,41 +69,7 @@ function App() {
     navigate('/users');
   }
 
-  let [notifications, setNotifications] = useState([]);
-  let [diffTimeValue, setDiffTimeValue] = useState([]);
-
-  let [notificationClick, setNotificationClick] = useState(false);
-
-    useEffect(() => {
-      if(isLogin){
-        axios.get('/api/notifications', {
-          headers: {Authorization: token},
-          params: {
-            page: 1
-          }
-        })
-        .then((res) => {
-          console.log(res);
-          //let usefulNotifications = res.data.notifications.filter((data) => data.read === false);
-          let notificationData = [];
-          /* for(var i=0; i<10; i++){
-            notificationData.push(res.data.notifications[i]);
-          } */
-          setNotifications(res.data.notifications);
-          console.log(notificationData.filter((data) => data.read === true));
-          /* if(usefulNotifications.length >= 5){
-            for(var i=0; i<5; i++){
-              notificationData.push(usefulNotifications[i]);
-            }
-            setNotifications(notificationData);
-          }else {
-            for(var i=0; i<3; i++){
-              notificationData.push(res.data.notifications[i])
-            }
-            setNotifications(notificationData);
-          } */
-          
-
+  function calculateTime(notificationList) {
           let currentDate = new Date();
             //console.log(currentDate)
             let currentDateValue = [
@@ -113,8 +79,8 @@ function App() {
                 {month: currentDate.getMonth() + 1},
             ]
             let diffTime = [];
-            for(var i=0; i<res.data.notifications.length; i++){
-                let writeDate = res.data.notifications[i].notification_date;
+            for(var i=0; i<notificationList.length; i++){
+                let writeDate = notificationList[i].notification_date;
                 let splitDate = writeDate.split(' ');
                 let dateValue = [
                     {min: Number(splitDate[1].split(':')[1])},
@@ -143,8 +109,30 @@ function App() {
                 }
 
             }
+            return diffTime;
+            //setDiffTimeValue(diffTime);
+  }
 
-            setDiffTimeValue(diffTime);
+  let [notifications, setNotifications] = useState([]);
+  let [diffTimeValue, setDiffTimeValue] = useState([]);
+  let [notificationTotalPages, setNotificationTotalPages] = useState(null);
+  let [postNotificationPage, setPostNotificationPage] = useState(2);
+  let [notificationClick, setNotificationClick] = useState(false);
+
+    useEffect(() => {
+      if(isLogin){
+        axios.get('/api/notifications', {
+          headers: {Authorization: token},
+          params: {
+            page: 1
+          }
+        })
+        .then((res) => {
+          console.log(res);
+          setNotificationTotalPages(res.data.total_pages);          
+          setNotifications(res.data.notifications);
+          
+          setDiffTimeValue(calculateTime(res.data.notifications));
         })
         .catch(() => {
           console.log('err')
@@ -232,10 +220,26 @@ function App() {
             {notifications.filter((data) => data.read === false).length === 0 ? null : <div className='notification_alert'></div>}
             <h4><AiOutlineBell onClick={e => {setNotificationClick(prev => !prev)}} /></h4>
             {notificationClick ? 
-            <div className='alert_content'>
+            <div className='alert_content'  onScroll={e => {
+              if(e.target.scrollHeight - parseInt(e.target.scrollTop) === e.target.clientHeight){
+                if(notificationTotalPages >= postNotificationPage){
+                  axios.get('/api/notifications', {
+                    headers: {Authorization: token},
+                    params: {
+                      page: postNotificationPage
+                    }
+                  })
+                  .then((res) => {
+                    setPostNotificationPage(postNotificationPage + 1);
+                    setNotifications([...notifications, ...res.data.notifications]);
+                    setDiffTimeValue([...diffTimeValue, ...calculateTime(res.data.notifications)]);
+                    
+                  })
+                }
+              }
+            }}>
             <h5>알림</h5>
             {notifications.map((data, i) => {
-              console.log(data)
               return(
                 <div key={i}>
                   <hr></hr>
