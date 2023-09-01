@@ -253,6 +253,7 @@ function App() {
                   <li onClick={e => {
                     navigate(`/articles/${data.post_id}`);
                     setNotificationClick(false);
+                    window.location.reload();
                     /* 알림 읽음으로 전송 */
                     axios.put(`/api/notifications/${data.notification_id}`, {/* body 자리 비워놓기 */}, {
                       headers: {Authorization: token}
