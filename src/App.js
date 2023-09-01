@@ -11,13 +11,13 @@ import MainBoard from './category/board/mainBoard';
 import MyInfo from './category/myInfo/myInfo';
 import CategoryBoard from './category/board/categoryBoard';
 import MyScrap from './category/myInfo/myScrap';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import BoardDetail from './category/board/boardDetail';
 import { AiOutlineBell } from 'react-icons/ai';
 import axios from 'axios';
 
 function App() {
-
+  let currentUrl = window.location.href;
   let isLogin;
   if(localStorage.getItem('isLogin')){
     /* localStorage 에서 isLogin 가져오기 */
@@ -112,7 +112,7 @@ function App() {
             return diffTime;
             //setDiffTimeValue(diffTime);
   }
-
+  let notificationData = [];
   let [notifications, setNotifications] = useState([]);
   let [diffTimeValue, setDiffTimeValue] = useState([]);
   let [notificationTotalPages, setNotificationTotalPages] = useState(null);
@@ -129,20 +129,21 @@ function App() {
         })
         .then((res) => {
           console.log(res);
-          setNotificationTotalPages(res.data.total_pages);          
-          setNotifications(res.data.notifications);
           
-          setDiffTimeValue(calculateTime(res.data.notifications));
+          notificationData.push(...res.data.notifications);
+          console.log('notificationData', notificationData)
+          diffTimeValue.push(...calculateTime(notificationData))
+          setNotifications(notificationData);
+          setNotificationTotalPages(res.data.total_pages);
         })
         .catch(() => {
           console.log('err')
         })
+        
       }
-    }, [])
+    }, []);
 
-    console.log('notifications', notifications);
-    
-  
+    console.log('notificationsData', notificationData);
 
   return (
     <div className="App">
@@ -199,7 +200,6 @@ function App() {
           {/* 로그인 성공시 창 변경 logout 버튼 생성 */}
           {isLogin ? <>
           <div className='text-right' onClick={() => {
-            //setIsLogin(false)
             localStorage.clear();
             sessionStorage.clear();
             navigate('/')
@@ -213,7 +213,6 @@ function App() {
           <div className='text_right_login' style={{textAlign: 'center'}} >
             <h3 onClick={()=>{
             moveMyInfo();
-            //localStorage.removeItem('writtenClick', false)                    //마이페이지 클릭하면 myInfo의 false 값만 보여주기
             }} >내 정보</h3>
           </div>
           <div className='alert'>
@@ -221,7 +220,9 @@ function App() {
             <h4><AiOutlineBell onClick={e => {setNotificationClick(prev => !prev)}} /></h4>
             {notificationClick ? 
             <div className='alert_content'  onScroll={e => {
-              if(e.target.scrollHeight - parseInt(e.target.scrollTop) === e.target.clientHeight){
+              //console.log(e.target.clientHeight, (e.target.scrollTop), e.target.scrollHeight)
+              console.log(notificationTotalPages, postNotificationPage)
+              if(e.target.clientHeight + parseInt(e.target.scrollTop) + 1 >= e.target.scrollHeight){
                 if(notificationTotalPages >= postNotificationPage){
                   axios.get('/api/notifications', {
                     headers: {Authorization: token},
@@ -233,7 +234,14 @@ function App() {
                     setPostNotificationPage(postNotificationPage + 1);
                     setNotifications([...notifications, ...res.data.notifications]);
                     setDiffTimeValue([...diffTimeValue, ...calculateTime(res.data.notifications)]);
+
                   })
+                  //console.log(e.target.scrollTop, parseInt(e.target.clientHeight), e.target.scrollHeight);
+                //console.log('notificationTotalPages', notificationTotalPages)
+                //console.log(postNotificationPage);
+                setPostNotificationPage(postNotificationPage + 1);
+                }else {
+                  return
                 }
               }
             }}>
