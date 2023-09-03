@@ -349,7 +349,7 @@ function Map(props){
             map.destroy();
         }
 
-    }, [params , token] );
+    }, [params] );
     
     return(
         <div className="map_body">
