@@ -286,7 +286,7 @@ function App() {
       
 
       <Routes>
-        <Route path='/' exact element={
+        <Route path='*' exact element={
           <Home token={token} />
         } />
         <Route path='/community' element={<Community token={token} />} />

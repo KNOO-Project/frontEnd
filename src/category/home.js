@@ -37,6 +37,8 @@ function Home(props){
                 <BsChatText />
                 <h2>최신글</h2>
                 <hr></hr>
+                {recentList.length !== 0 ? 
+                <>
                 {recentList.map((data, i) => {
                   return(
                     <div className="recentList" key={i} onClick={e => {
@@ -46,6 +48,7 @@ function Home(props){
                     </div>
                   )
                 })}
+                </> : null}
               </div>
             </div>
             <div className='body-right'>
@@ -53,6 +56,8 @@ function Home(props){
                 <AiOutlineLike />
                 <h2>인기글</h2>
                 <hr></hr>
+                {popularList.length !== 0 ? 
+                <>
                 {popularList.map((data, i) => {
                   return(
                     <div className="popularList" key={i} onClick={e => {
@@ -64,6 +69,7 @@ function Home(props){
                     </div>
                   )
                 })}
+                </> : null}
               </div>
               {/* <div className='info-box'>
               <div className='info'>
