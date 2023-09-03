@@ -117,7 +117,8 @@ function App() {
   let [diffTimeValue, setDiffTimeValue] = useState([]);
   let [notificationTotalPages, setNotificationTotalPages] = useState(null);
   let [postNotificationPage, setPostNotificationPage] = useState(2);
-  let [notificationClick, setNotificationClick] = useState(false);
+  let [notificationBtnClick, setNotificationBtnClick] = useState(false);
+  //let [notificationClick, setNotificationClick] = useState(false);
 
     useEffect(() => {
       if(isLogin){
@@ -217,8 +218,8 @@ function App() {
           </div>
           <div className='alert'>
             {notifications.filter((data) => data.read === false).length === 0 ? null : <div className='notification_alert'></div>}
-            <h4><AiOutlineBell onClick={e => {setNotificationClick(prev => !prev)}} /></h4>
-            {notificationClick ? 
+            <h4><AiOutlineBell onClick={e => {setNotificationBtnClick(prev => !prev)}} /></h4>
+            {notificationBtnClick ? 
             <div className='alert_content'  onScroll={e => {
               //console.log(e.target.clientHeight, (e.target.scrollTop), e.target.scrollHeight)
               console.log(notificationTotalPages, postNotificationPage)
@@ -252,7 +253,8 @@ function App() {
                   <hr></hr>
                   <li onClick={e => {
                     navigate(`/articles/${data.post_id}`);
-                    setNotificationClick(false);
+                    setNotificationBtnClick(false);
+                    //setNotificationClick(true);
                     window.location.reload();
                     /* 알림 읽음으로 전송 */
                     axios.put(`/api/notifications/${data.notification_id}`, {/* body 자리 비워놓기 */}, {
