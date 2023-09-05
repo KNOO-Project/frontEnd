@@ -37,7 +37,7 @@ function Home(props){
                 <BsChatText />
                 <h2>최신글</h2>
                 <hr></hr>
-                {recentList.map((data, i) => {
+                {recentList && recentList.map((data, i) => {
                   return(
                     <div className="recentList" key={i} onClick={e => {
                       navigate(`articles/${data.post_id}`)
@@ -53,7 +53,7 @@ function Home(props){
                 <AiOutlineLike />
                 <h2>인기글</h2>
                 <hr></hr>
-                {popularList.map((data, i) => {
+                {popularList && popularList.map((data, i) => {
                   return(
                     <div className="popularList" key={i} onClick={e => {
                       navigate(`/articles/${data.post_id}`)
