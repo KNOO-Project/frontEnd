@@ -12,8 +12,10 @@ function Home(props){
   let [recentList, setRecnetList] = useState([]);
   let [popularList, setPopularList] = useState([]);
 
+  const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
+
   useEffect(() => {
-    axios.get('/api/home', {
+    axios.get(`${PROXY}/api/home`, {
       headers: {Authorization: token} /* 헤더에 토큰 담아서 보내기 */
     })
     .then((res) => {
@@ -21,8 +23,8 @@ function Home(props){
       setRecnetList(res.data[0].posts);
       setPopularList(res.data[1].posts);
     })
-    .catch(() => {
-      console.log('err');
+    .catch((res) => {
+      console.log(res);
     })
   }, []);
 
