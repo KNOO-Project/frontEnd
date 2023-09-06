@@ -19,7 +19,7 @@ function Home(props){
       headers: {Authorization: token} /* 헤더에 토큰 담아서 보내기 */
     })
     .then((res) => {
-      //console.log(res);
+      console.log(res);
       setRecnetList(res.data[0].posts);
       setPopularList(res.data[1].posts);
     })
