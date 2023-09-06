@@ -22,7 +22,6 @@ function Login({setIsLogin, setCookie}){
         email : ''
     })
 
-    
     const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
 
     const login = () => {
