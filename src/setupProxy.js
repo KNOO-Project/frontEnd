@@ -6,9 +6,7 @@ module.exports = function (app) {
       // 백엔드 주소
       target: "http://210.125.212.192:8888",
       changeOrigin: true,
-      pathRewrite: {
-        '^/api': '' // URL ^/api -> 공백 변경
-    }
+      
     })
   );
 };

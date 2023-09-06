@@ -22,9 +22,11 @@ function Login({setIsLogin, setCookie}){
         email : ''
     })
 
+    
     const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
 
     const login = () => {
+        console.log('proxy', PROXY);
         axios.post(`${PROXY}/api/auth/sign-in`, data)
         .then((res) => {
             //console.log(res.data)
