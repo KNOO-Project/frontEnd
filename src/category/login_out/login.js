@@ -22,10 +22,13 @@ function Login({setIsLogin, setCookie}){
         email : ''
     })
 
+    const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
+
     const login = () => {
-        axios.post('/api/auth/sign-in', data)
+        axios.post(`${Proxy}/api/auth/sign-in`, data)
         .then((res) => {
             //console.log(res.data)
+            console.log(res);
             let token = res.data;
             if(data.auto_sign_in){
                 /* 자동 로그인 클릭시 */
@@ -40,6 +43,7 @@ function Login({setIsLogin, setCookie}){
             window.location.reload();
         })
         .catch((res) => {
+            console.log(res);
             alert('아이디 또는 비밀번호가 올바르지 않습니다.')
         })
     }
