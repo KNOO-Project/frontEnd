@@ -25,7 +25,7 @@ function Login({setIsLogin, setCookie}){
     const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
 
     const login = () => {
-        axios.post(`${PROXY}i/auth/sign-in`, data)
+        axios.post(`${PROXY}/api/auth/sign-in`, data)
         .then((res) => {
             //console.log(res.data)
             console.log(res);
