@@ -18,9 +18,10 @@ function MyInfo(props) {
         userEmail: ''
     })
 
+    const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
 
     useEffect(() => {
-        axios.get('/api/users', {
+        axios.get(`${PROXY}/api/users`, {
             headers: {Authorization: token} /* 헤더에 토큰 담아서 보내기 */
           })
           .then(res => {

@@ -28,6 +28,8 @@ function Map(props){
     let [url, setUrl] = useState(null);
     /* markerClustering 함수 가져오기 */
     const MarkerClustering = makeCluster.makeMarkerClustering(window.naver);
+    const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
+
     useEffect(() => {
         /* 맛집 클릭하면 옆에 창 닫기 */
         if(!params['*']){
@@ -186,7 +188,7 @@ function Map(props){
         
         //공주 캠퍼스
         if(params['*'].includes('공주') || params['*'] === ''){
-            axios.get('/api/restaurants', {
+            axios.get(`${PROXY}/api/restaurants`, {
                 headers: { Authorization:token },
                 params: {
                     campus: '공주'
@@ -257,7 +259,7 @@ function Map(props){
         }
         //천안 캠퍼스
         if(params['*'].includes('천안')){
-            axios.get('/api/restaurants', {
+            axios.get(`${PROXY}/api/restaurants`, {
                 headers: { Authorization: token },
                 params: {
                     campus: '천안'

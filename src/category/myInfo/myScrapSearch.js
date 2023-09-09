@@ -17,8 +17,10 @@ function MyScrapSearch(props) {
     let [totalPages, setTotalPages] = useState([]);
     let [diffTimeValue, setDiffTimeValue] = useState([]);
 
+    const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
+
     useEffect(() => {
-        axios.get('/api/users/scraps/search', {
+        axios.get(`${PROXY}/api/users/scraps/search`, {
             headers: {Authorization: token},
             params: {
                 condition: props.searchTypeSelected,

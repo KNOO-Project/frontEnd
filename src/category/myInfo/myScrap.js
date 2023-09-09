@@ -18,8 +18,10 @@ function MyScrap(props) {
     let [searchContent, setSearchContent] = useState('');
     let [diffTimeValue, setDiffTimeValue] = useState([]);
 
+    const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
+
     useEffect(() => {
-        axios.get('/api/users/scraps', {
+        axios.get(`${PROXY}/api/users/scraps`, {
             headers : {Authorization: token},
             params : {
                 page: 1

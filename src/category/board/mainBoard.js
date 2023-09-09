@@ -23,9 +23,11 @@ function MainBoard(props){
     let firstLineTitle = ['자유', '새내기', '정보'];
     let secondLineTitle = ['취업&진로', '졸업생', '동아리&학회'];
 
+    const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
+
     //검색 기능
     const search = () => {
-        axios.get('/api/posts/search', {
+        axios.get(`${PROXY}/api/posts/search`, {
             headers: {Authorization: token},
             params: {
                 condition: searchTypeSelected,
@@ -54,7 +56,7 @@ function MainBoard(props){
     }
 
     useEffect(() => {
-        axios.get('/api/posts', {
+        axios.get(`${PROXY}/api/posts`, {
             headers: { Authorization: token }
         })
         .then((res) => {

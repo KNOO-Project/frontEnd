@@ -15,13 +15,16 @@ function AllComments(props) {
     let params = useParams();
     let pageNum = params['*'];
     console.log(pageNum);
+
+    const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
+
     //첫 페이지 로드시 pageNum = 1
     if(pageNum === ''){
         pageNum = 1;
     }
 
     useEffect(() => {
-        axios.get('/api/users/more', {
+        axios.get(`${PROXY}/api/users/more`, {
             headers: {Authorization: token},
             params: {
                 kind: 'comment',

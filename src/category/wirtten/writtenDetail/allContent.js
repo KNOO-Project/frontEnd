@@ -16,13 +16,15 @@ function AllContent(props) {
     let pageNum = params['*'];
     console.log(params);
 
+    const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
+
     //첫 페이지 로드시 pageNum = 1
     if(pageNum === '') {
         pageNum = 1;
     }
 
     useEffect(() => {
-        axios.get('/api/users/more', {
+        axios.get(`${PROXY}/api/users/more`, {
             headers: {Authorization: token},
             params: {
                 kind: 'write',

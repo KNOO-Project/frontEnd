@@ -15,8 +15,10 @@ function MyScrapPagenation(props) {
     let [pageClick, setPageClick] = useState(Number(params['pageNum'] <= 10 ? 0 : 1));
     let [diffTimeValue, setDiffTimeValue] = useState([]);
 
+    const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
+
     useEffect(() => {
-        axios.get('/api/users/scraps', {
+        axios.get(`${PROXY}/api/users/scraps`, {
             headers : {Authorization: token},
             params : {
                 page: params['pageNum']

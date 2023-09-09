@@ -8,9 +8,12 @@ import {BiImage} from 'react-icons/bi';
 function Content(props){
 
     var token = props.token;
-    let [contentList, setContentList] = useState([])
+    let [contentList, setContentList] = useState([]);
+
+    const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
+
     useEffect(() => {
-        axios.get('/api/users', {
+        axios.get(`${PROXY}/api/users`, {
             headers: {Authorization: token} /* 헤더에 토큰 담아서 보내기 */
           })
           .then(res => {

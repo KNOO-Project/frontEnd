@@ -31,9 +31,10 @@ function CategoryBoard(props){
     let [searchTypeSelected, setSearchTypeSelected] = useState('all');
     let [diffTimeValue, setDiffTimeValue] = useState([]);
     
+    const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
     
     const search = () => {
-        axios.get('/api/posts/search', {
+        axios.get(`${PROXY}/api/posts/search`, {
             headers: {Authorization: token},
             params: {
                 'category': category,
@@ -72,7 +73,7 @@ function CategoryBoard(props){
             setBoardTitle('동아리/학회')
         }
         //console.log('pageNum',pageNum)
-        axios.get(`/api/boards/${category}`, {
+        axios.get(`${PROXY}/api/boards/${category}`, {
             headers: {Authorization : token},
             params: {
                 page: 1                                     // 페이지 첫 로드시 pageNum은 1

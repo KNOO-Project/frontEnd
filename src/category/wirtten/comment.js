@@ -10,9 +10,11 @@ import {BiImage} from 'react-icons/bi';
 function Comment(props){
     var token = props.token;
     let [commentList, setCommentList] = useState([]);
+
+    const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
     //let navigate = useNavigate();
     useEffect(() => {
-        axios.get('/api/users', {
+        axios.get(`${PROXY}/api/users`, {
             headers: {Authorization: token} /* 헤더에 토큰 담아서 보내기 */
           })
           .then(res => {

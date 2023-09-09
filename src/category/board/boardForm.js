@@ -59,13 +59,15 @@ function BoardForm(props){
     console.log('imgFile', imgFile);
     console.log('preImgNum', previewImageNum);  
     
+    const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
+
     return(
         <div>
         <h2>{localStorage.getItem('boardTitle')} 게시판</h2>
         <form className='boardForm' onSubmit={(e) => {
             console.log(data)
             e.preventDefault();
-            axios.post('/api/posts', data,            // 게시글 데이터 형식에 맞게 보내기
+            axios.post(`${PROXY}/api/posts`, data,            // 게시글 데이터 형식에 맞게 보내기
             {
                 headers: { Authorization : token}        /* 인증 위해 헤더에 토큰 담아서 보내기 */
             }
@@ -80,7 +82,7 @@ function BoardForm(props){
                         imgData.append('post_images', imgFile[i])
                     }
                     let postId = res.data;
-                        axios.post(`/api/posts/images`, imgData,
+                        axios.post(`${PROXY}/api/posts/images`, imgData,
                         {
                             headers: { 
                                 Authorization: token,

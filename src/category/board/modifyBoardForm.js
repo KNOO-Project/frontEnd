@@ -11,6 +11,8 @@ function ModifyBoardForm(props) {
         anonymous: false
     })
     console.log('data.post_content', data.post_content);
+    const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
+
     return(
         <>
         <div>
@@ -47,7 +49,7 @@ function ModifyBoardForm(props) {
             <button onClick={() => {
                 console.log(data)
                 console.log('post', token)
-                axios.put('/api/posts', data,            // 게시글 데이터 형식에 맞게 보내기
+                axios.put(`${PROXY}/api/posts`, data,            // 게시글 데이터 형식에 맞게 보내기
                 {
                     headers: { Authorization : token},      /* 인증 위해 헤더에 토큰 담아서 보내기 */
                     params: {

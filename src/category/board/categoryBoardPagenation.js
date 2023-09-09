@@ -24,6 +24,8 @@ function CategoryBoardPagenation(props){
     let [searchContent, setSearchContent] = useState(null);
     let [searchTypeSelected, setSearchTypeSelected] = useState('all');
     let [diffTimeValue, setDiffTimeValue] = useState([]);
+
+    const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
     
     useEffect(() => {
         if(category.includes('free')){
@@ -40,7 +42,7 @@ function CategoryBoardPagenation(props){
             setBoardTitle('동아리/학회')
         }
         //console.log('pageNum',pageNum)
-        axios.get(`/api/boards/${category}`, {
+        axios.get(`${PROXY}/api/boards/${category}`, {
             headers: {Authorization : props.token},
             params: {
                 page: params['pageNum']

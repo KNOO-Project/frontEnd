@@ -20,8 +20,10 @@ function MainBoardSearch(props) {
     let [pageLength, setPageLength] = useState([]);
     let [diffTimeValue, setDiffTimeValue] = useState([]);
 
+    const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
+
     useEffect(() => {
-        axios.get('/api/posts/search', {
+        axios.get(`${PROXY}/api/posts/search`, {
             headers: {Authorization: token},
             params: {
                 condition: props.searchTypeSelected,
