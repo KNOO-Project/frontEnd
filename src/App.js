@@ -120,9 +120,11 @@ function App() {
   let [notificationBtnClick, setNotificationBtnClick] = useState(false);
   //let [notificationClick, setNotificationClick] = useState(false);
 
+  const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
+
     useEffect(() => {
       if(isLogin){
-        axios.get('/api/notifications', {
+        axios.get(`${PROXY}/api/notifications`, {
           headers: {Authorization: token},
           params: {
             page: 1
@@ -225,7 +227,7 @@ function App() {
               console.log(notificationTotalPages, postNotificationPage)
               if(e.target.clientHeight + parseInt(e.target.scrollTop) + 1 >= e.target.scrollHeight){
                 if(notificationTotalPages >= postNotificationPage){
-                  axios.get('/api/notifications', {
+                  axios.get(`${PROXY}/api/notifications`, {
                     headers: {Authorization: token},
                     params: {
                       page: postNotificationPage
@@ -257,7 +259,7 @@ function App() {
                     //setNotificationClick(true);
                     window.location.reload();
                     /* 알림 읽음으로 전송 */
-                    axios.put(`/api/notifications/${data.notification_id}`, {/* body 자리 비워놓기 */}, {
+                    axios.put(`${PROXY}/api/notifications/${data.notification_id}`, {/* body 자리 비워놓기 */}, {
                       headers: {Authorization: token}
                     })
                     .then((res) => {
