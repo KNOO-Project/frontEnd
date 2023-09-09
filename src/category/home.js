@@ -12,7 +12,7 @@ function Home(props){
   let [recentList, setRecnetList] = useState([]);
   let [popularList, setPopularList] = useState([]);
 
-  const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
+  const PROXY = window.location.hostname === 'localhost' ? '' : 'http://210.125.212.192:8888';
 
   useEffect(() => {
     axios.get(`${PROXY}/api/home`, {
